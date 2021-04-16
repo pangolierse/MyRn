@@ -10,10 +10,12 @@
 
  import React from 'react';
  import Login from './src/login';
+ import UserInterface from './src/layout';
   const App = () => {
-     return (
-       <Login />
-     );
+    return (
+    //  <Login />
+      <UserInterface/>
+    );
   };
  
   export default App;

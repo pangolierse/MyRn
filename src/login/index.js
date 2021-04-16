@@ -1,36 +1,28 @@
-import React, { ReactNode } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import Settled from '../assets/image/Settled'
+import ButtonGroup from './loginBtn'
 const LoginView = () => {
+  const [ activeUser, setActiveUser ] = useState(0)
+  
   return (
-    <LinearGradient colors={["#57AFFF","#2A63BF","#042289"]} style={{flex:1}}>
-      <View style = {styles.viewWrapper}>
-        <Text style = {styles.span}>
-        OKok
-        </Text>
-        <Settled/>
-      </View>
+    <LinearGradient 
+      colors={["#2BD9D9","#A4B1F5"]} 
+      style={styles.loginWrapper}
+      start={{ x : 0.0, y : 1 }} 
+      end={{ x : 1, y : 0 }}
+    >
+      <ButtonGroup 
+        active = { activeUser }
+        setActive = { setActiveUser }
+      />
      </LinearGradient>
   )
 }
 export default LoginView
 const styles = StyleSheet.create({
-  BtnWrapper: {
-    width: '100%',
-    height: 50,
-  },
-
-  userTypeBtn: {
-    color: 'white',
-  },
-  viewWrapper: {
+  loginWrapper: {
     flex: 1,
-    height: 100,
-    // backgroundColor: '#5692e1',
-  },
-  span: {
-    color: 'white',
   }
 })
 
