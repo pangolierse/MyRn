@@ -1,11 +1,10 @@
 import React from 'react'
-import { StyleSheet, View } from "react-native"
-import { Text } from "react-native-svg"
-export default function ({Svg, label}) {
+import { StyleSheet, View, Text } from "react-native"
+export default function ({children, title, color = 'black'}) {
   return ( 
     <View style = {styles.NavBtnWrapper}>
-      <Svg></Svg>
-      <Text>{label}</Text>
+      {children}
+      <Text style = {[styles.title, {color: color}]}>{title}</Text>
     </View>
   )
 }
@@ -13,8 +12,11 @@ export default function ({Svg, label}) {
 const styles = StyleSheet.create({
   NavBtnWrapper: {
     height: '100%',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  NavBtn: {
-
+  title: {
+    color: 'red'
   }
 })
