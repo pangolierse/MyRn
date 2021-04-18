@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Button, TouchableWithoutFeedback} from "react-native";
-import { setSpText, scaleSize} from '@/util/adapt'
-import Parent from '@/assets/svg/Parent' 
-import Student from '@/assets/svg/Student'
-import Teacher from '@/assets/svg/Teacher'
-import User from '@/assets/svg/User'
-import Password from '@/assets/svg/Password'
-import EyeOpen from '@/assets/svg/Eye_open'
-import EyeClose from '@/assets/svg/Eye_close'
-import Input from '@/component/Input'
+import { setSpText, scaleSize} from '~/util/adapt'
+import Parent from '~/assets/svg/Parent' 
+import Student from '~/assets/svg/Student'
+import Teacher from '~/assets/svg/Teacher'
+import User from '~/assets/svg/User'
+import Password from '~/assets/svg/Password'
+import EyeOpen from '~/assets/svg/Eye_open'
+import EyeClose from '~/assets/svg/Eye_close'
+import Input from '~/component/Input'
 
 export default function ({
   active,

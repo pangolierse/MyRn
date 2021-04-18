@@ -1,18 +1,18 @@
+
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { NavigationContainer } from '../../node_modules/@react-navigation/native/lib/commonjs/index';
+import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '~/view/Home'
-import DynamicScreen from '~/view/Dynamic'
-import FootScreen from '~/view/Foot'
-import MessageScreen from '~/view/Message'
-import PersonalScreen from '~/view/Personal'
 import Home from '~/assets/svg/Home'
 import Foot from '~/assets/svg/Foot'
 import Message from '~/assets/svg/Message'
 import Dynamic from '~/assets/svg/Dynamic'
 import Personal from '~/assets/svg/Personal'
-
+import HomeNavigator from './Home'
+import DynamicScreen from '~/view/Dynamic'
+import FootScreen from '~/view/Foot'
+import MessageScreen from '~/view/Message'
+import PersonalScreen from '~/view/Personal'
 const Tab = createBottomTabNavigator();
 const tabRoutes = {
   'home': {
@@ -54,7 +54,7 @@ export default function () {
           inactiveTintColor: 'gray',
         }}
       >
-        <Tab.Screen name="home" component={HomeScreen} />
+        <Tab.Screen name="home" component={HomeNavigator} />
         <Tab.Screen name="dynamic" component={DynamicScreen}/>
         <Tab.Screen name="foot" component={FootScreen}/>
         <Tab.Screen name="message" component={MessageScreen}/>
