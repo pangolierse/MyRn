@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Button, TouchableWithoutFeedback} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Button, TouchableWithoutFeedback, Alert} from "react-native";
 import { setSpText, scaleSize} from '~/util/adapt'
 import Parent from '~/assets/svg/Parent' 
 import Student from '~/assets/svg/Student'
@@ -9,25 +9,48 @@ import Password from '~/assets/svg/Password'
 import EyeOpen from '~/assets/svg/Eye_open'
 import EyeClose from '~/assets/svg/Eye_close'
 import Input from '~/component/Input'
-
-export default function ({
-  active,
-  setActive,
-}) {
-  const onPress = (t) => {
-    return () => {setActive(t)}
-  }
-  const [ userName, setUserName ] = useState('')
-  const [ password, setPassword ] = useState('')
+import { useNavigation } from "@react-navigation/core";
+import { useAuth } from '~/context/useAuth'
+export default function LoginBtn () {
+  const { login } = useAuth()
+  const history = useNavigation()
+  const [ activeType, setActiveType ] = useState(0)
   const [ eyeOpen, setEveOpen ] = useState(false)
+  const [ params, setParams ] = useState({
+    userType: 1,
+    username: '',
+    password: '',
+  })
+  // tab 切换
+  const onPress = (t) => {
+    return () => {
+      setParams({
+        ...params,
+        userType: t,
+      })
+      setActiveType(t)
+    }
+  }
+  // 处理input输入切换
   const handleUserName = (value) => {
-    setUserName(value.replace(/[^\d]/g,''))
+    setParams({
+      ...params,
+      username: value.replace(/[^\d]/g,''),
+    })
   }
   const handlePassword = (value) => {
-    setPassword(value.replace(/[^a-z0-9.]/ig,''))
+    setParams({
+      ...params,
+      password: value.replace(/[^\d]/g,''),
+    })
   }
+  // 表单提交
   const handleOnPress = (e) => {
     setEveOpen(!eyeOpen)
+  }
+  const handleLogin = () => {
+    login(params)
+    // history.navigate('StudentRouter')
   }
   return (
     <>
@@ -37,25 +60,16 @@ export default function ({
         </Text>
       </View>
       <View style = {styled.btnWrapper}>
-        <MyButton Svg = {<Parent color = {active === 0 ? 'black' : '#554C8F'}/>} onPress = {onPress(0)} borderColor={active === 0 ? 'black':'#554C8F'}/>
-        <MyButton Svg = {<Student color = {active === 1 ? 'black' : '#554C8F'}/>} onPress = {onPress(1)} borderColor={active === 1 ? 'black':'#554C8F'}/>
-        <MyButton Svg = {<Teacher color = {active === 2 ? 'black' : '#554C8F'}/>} onPress = {onPress(2)} borderColor={active === 2 ? 'black':'#554C8F'}/>
-      </View>
-      <View>
-        {/* <Text>{
-          active === 0
-          ? '您好，老师记得选择您的身份哦'
-          : active === 1
-          ? '您好，开始你的研学之旅吧'
-          : '您好，尊敬的家长'
-        }</Text> */}
+        <MyButton Svg = {<Parent color = {activeType === 0 ? 'black' : '#554C8F'}/>} onPress = {onPress(0)} borderColor={activeType === 0 ? 'black':'#554C8F'}/>
+        <MyButton Svg = {<Student color = {activeType === 1 ? 'black' : '#554C8F'}/>} onPress = {onPress(1)} borderColor={activeType === 1 ? 'black':'#554C8F'}/>
+        <MyButton Svg = {<Teacher color = {activeType === 2 ? 'black' : '#554C8F'}/>} onPress = {onPress(2)} borderColor={activeType === 2 ? 'black':'#554C8F'}/>
       </View>
       <View style = {styled.inputWrapper}>
         <Input 
           style = {{
             marginTop: setSpText(10),
           }}
-          value = { userName }
+          value = { params.username }
           onChangeText = { handleUserName }
           placeholder = {'请输入账号'}
           Preffix = {<User style = {{width:20}}/>}
@@ -66,7 +80,7 @@ export default function ({
               marginTop: setSpText(10),
             }}
             color = 'black'
-            value = { password }
+            value = { params.password }
             onChangeText = { handlePassword }
             placeholder = {'请输入密码'}
             secureTextEntry = {!eyeOpen}
@@ -84,7 +98,7 @@ export default function ({
           <Button
             color='#5692e1'
             title="登录"
-            onPress={() => Alert.alert('Simple Button pressed')}
+            onPress={handleLogin}
           />
         </View>
       </View>

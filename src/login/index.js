@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import ButtonGroup from './loginBtn'
 const LoginView = () => {
-  const [ activeUser, setActiveUser ] = useState(0)
   
   return (
     <LinearGradient 
@@ -12,10 +11,7 @@ const LoginView = () => {
       start={{ x : 0.0, y : 1 }} 
       end={{ x : 1, y : 0 }}
     >
-      <ButtonGroup 
-        active = { activeUser }
-        setActive = { setActiveUser }
-      />
+      <ButtonGroup />
      </LinearGradient>
   )
 }

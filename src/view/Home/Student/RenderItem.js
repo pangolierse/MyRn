@@ -1,32 +1,35 @@
 import React, { Component } from 'react'
 import { setSpText, scaleSize} from '~/util/adapt'
-import { StyleSheet, Text, Image, View } from 'react-native'
+import { StyleSheet, Text, Image, View, TouchableOpacity } from 'react-native'
 import defaultImg from '~/assets/img/default.jpg'
 export default function ({ 
   src = defaultImg, 
   title = '课程名称',
   timeRange = '8:00 ~ 9:00',
   introduction = '我是介绍吖我是介绍吖我是介绍吖我是介绍吖我是介绍吖我是介绍吖我是介绍吖我是介绍吖我是介绍吖我是介绍吖我是介绍吖我是介绍吖我是介绍吖我是介绍吖我是介绍吖我是介绍吖',
+  onPress,
 }) {
   return ( 
-    <View style = {styled.container}>
-      <Image 
-        style = { styled.img }
-        source = {src}
-      />
-      <View style = {styled.leftWrapper}>
-        <View style = { styled.titleWrapper }>
-          <Text style = { styled.title }>课程名称:  {title}</Text>
-          <Text style = { styled.time }>时间:  {timeRange}</Text>
-        </View>
-        <View style = { styled.contentWrapper }>
-          <Text 
-            ellipsizeMode= {'tail'}
-            numberOfLines= {2}
-          >{introduction}</Text>
+    <TouchableOpacity onPress={onPress}>
+      <View style = {styled.container}>
+        <Image 
+          style = { styled.img }
+          source = {src}
+        />
+        <View style = {styled.leftWrapper}>
+          <View style = { styled.titleWrapper }>
+            <Text style = { styled.title }>课程名称:  {title}</Text>
+            <Text style = { styled.time }>时间:  {timeRange}</Text>
+          </View>
+          <View style = { styled.contentWrapper }>
+            <Text 
+              ellipsizeMode= {'tail'}
+              numberOfLines= {2}
+            >{introduction}</Text>
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 const RenderHeight = 50

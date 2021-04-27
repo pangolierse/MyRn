@@ -11,10 +11,13 @@
  import React from 'react';
  import Login from './src/login';
  import UserInterface from './src/router';
+ import AuthProvider from '~/context/AuthContext'
   const App = () => {
     return (
     //  <Login />
-      <UserInterface/>
+      <AuthProvider>
+        <UserInterface/>
+      </AuthProvider>
     );
   };
  

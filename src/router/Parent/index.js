@@ -35,7 +35,7 @@ const tabRoutes = {
     title: '个人中心',
   },
 }
-export default function () {
+export default function ParentTab () {
   return (
       <Tab.Navigator  
         screenOptions=  {({ route }) => ({

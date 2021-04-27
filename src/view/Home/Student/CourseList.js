@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { StyleSheet, FlatList, TouchableOpacity, View } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
 import CourseRender from './RenderItem'
+import { useToCourseDetail } from '~/router/utils'
 export default function  () {
+  const navigator = useNavigation()
   return ( 
     <View style = {styled.container}>
       <FlatList 
@@ -25,6 +28,7 @@ export default function  () {
         renderItem = { item => {
           return (
             <CourseRender 
+              onPress = { () => useToCourseDetail(navigator, 12) }
             />
           )
         }}

@@ -1,18 +1,17 @@
+
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { NavigationContainer } from '../../node_modules/@react-navigation/native/lib/commonjs/index';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '~/view/Home'
-import DynamicScreen from '~/view/Dynamic'
-import FootScreen from '~/view/Foot'
-import MessageScreen from '~/view/Message'
-import PersonalScreen from '~/view/Personal'
 import Home from '~/assets/svg/Home'
 import Foot from '~/assets/svg/Foot'
 import Message from '~/assets/svg/Message'
 import Dynamic from '~/assets/svg/Dynamic'
 import Personal from '~/assets/svg/Personal'
-
+import HomeScreen from '~/view/Home'
+import DynamicScreen from '~/view/Dynamic'
+import FootScreen from '~/view/Foot'
+import MessageScreen from '~/view/Message'
+import PersonalScreen from '~/view/Personal'
 const Tab = createBottomTabNavigator();
 const tabRoutes = {
   'home': {
@@ -36,12 +35,10 @@ const tabRoutes = {
     title: '个人中心',
   },
 }
-export default function () {
+export default function TeacherTab () {
   return (
-    <NavigationContainer>
       <Tab.Navigator  
         screenOptions=  {({ route }) => ({
-          headerTitle: 'wef',
           tabBarIcon: ({ focused, color, size }) => {
             // You can return any component that you like here!
             let Svg = tabRoutes[route.name].svg
@@ -50,7 +47,7 @@ export default function () {
           title: tabRoutes[route.name].title,
         })}
         tabBarOptions={{
-          activeTintColor: 'tomato',
+          activeTintColor: '#8dc1fb',
           inactiveTintColor: 'gray',
         }}
       >
@@ -60,6 +57,5 @@ export default function () {
         <Tab.Screen name="message" component={MessageScreen}/>
         <Tab.Screen name="personal" component={PersonalScreen}/>
       </Tab.Navigator>
-    </NavigationContainer>
   );
 }
