@@ -11,6 +11,8 @@ import LoginRouter from './Login'
 import StudentCourse from '~/view/Home/Student/Course'
 // 公共界面
 import UserDetail from '~/view/common/UserDetail'
+import CreateDynamic from '~/view/common/CreateDynamic'
+import CreateTag from '~/view/common/CreateTag'
 const Stack = createStackNavigator()
 
 const justReturn = ['UserDetail']
@@ -32,6 +34,8 @@ export default function () {
   }
   const commonRouter = {
     UserDetail: UserDetail,
+    CreateDynamic: CreateDynamic,
+    CreateTag: CreateTag,
   }
   const studentRouter = {
     StudentTab: StudentTab,
@@ -62,10 +66,10 @@ export default function () {
   }
   return ( 
     <>
-    <View>
+    {/* <View>
       <Text>userType: {userType}</Text>
       <Text>{token}</Text>
-    </View>
+    </View> */}
     <NavigationContainer>
       <Stack.Navigator>
         {

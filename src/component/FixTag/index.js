@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { StyleSheet, Text,  View } from 'react-native'
+import { StyleSheet, Text,  View, TouchableOpacity } from 'react-native'
 import { setSpText, scaleSize} from '~/util/adapt'
 const fontColorMap = [
   '#cf1da5',
@@ -40,7 +40,11 @@ const borderColorMap = [
   '#adc6ff',
   '#d3adf7',
 ]
-export default function FixTag ({ text, space = 4 }) {
+export default function FixTag ({ 
+  text, 
+  space = 4,
+  onCancel,
+}) {
   const borderColor = useMemo(() => borderColorMap[randomIndex(text.length)] , [text])
   const backgroundColor = useMemo(() => backgroundColorMap[randomIndex(text.length)] , [text])
   const fontColor = useMemo(() => fontColorMap[randomIndex(text.length)] , [text])
@@ -60,6 +64,20 @@ export default function FixTag ({ text, space = 4 }) {
           marginBottom: setSpText(space),
         }
       ]}>{text}</Text>
+      { onCancel && (
+        <TouchableOpacity style = {[ 
+            styled.cancelBtn,
+            {
+              color: fontColor,
+              backgroundColor: backgroundColor,
+              borderColor: borderColor,
+            } 
+          ]}
+          onPress = { () => onCancel()}
+        >
+          <Text style = {styled.cancelBtnText}>+</Text>
+        </TouchableOpacity>
+      )}
     </View>
   )
 }
@@ -74,6 +92,22 @@ const styled = StyleSheet.create({
     paddingRight: setSpText(4),
     paddingBottom: setSpText(2),
     borderWidth: setSpText(0.1),
+  },
+  cancelBtn: {
+    width: setSpText(6),
+    height: setSpText(6),
+    borderRadius: setSpText(6),
+    position: 'absolute',
+    right: setSpText(1),
+    top: setSpText(1),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: setSpText(0.1),
+    transform: [{rotateZ: '45deg'},]
+  },
+  cancelBtnText: {
+    position: 'absolute',
+    fontSize: scaleSize(20),
   }
 })
 function randomIndex (key) {

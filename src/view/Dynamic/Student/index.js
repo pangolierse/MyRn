@@ -3,7 +3,6 @@ import { setSpText, scaleSize} from '~/util/adapt'
 import { StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import Color from '~/assets/style/Color'
-import QrSvg from '~/assets/svg/Qr'
 import { useToCreateDynamic } from '~/router/utils'
 import HeaderTitle from '~/component/HeaderTitle'
 import Divider from '~/component/Divider'
@@ -55,11 +54,39 @@ export default function StudentDynamic () {
       <HeaderTitle 
         tinkColor = {'white'}
         backgroundColor = {Color.header_title_blue}
-        title = '足迹' 
+        title = '动态' 
         suffix = {(
           <TouchableOpacity style = { styled.createButton } onPress = { createDynamic }>
-            <QrSvg size = { setSpText(12) } color = '#dbdbdb'/>
+            <Text style = {[styled.create, { color: 'white'}]}>+</Text>
           </TouchableOpacity>
+        )}
+      />
+      <FlatList
+        ItemSeparatorComponent={() => <Divider color = 'transparent' margin = {setSpText(1.5)}/>}
+        keyExtractor={(item) => item.id}
+        data={fakeInfo}
+        renderItem={({ item, index, separators }) => (
+          <View style = { styled.dynamicWrapper}>
+            <UserBox 
+              id = { item.id }
+              name = { item.nickName }
+              time = { item.time }
+            />
+            <View style = { styled.contentWrapper }>
+              <Text 
+                ellipsizeMode = 'tail'
+                numberOfLines = {Number.MAX_SAFE_INTEGER}
+              > { item.content } </Text>
+            </View>
+            
+            <View style = {styled.imgWrapper}>
+              {item?.imgs.map( (img, index, array) => {
+                return (
+                  <IImage src = {img} key = {img + index} onClick = {() => showImage(array)}/>
+                )
+              })}
+            </View>
+          </View>
         )}
       />
     </View>

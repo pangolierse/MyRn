@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import Student from './Student'
 export default function  () {
   return ( 
-    <View>
-      <Text>我是动态界面</Text>
+    <View style = {{flex: 1}}>
+      <Student />
     </View>
   )
 }

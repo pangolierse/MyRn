@@ -1,11 +1,12 @@
 import React, { Component, useState } from 'react'
-import { StyleSheet, Text, TouchableOpacity, ScrollView, View, Image } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, ScrollView, View, Button } from 'react-native'
 import { setSpText, scaleSize} from '~/util/adapt'
 import ReadMore from '~/component/ReadMore'
 import Divider from '~/component/Divider'
 import FixTag from '~/component/FixTag'
 import TeacherBox from '~/component/TeacherBox'
 import BetterBanner from '~/component/BetterBanner'
+import ScoreModal from './ScoreModal'
 export default function  () {
   const handleTextReady = () => {}
   const course = {
@@ -16,6 +17,7 @@ export default function  () {
     courseAddress: '福建省厦门市湖里区',
     tag: ['高','大','帅'],
   }
+  const [ scoreVisible, setScoreVisible ] = useState(false)
   return ( 
     <>
     <ScrollView style={styled.scroll}>
@@ -84,7 +86,7 @@ export default function  () {
         ]}>
           <Text style={[styled.title, {marginRight: setSpText(4)}]}>标签:</Text>
           {course?.tag.map(tag => {
-            return <FixTag text = {tag} key = {tag}/>
+            return <FixTag text = {tag} key = {tag} space = {2}/>
           })}
         </View>
         <Divider />
@@ -104,8 +106,14 @@ export default function  () {
         <Divider />
       </View>
     </ScrollView>
+    <ScoreModal visible = { scoreVisible } setVisible = { setScoreVisible }/>
     <View style = { styled.bottomButton}>
-      <Text>haha</Text>
+      <TouchableOpacity
+        style = { styled.scoreBtn}
+        onPress = {() => setScoreVisible(true)}
+      >
+        <Text>查看成绩</Text>
+      </TouchableOpacity>
     </View>
     </>
   )
@@ -120,8 +128,9 @@ const styled = StyleSheet.create({
   }, 
   bottomButton: {
     width: '100%',
-    height: setSpText(40),
-    backgroundColor: 'black',
+    height: setSpText(30),
+    borderTopWidth: setSpText(0.1),
+    borderTopColor: '#333',
   },
   title: {
     fontSize: scaleSize(44),
@@ -141,11 +150,6 @@ const styled = StyleSheet.create({
     width:'100%',
     flex: 1,
   },
-  line:{
-    paddingBottom: setSpText(5),
-    borderBottomColor: '#333333',
-    borderBottomWidth: setSpText(0.1),
-  },
   courseDetail:{
     fontSize: scaleSize(40),
   },
@@ -154,4 +158,9 @@ const styled = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
   }, 
+  scoreBtn: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 })

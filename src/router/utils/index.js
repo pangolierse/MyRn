@@ -12,3 +12,13 @@ export const useToUserDetail = (navigator, id) => {
     userId: id,
   })
 }
+// 跳转 发表动态界面
+export const useToCreateDynamic = (navigator) => {
+  navigator.navigate('CreateDynamic')
+}
+// 跳转 发表标签界面
+export const useToCreateTag = (navigator, tags) => {
+  navigator.navigate('CreateTag',{
+    tags,
+  })
+}

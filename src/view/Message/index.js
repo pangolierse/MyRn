@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-export default function  () {
+import Student from './Student'
+export default function Message () {
   return ( 
-    <View>
-      <Text>我是消息界面</Text>
+    <View style = {{ flex: 1 }}>
+      <Student />
     </View>
   )
 }

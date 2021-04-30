@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useRef, useState } from 'react'
-import { StyleSheet, Text, TouchableOpacity, ScrollView, View, Image } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, ScrollView, View, Alert } from 'react-native'
 import { setSpText, scaleSize} from '~/util/adapt'
-import { useNavigationState } from '@react-navigation/core'
+import { useRoute } from '@react-navigation/core'
 import AnimateAvatar from '~/component/AnimateAvatar'
 import FixTag from '~/component/FixTag'
 
@@ -9,7 +9,7 @@ const strPlaceholder1 = '未知'
 const strPlaceholder2 = '--'
 export default function UserDetail () {
 
-  const userId = useNavigationState( state => state.userId )
+  const userId = useRoute().params.userId
   let user = {
     id: 2,
     nickName: 'Pango',  // 姓名
@@ -19,11 +19,6 @@ export default function UserDetail () {
     introduce: '用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍'
   }
   const gender = ['男', '女']
-  // for( var i = 0; i < 5; i++ ){
-  //   setTimeout(() => {
-  //     console.log(i);
-  //   }, 0);
-  // }
   return ( 
     <>
       <View style = { styled.container }>
