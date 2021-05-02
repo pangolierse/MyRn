@@ -1,11 +1,19 @@
 import React, { Component, useState } from 'react'
-import { StyleSheet, Text, TouchableOpacity, ScrollView, View, Button } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, ScrollView, View } from 'react-native'
+import DriverSvg from '~/assets/svg/Driver'
+import CarMarkSvg from '~/assets/svg/CarMark'
+import TimerSvg from '~/assets/svg/Timer'
 import { setSpText, scaleSize} from '~/util/adapt'
+import { paddingSize } from '~/util'
 import ReadMore from '~/component/ReadMore'
 import Divider from '~/component/Divider'
 import FixTag from '~/component/FixTag'
 import TeacherBox from '~/component/TeacherBox'
 import BetterBanner from '~/component/BetterBanner'
+import AnimateCar from '~/component/AnimateCar'
+import LineText from '~/component/LineText'
+import BottomButton from './BottomButton'
+import Button from './BottomButton/Button'
 import ScoreModal from './ScoreModal'
 export default function  () {
   const handleTextReady = () => {}
@@ -16,6 +24,11 @@ export default function  () {
     courseDetail: '我是课程简介哦，这是课程简介，你想知道这堂课上什么内容嘛，看我就对了，那么让我们来看看这堂课到底上的什么内容呢，没错这堂课就是赛龙舟，怎么样很有趣吧',
     courseAddress: '福建省厦门市湖里区',
     tag: ['高','大','帅'],
+    carPlan: {
+      driverName: '王大锤',
+      carMark: '闽EAE86',
+      time: '2018-06-12 20:18:59',
+    }
   }
   const [ scoreVisible, setScoreVisible ] = useState(false)
   return ( 
@@ -60,13 +73,14 @@ export default function  () {
           isSeamlessScroll={true}
         />
       </View>
+      <Divider margin = { setSpText(1) } color = 'transparent'/>
       <View style = {styled.container}>
         <TeacherBox 
           style = {{marginTop: setSpText(8)}}
           name = {course.name }
           describe = {course.describe }
         />
-        <Divider />
+        <Divider/>
         <View style = {[ 
           styled.rowLineLayout,
         ]}>
@@ -89,7 +103,49 @@ export default function  () {
             return <FixTag text = {tag} key = {tag} space = {2}/>
           })}
         </View>
-        <Divider />
+        <Divider/>
+        {/* 出行安排 */}
+        <View style = {[ 
+          styled.rowLineLayout,{
+            ...paddingSize(0,0,6,6),
+          }
+        ]}>
+          <AnimateCar />
+          <View style = {carStyle.rightContent}>
+            { course.carPlan ? (
+              <>
+              <View style = { carStyle.rowItem }>
+                <LineText 
+                  label = {'司机:'} 
+                  prefix = {<DriverSvg />} 
+                  suffix = {<Text style = {{color: '#333'}}>{course.carPlan.driverName}</Text>}
+                  margin = {2}
+                />
+                <LineText 
+                  label = {'车牌号:'} 
+                  prefix = {<CarMarkSvg color = '#3366CC' size = {16}/>} 
+                  suffix = {<Text style = {{color: '#333'}}>{course.carPlan.carMark}</Text>}
+                  margin = {2}
+                />
+              </View>
+              <View style = {[ carStyle.rowItem,{
+                paddingLeft: setSpText(4),
+              }]}>
+                <LineText 
+                  label = {'时间:'} 
+                  prefix = {<TimerSvg color = '#3366CC' size = {16}/>} 
+                  suffix = {<Text style = {{color: '#333'}}>{course.carPlan.time}</Text>}
+                  margin = {7}
+                />
+              </View>
+              </>
+            ) : (
+              <Text>暂无出行安排</Text>
+            )}
+          </View>
+        </View>
+        <Divider/>
+        {/* 课程简介 */}
         <View style = {[
           styled.rowLayout,
         ]}>
@@ -103,18 +159,14 @@ export default function  () {
             </Text>
           </ReadMore>
         </View>
-        <Divider />
       </View>
     </ScrollView>
     <ScoreModal visible = { scoreVisible } setVisible = { setScoreVisible }/>
-    <View style = { styled.bottomButton}>
-      <TouchableOpacity
-        style = { styled.scoreBtn}
-        onPress = {() => setScoreVisible(true)}
-      >
-        <Text>查看成绩</Text>
-      </TouchableOpacity>
-    </View>
+    <BottomButton>
+      <Button label = '查看成绩' onPress = {() => {
+        setScoreVisible(true)
+      }}/>
+    </BottomButton>
     </>
   )
 }
@@ -125,6 +177,7 @@ const styled = StyleSheet.create({
   container: {
     paddingLeft: setSpText(6),
     paddingRight: setSpText(6),
+    backgroundColor: 'white',
   }, 
   bottomButton: {
     width: '100%',
@@ -162,5 +215,15 @@ const styled = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  }
+})
+const carStyle = StyleSheet.create({
+  rightContent: {
+    flex: 1,
+    ...paddingSize(0,0,10,15)
+  },
+  rowItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   }
 })

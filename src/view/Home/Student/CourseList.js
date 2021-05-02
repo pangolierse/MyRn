@@ -38,6 +38,6 @@ export default function  () {
 }
 const styled = StyleSheet.create({
   container: {
-
+    flex: 1,
   }
 })

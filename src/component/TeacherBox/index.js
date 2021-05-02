@@ -8,7 +8,7 @@ import defaultImg from '~/assets/img/default.jpg'
 export default function TeacherBox ({
   id = 1,
   style = {},
-  imgSrc = defaultImg,
+  avatar = defaultImg,
   name,
   describe,
 }) {
@@ -22,7 +22,7 @@ export default function TeacherBox ({
         styles.teacherWrapper,
         style, 
       ]}>
-        <Image style = { styles.image } source = {imgSrc}/>
+        <Image style = { styles.image } source = {avatar}/>
         <View style = { styles.textWrapper }>
           <Text style = { styles.name }>{name}</Text>
           <Text style = { styles.describe } numberOfLines = {2} ellipsizeMode = 'tail'>{describe}</Text>

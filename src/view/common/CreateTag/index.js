@@ -2,11 +2,10 @@ import React, { Component, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View, TextInput, Alert } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/core'
 import { setSpText, scaleSize} from '~/util/adapt'
+import BackSvg from '~/assets/svg/Back'
 import Color from '~/assets/style/Color'
 import HeaderTitle from '~/component/HeaderTitle'
-import UserBox from '~/component/UserBox'
 import FixTag from '~/component/FixTag'
-import LineText from '~/component/LineText'
 export default function CreateTag () {
   const user = {
     id: 12,
@@ -27,15 +26,15 @@ export default function CreateTag () {
       <HeaderTitle 
         tinkColor = {'white'}
         backgroundColor = {Color.header_title_blue}
-        title = '发表动态' 
+        title = '标签' 
         prefix = {(
           <TouchableOpacity style = { styled.cancel } onPress = { () => navigator.goBack() }>
-            <Text style = { styled.fontCancel }> {'<'} </Text>
+            <BackSvg size = {setSpText(10)} color = 'white'/>
           </TouchableOpacity>
         )}
         suffix = {(
           <TouchableOpacity style = { styled.createButton } onPress = { commit }>
-            <Text style = {[ styled.create ]}>发表</Text>
+            <Text style = {[ styled.create ]}>保存</Text>
           </TouchableOpacity>
         )}
       />

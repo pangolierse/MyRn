@@ -14,6 +14,8 @@ import UserDetail from '~/view/common/UserDetail'
 import CreateDynamic from '~/view/common/CreateDynamic'
 import CreateTag from '~/view/common/CreateTag'
 import WaitLogin from '~/view/common/WaitLogin'
+import StudentDormitory from '~/view/common/StudentDormitory'
+import CreateMessage from '~/view/common/CreateMessage'
 const Stack = createStackNavigator()
 
 const justReturn = {
@@ -31,6 +33,10 @@ const justReturn = {
     headerTitleStyle: {
       fontWeight: 'bold',
     },
+    headerStyle: {
+      backgroundColor: '#108ee9',
+    },
+    headerTintColor: '#fff',
   }
 }
 export default function () {
@@ -52,6 +58,8 @@ export default function () {
     UserDetail: UserDetail,
     CreateDynamic: CreateDynamic,
     CreateTag: CreateTag,
+    StudentDormitory: StudentDormitory,
+    CreateMessage: CreateMessage,
   }
   const studentRouter = {
     StudentTab: StudentTab,
@@ -85,9 +93,9 @@ export default function () {
           Object.entries({
             ...(isLoading === true ? loadingRouter : null),
             ...(token === null ? loginRouter : null),
-            ...(userType === '0' ? teacherRouter : null),
+            ...(userType === '0' ? studentRouter : null),
             ...(userType === '1' ? studentRouter : null),
-            ...(userType === '2' ? studentRouter : null),
+            ...(userType === '2' ? teacherRouter : null),
             ...commonRouter,
           }).map( ([ name, component ]) => {
             return (

@@ -1,6 +1,9 @@
 import React, { Component, useState } from 'react'
-import { StyleSheet, Text, TouchableOpacity, ScrollView, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, ScrollView, View, TextInput } from 'react-native'
 import { setSpText, scaleSize} from '~/util/adapt'
+import { paddingSize, marginSize } from '~/util'
+import SearchSvg from '~/assets/svg/Search'
+import HeaderTitle from '~/component/HeaderTitle'
 export default function  () {
   const [ active, setActive ] = useState('星期一')
   const days = [
@@ -14,51 +17,38 @@ export default function  () {
   ] 
   return ( 
     <View style = {styled.homePage}>
-      <ScrollView style = {styled.timeTag} horizontal={true}>
-        { days.map( (day, index) => 
-          <ScrollBtn 
-            active = { active }
-            setActive = { setActive } 
-            name = {day}
-            key = {index + day}
-            label = {day}
-          />
-          )
+      <HeaderTitle 
+        centerRender = {
+          <SearchBar />
         }
-      </ScrollView>
+      />
     </View>
   )
 }
-function ScrollBtn ({active, name, label, setActive, activeColor = 'orange', unActiveColor = 'black'}) {
-  const onPress = () => {
-    setActive(name)
-  }
+function SearchBar ({
+  value,
+  onChange,
+}) {
   return (
-    <TouchableOpacity onPress = {onPress}>
-      <View style = {styled.chooseDay}>
-        <Text style = {[
-          {
-            color: active === name ? activeColor : unActiveColor
-          }
-        ]}>{label}</Text>
-      </View>
-    </TouchableOpacity>
+    <View style = {searchStyle.searchWrapper}>
+      <SearchSvg color = '#CCC' size = {setSpText(8)}/>
+      <TextInput 
+        placeholder = '搜索'
+      />
+    </View>
   )
 }
 const styled = StyleSheet.create({
-  chooseDay: {
-    height: '100%',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: setSpText(15),
-    paddingRight: setSpText(15),
-  },
-  timeTag: {
-    width: '100%',
-    height: setSpText(30),
+})
+const searchStyle = StyleSheet.create({
+  searchWrapper: {
     flexDirection: 'row',
-    borderBottomColor: '#333',
-    borderBottomWidth: setSpText(0.1),
+    alignItems: 'center',
+    height: setSpText(25),
+    width: setSpText(150),
+    ...paddingSize(0,0,10,10),
+    ...marginSize(4,4,10,10),
+    borderRadius: setSpText(8),
+    backgroundColor: 'rgba(0,0,0,0.1)',
   }
 })

@@ -2,6 +2,7 @@ import React, { Component, useEffect, useRef, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, ScrollView, View, Alert } from 'react-native'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { useNavigationState } from '@react-navigation/core'
+import { useAuth } from '~/context/useAuth'
 import Color from '~/assets/style/Color'
 import PhoneSvg from '~/assets/svg/Phone'
 import ExitSvg from '~/assets/svg/Exit'
@@ -11,7 +12,7 @@ import AnimateAvatar from '~/component/AnimateAvatar'
 import CreateTag from '~/component/CreateTag'
 import LineText from '~/component/LineText'
 import FixTag from '~/component/FixTag'
-import { useAuth } from '~/context/useAuth'
+import { StudentBottom } from './Student/index'
 const strPlaceholder1 = '未知'
 const strPlaceholder2 = '--'
 export default function UserDetail () {
@@ -80,6 +81,7 @@ export default function UserDetail () {
             </View>
           </View>
         </View>
+        <StudentBottom />
       </View>
     </>
   )
@@ -121,7 +123,7 @@ const styled = StyleSheet.create({
   UserDetailInfo: {
     flex: 1,
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(255,255,255,0.9)',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     paddingTop: setSpText(6),

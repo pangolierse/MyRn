@@ -3,7 +3,7 @@ import { setSpText, scaleSize} from '~/util/adapt'
 import { StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import Color from '~/assets/style/Color'
-import { useToCreateDynamic } from '~/router/utils'
+import { useToCreateMessage } from '~/router/utils'
 import HeaderTitle from '~/component/HeaderTitle'
 import Divider from '~/component/Divider'
 import IImage from '~/component/IImage'
@@ -37,8 +37,8 @@ export default function StudentDynamic () {
   const [ activeImgs, setActiveImgs ] = useState([])
   const [ imgsModal, setImgsModal ] = useState(false)
   const navigator = useNavigation()
-  const createDynamic = () => {
-    useToCreateDynamic(navigator)
+  const createMessage = () => {
+    useToCreateMessage(navigator)
   }
   const showImage = (imgs) => {
     setActiveImgs(imgs)
@@ -55,6 +55,11 @@ export default function StudentDynamic () {
         tinkColor = {'white'}
         backgroundColor = {Color.header_title_blue}
         title = '消息' 
+        suffix = {(
+          <TouchableOpacity style = { styled.createButton } onPress = { createMessage }>
+            <Text style = {[styled.create, { color: 'white'}]}>+</Text>
+          </TouchableOpacity>
+        )}
       />
       <FlatList
         ItemSeparatorComponent={() => <Divider color = 'transparent' margin = {setSpText(1.5)}/>}

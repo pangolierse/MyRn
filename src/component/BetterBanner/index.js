@@ -409,7 +409,7 @@
      },
      bannerContent: {
          width: width,
-         zIndex: 9999,
+         zIndex: 10,
      },
  
      bannerTitleContainer: {

@@ -7,26 +7,30 @@ import Color from '~/assets/style/Color'
 import QrSvg from '~/assets/svg/Qr'
 import { useToCreateDynamic } from '~/router/utils'
 import HeaderTitle from '~/component/HeaderTitle'
+import PreView from './Comps/PreView'
 const fakeInfo = [{
   id: 123,
   nickName: 'Pango',
-  time: '2012-02-12',
+  courseName: '赛龙舟赛龙舟赛龙舟赛龙舟赛龙舟赛龙舟',
+  time: '2012-02-12 16:03:55',
   content: '我是动态',
   latitude: 39.91095,
-  longitude: 110.37296
+  longitude: 115.37296
 },{
   id: 1234,
   nickName: 'Pango',
-  time: '2012-02-12',
+  courseName: '赛龙舟赛龙舟赛龙舟赛龙舟赛龙舟赛龙舟',
+  time: '2012-02-12 16:03:55',
   content: '我是动态',
   latitude: 39.91095,
   longitude: 116.37296
 },{
   id: 12345,
   nickName: 'Pango',
-  time: '2012-02-12',
+  courseName: '赛龙舟赛龙舟赛龙舟赛龙舟赛龙舟赛龙舟',
+  time: '2012-02-12 16:03:55',
   content: '我是动态',
-  latitude: 30.91095,
+  latitude: 38.91095,
   longitude: 116.37296
 }]
 export default function StudentDynamic () {
@@ -68,6 +72,7 @@ export default function StudentDynamic () {
         {fakeInfo.map( item => {
           return (
             <MapView.Marker
+              key = { item.id }
               draggable
               title="这是一个可拖拽的标记"
               coordinate={{
@@ -75,7 +80,7 @@ export default function StudentDynamic () {
                 longitude: item.longitude
               }}
             >
-              <Text>haha</Text>
+              <PreView viewProp = {item}/>
             </MapView.Marker>
           )
         })}

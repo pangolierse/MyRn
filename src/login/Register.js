@@ -1,17 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Button, TouchableWithoutFeedback, Alert} from "react-native";
-import { useNavigation } from "@react-navigation/core";
-import { Picker, Provider } from '@ant-design/react-native';
+import LinearGradient from "react-native-linear-gradient";
 import { setSpText, scaleSize} from '~/util/adapt'
-import { useToRegister } from '~/router/utils'
-import Parent from '~/assets/svg/Parent' 
-import Student from '~/assets/svg/Student'
-import Teacher from '~/assets/svg/Teacher'
 import User from '~/assets/svg/User'
 import Password from '~/assets/svg/Password'
 import EyeOpen from '~/assets/svg/Eye_open'
 import EyeClose from '~/assets/svg/Eye_close'
 import Input from '~/component/Input'
+import { useNavigation } from "@react-navigation/core";
 import { useAuth } from '~/context/useAuth'
 const teacherType = [[
   {
@@ -32,7 +28,7 @@ const teacherTypeMap = {
 }
 export default function LoginBtn () {
   const { login } = useAuth()
-  const navigator = useNavigation()
+  const history = useNavigation()
   const [ activeType, setActiveType ] = useState(0)
   const [ ateacherType, setTeacherType ] = useState([0])
   const [ eyeOpen, setEveOpen ] = useState(false)
@@ -68,51 +64,35 @@ export default function LoginBtn () {
   const handleOnPress = (e) => {
     setEveOpen(!eyeOpen)
   }
-  const handleLogin = () => {
-    login(params)
+  const handleRegister = () => {
+    Alert.alert('注册')
+    // login(params)
   }
   return (
-    <>
-      <Provider>
+    
+    <LinearGradient 
+      colors={["#2BD9D9","#A4B1F5"]} 
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        paddingBottom: setSpText(80),
+      }}
+      start={{ x : 0.0, y : 1 }} 
+      end={{ x : 1, y : 0 }}
+    >
         <View style = {styled.titleWrapper}>
           <Text style = {styled.title}>
-            登录
+            注册
           </Text>
           <Text style = {{
             fontSize: scaleSize(32),
             fontWeight: 'bold',
             marginTop: setSpText(6)
           }}>
-            您好，{ 
-              activeType === 0
-              ? '家长'
-              : activeType === 1
-              ? '学生'
-              : '教师'
-            }
+            您好，家长请输入账号和密码
           </Text>
         </View>
-        <View style = {styled.btnWrapper}>
-          <MyButton Svg = {<Parent color = {activeType === 0 ? 'black' : '#554C8F'}/>} onPress = {onPress(0)} borderColor={activeType === 0 ? 'black':'#554C8F'}/>
-          <MyButton Svg = {<Student color = {activeType === 1 ? 'black' : '#554C8F'}/>} onPress = {onPress(1)} borderColor={activeType === 1 ? 'black':'#554C8F'}/>
-          <MyButton Svg = {<Teacher color = {activeType >= 2 ? 'black' : '#554C8F'}/>} onPress = {onPress(2)} borderColor={activeType >= 2 ? 'black':'#554C8F'}/>
-        </View>
         <View style = {styled.inputWrapper}>
-          { activeType >= 2 && (
-            <View style = {{
-              height: setSpText(30),
-            }}>
-              <Picker
-                data={teacherType}
-                cols={1}
-                value={activeType}
-                onChange={setActiveType}
-                onOk={setActiveType}
-              >
-                <CustomType value = {teacherTypeMap[activeType]}>教师身份</CustomType>
-              </Picker>
-            </View>
-          )}
           <Input 
             style = {{
               marginTop: setSpText(10),
@@ -142,27 +122,15 @@ export default function LoginBtn () {
               </View>
             </TouchableWithoutFeedback>
           </View>
-          <View style={{marginTop: setSpText(15)}}>
+          <View style={{marginTop: setSpText(10)}}>
             <Button
               color='#5692e1'
-              title="登录"
-              onPress={handleLogin}
+              title="注册"
+              onPress={handleRegister}
             />
           </View>
-          { activeType === 0 && (
-            <View style={{marginTop: setSpText(10)}}>
-              <Button
-                color='#5692e1'
-                title="注册"
-                onPress={() => {
-                  useToRegister(navigator)
-                }}
-              />
-            </View>
-          )}
         </View>
-      </Provider>
-    </>
+    </LinearGradient>
   )
 }
 function CustomType ({

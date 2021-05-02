@@ -5,6 +5,7 @@ export default function HeaderTitle ({
   prefix,
   title,
   suffix,
+  centerRender,
   tinkColor = 'black',
   backgroundColor = 'white',
 }) {
@@ -15,7 +16,10 @@ export default function HeaderTitle ({
       <View style = { styled.prefix }>
         {prefix}
       </View>      
-      <Text style = { [styled.title, { color: tinkColor }] }>{ title }</Text>
+      { title && (
+        <Text style = { [styled.title, { color: tinkColor }] }>{ title }</Text>
+      )}
+      { centerRender }
       <View style = { styled.suffix }>
         {suffix}
       </View>      
