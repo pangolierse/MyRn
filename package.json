@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@ant-design/react-native": "^4.1.0",
     "@react-native-async-storage/async-storage": "^1.15.3",
     "@react-native-community/cli": "^5.0.1-alpha.2",
     "@react-native-community/masked-view": "^0.1.10",
@@ -17,6 +18,7 @@
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.4",
     "@types/react-native-read-more-text": "^1.0.0",
+    "babel-plugin-import": "^1.13.3",
     "eslint-plugin-react-native-globals": "^0.1.2",
     "react": "17.0.1",
     "react-native": "0.64.0",

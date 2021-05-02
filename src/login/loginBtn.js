@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Button, TouchableWithoutFeedback, Alert} from "react-native";
+import { Picker, List } from '@ant-design/react-native';
 import { setSpText, scaleSize} from '~/util/adapt'
 import Parent from '~/assets/svg/Parent' 
 import Student from '~/assets/svg/Student'
@@ -11,6 +12,18 @@ import EyeClose from '~/assets/svg/Eye_close'
 import Input from '~/component/Input'
 import { useNavigation } from "@react-navigation/core";
 import { useAuth } from '~/context/useAuth'
+const teacherType = [[
+  {
+    label: '课程教师',
+    value: 3,
+  },{
+    label: '宿舍教师',
+    value: 4,
+  },{
+    label: '营地管理员',
+    value: 5,
+  }
+]]
 export default function LoginBtn () {
   const { login } = useAuth()
   const history = useNavigation()
@@ -62,9 +75,19 @@ export default function LoginBtn () {
       <View style = {styled.btnWrapper}>
         <MyButton Svg = {<Parent color = {activeType === 0 ? 'black' : '#554C8F'}/>} onPress = {onPress(0)} borderColor={activeType === 0 ? 'black':'#554C8F'}/>
         <MyButton Svg = {<Student color = {activeType === 1 ? 'black' : '#554C8F'}/>} onPress = {onPress(1)} borderColor={activeType === 1 ? 'black':'#554C8F'}/>
-        <MyButton Svg = {<Teacher color = {activeType === 2 ? 'black' : '#554C8F'}/>} onPress = {onPress(2)} borderColor={activeType === 2 ? 'black':'#554C8F'}/>
+        <MyButton Svg = {<Teacher color = {activeType >= 2 ? 'black' : '#554C8F'}/>} onPress = {onPress(2)} borderColor={activeType >= 2 ? 'black':'#554C8F'}/>
       </View>
       <View style = {styled.inputWrapper}>
+        <Picker
+          data={teacherType}
+          cols={1}
+          value={activeType}
+          onChange={setActiveType}
+        >
+          <List.Item arrow="horizontal" onPress={this.onPress}>
+            省市选择
+          </List.Item>
+        </Picker>
         <Input 
           style = {{
             marginTop: setSpText(10),
@@ -73,7 +96,7 @@ export default function LoginBtn () {
           onChangeText = { handleUserName }
           placeholder = {'请输入账号'}
           Preffix = {<User style = {{width:20}}/>}
-          />
+        />
         <View>
           <Input 
             style = {{
