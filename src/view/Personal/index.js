@@ -2,17 +2,20 @@ import React, { Component, useEffect, useRef, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, ScrollView, View, Alert } from 'react-native'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { useNavigationState } from '@react-navigation/core'
+import Color from '~/assets/style/Color'
 import PhoneSvg from '~/assets/svg/Phone'
-import StudentSvg from '~/assets/svg/Student'
+import ExitSvg from '~/assets/svg/Exit'
 import UserSvg from '~/assets/svg/User'
+import HeaderTitle from '~/component/HeaderTitle'
 import AnimateAvatar from '~/component/AnimateAvatar'
 import CreateTag from '~/component/CreateTag'
 import LineText from '~/component/LineText'
 import FixTag from '~/component/FixTag'
+import { useAuth } from '~/context/useAuth'
 const strPlaceholder1 = '未知'
 const strPlaceholder2 = '--'
 export default function UserDetail () {
-
+  const { logout } = useAuth()
   let user = {
     id: 2,
     nickName: 'Pango',  // 昵称
@@ -24,9 +27,21 @@ export default function UserDetail () {
     introduce: '用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍'
   }
   const gender = ['男', '女']
+  const handleExit = () => {
+    logout()
+  }
   return ( 
     <>
       <View style = { styled.container }>
+        <HeaderTitle 
+          tinkColor = {'#108ee9'}
+          backgroundColor = {'#108ee9'}
+          suffix = {(
+            <TouchableOpacity style = { styled.exitBtn } onPress = {handleExit}>
+              <ExitSvg size = { setSpText(12) } color = '#dbdbdb'/>
+            </TouchableOpacity>
+          )}
+        />
         <View style = { styled.header }>
           <AnimateAvatar/>
           <Text style = { styled.nickName }>{user.nickName}</Text>
@@ -75,6 +90,9 @@ const styled = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#108ee9',
   }, 
+  exitBtn: {
+    marginRight: setSpText(6),
+  },
   tagWrapper: {
     flexDirection: 'row',
     marginTop: setSpText(6),
@@ -97,8 +115,8 @@ const styled = StyleSheet.create({
     fontSize: scaleSize(30),
   },
   header: {
-    height: setSpText(120),
-    marginTop: setSpText(40),
+    height: setSpText(90),
+    marginTop: setSpText(10),
   },
   UserDetailInfo: {
     flex: 1,

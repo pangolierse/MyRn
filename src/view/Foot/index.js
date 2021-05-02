@@ -1,57 +1,53 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useCallback, useState } from 'react'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
+import { MapView, Marker, Polyline, Polygon } from 'react-native-amap3d';
 import Color from '~/assets/style/Color'
 import QrSvg from '~/assets/svg/Qr'
 import { useToCreateDynamic } from '~/router/utils'
 import HeaderTitle from '~/component/HeaderTitle'
-import Divider from '~/component/Divider'
-import IImage from '~/component/IImage'
-import ImageViewer from '~/component/ImageViewer'
-import UserBox from '~/component/UserBox'
 const fakeInfo = [{
   id: 123,
   nickName: 'Pango',
   time: '2012-02-12',
   content: '我是动态',
-  avatar: '',
-  imgs: ['','','','','','',''],
+  latitude: 39.91095,
+  longitude: 110.37296
 },{
   id: 1234,
   nickName: 'Pango',
   time: '2012-02-12',
   content: '我是动态',
-  avatar: '',
-  imgs: ['','',''],
+  latitude: 39.91095,
+  longitude: 116.37296
 },{
   id: 12345,
   nickName: 'Pango',
   time: '2012-02-12',
   content: '我是动态',
-  avatar: '',
-  imgs: ['','',''],
+  latitude: 30.91095,
+  longitude: 116.37296
 }]
 export default function StudentDynamic () {
-  const [ page, setPage ] = useState(1)
-  const [ limit, setLimit ] = useState(10)
-  const [ activeImgs, setActiveImgs ] = useState([])
-  const [ imgsModal, setImgsModal ] = useState(false)
   const navigator = useNavigation()
   const createDynamic = () => {
     useToCreateDynamic(navigator)
   }
-  const showImage = (imgs) => {
-    setActiveImgs(imgs)
-    setImgsModal(true)
+  const polyLines = useCallback(() => {
+    return fakeInfo.map(item => {
+      return {
+        latitude: item.latitude,
+        longitude: item.longitude
+      }
+    })
+  }, [coordinate])
+  const coordinate = {
+    latitude: 39.706901,
+    longitude: 116.397972,
   }
   return ( 
     <View style = { styled.container }>
-      <ImageViewer 
-        imgs = { activeImgs }
-        visible = { imgsModal }
-        setVisible = { setImgsModal }
-      />
       <HeaderTitle 
         tinkColor = {'white'}
         backgroundColor = {Color.header_title_blue}
@@ -62,6 +58,33 @@ export default function StudentDynamic () {
           </TouchableOpacity>
         )}
       />
+      <MapView
+        style = { styled.mapView }
+        center={{
+          latitude: 39.91095,
+          longitude: 116.37296
+        }}
+      >
+        {fakeInfo.map( item => {
+          return (
+            <MapView.Marker
+              draggable
+              title="这是一个可拖拽的标记"
+              coordinate={{
+                latitude: item.latitude,
+                longitude: item.longitude
+              }}
+            >
+              <Text>haha</Text>
+            </MapView.Marker>
+          )
+        })}
+        <MapView.Polyline
+          color = '#3b94f1'
+          width = { setSpText(1) }
+          coordinates = {polyLines()}
+        />
+      </MapView>
     </View>
   )
 }
@@ -73,41 +96,7 @@ const styled = StyleSheet.create({
     paddingLeft: setSpText(6),
     paddingRight: setSpText(6),
   },
-  create:{
-    fontSize: scaleSize(70),
-    fontWeight: 'bold',
-  },
-  dynamicWrapper: {
-    backgroundColor: 'white',
-    paddingTop: setSpText(6),
-    paddingBottom: setSpText(6),
-    paddingLeft: setSpText(6),
-    paddingRight: setSpText(6),
-  },
-  userWrapper: {
-    flexDirection: 'row',
-  },
-  userImage: {
-    width: setSpText(24),
-    height: setSpText(24),
-    borderRadius: setSpText(12),
-  },
-  userInfo: {
-    marginLeft: setSpText(10),
-    justifyContent: 'space-between'
-  },
-  userTime: {
-    color: '#333',
-    opacity: 0.5,
-  },
-  contentWrapper: {
-    marginTop: setSpText(8),
-    fontSize: scaleSize(25),
-  },
-  imgWrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: setSpText(6),
+  mapView: {
+    flex:1,
   }
 })

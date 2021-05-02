@@ -41,5 +41,7 @@ const styled = StyleSheet.create({
     fontSize: scaleSize(40),
     fontWeight: 'bold',
     color: '#4b1e0e',
+    includeFontPadding: false,
+    textAlignVertical: 'center',   
   }
 })

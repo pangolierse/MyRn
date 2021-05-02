@@ -22,10 +22,6 @@ const tabRoutes = {
     svg: Dynamic,
     title: '动态',
   },
-  'foot': {
-    svg: Foot,
-    title: '足迹',
-  },
   'message': {
     svg: Message,
     title: '消息',
@@ -53,7 +49,6 @@ export default function TeacherTab () {
       >
         <Tab.Screen name="home" component={HomeScreen} />
         <Tab.Screen name="dynamic" component={DynamicScreen}/>
-        <Tab.Screen name="foot" component={FootScreen}/>
         <Tab.Screen name="message" component={MessageScreen}/>
         <Tab.Screen name="personal" component={PersonalScreen}/>
       </Tab.Navigator>

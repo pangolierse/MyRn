@@ -31,10 +31,11 @@ export default function ({
 const styled = StyleSheet.create({
   inputWrapper: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   input: { 
     flex: 1,
-    height: setSpText(20),
+    height: setSpText(30),
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: setSpText(20),

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Button, TouchableWithoutFeedback, Alert} from "react-native";
 import { setSpText, scaleSize} from '~/util/adapt'
 import Parent from '~/assets/svg/Parent' 
@@ -173,7 +173,7 @@ const styled = StyleSheet.create({
     width: setSpText(20),
     position: 'absolute',
     right: setSpText(0),
-    top: setSpText(10),
+    top: setSpText(15),
     zIndex: 1,
     justifyContent: 'center',
     alignItems: 'center',

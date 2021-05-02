@@ -13,24 +13,40 @@ import StudentCourse from '~/view/Home/Student/Course'
 import UserDetail from '~/view/common/UserDetail'
 import CreateDynamic from '~/view/common/CreateDynamic'
 import CreateTag from '~/view/common/CreateTag'
+import WaitLogin from '~/view/common/WaitLogin'
 const Stack = createStackNavigator()
 
-const justReturn = ['UserDetail']
+const justReturn = {
+  'UserDetail': {
+    headerShown: true,
+    title: '',
+    headerStyle: {
+      backgroundColor: '#108ee9',
+    },
+    headerTintColor: '#fff',
+  },
+  'StudentCourse': { 
+    title: '课程详情',
+    headerShown: true,
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+  }
+}
 export default function () {
   const {
+    isLoading,
     userType,
     token,
   } = useAuth()
   const defaultOptions = {
     headerShown: false
   }
-  const titleOptions = {
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-  }
   const loginRouter = {
     LoginRouter: LoginRouter,
+  }
+  const loadingRouter = {
+    WaitLogin: WaitLogin,
   }
   const commonRouter = {
     UserDetail: UserDetail,
@@ -39,7 +55,7 @@ export default function () {
   }
   const studentRouter = {
     StudentTab: StudentTab,
-    StudentCourse: StudentCourse,
+    StudentCourse: StudentCourse, 
   }
   const teacherRouter = {
     TeacherTab: TeacherTab,
@@ -49,15 +65,8 @@ export default function () {
   }
   const filterOptions = ({ route, }) => {
     let headerTitle = {}
-    if( justReturn.indexOf(route.name) > -1 ){
-      headerTitle = {
-        headerShown: true,
-        title: '',
-        headerStyle: {
-          backgroundColor: '#108ee9',
-        },
-        headerTintColor: '#fff',
-      }
+    if( justReturn.hasOwnProperty(route.name) ){
+      headerTitle = justReturn[route.name]
     }
     return {
       ...defaultOptions,
@@ -74,10 +83,11 @@ export default function () {
       <Stack.Navigator>
         {
           Object.entries({
-            ...(token === null ? loginRouter: null),
+            ...(isLoading === true ? loadingRouter : null),
+            ...(token === null ? loginRouter : null),
             ...(userType === '0' ? teacherRouter : null),
             ...(userType === '1' ? studentRouter : null),
-            ...(userType === '2' ? parentRouter : null),
+            ...(userType === '2' ? studentRouter : null),
             ...commonRouter,
           }).map( ([ name, component ]) => {
             return (
@@ -90,11 +100,6 @@ export default function () {
             )
           })
         }
-        <Stack.Screen 
-          name={'StudentCourse'} 
-          component={StudentCourse}
-          options={{ title: '课程详情', ...titleOptions }}
-        />
       </Stack.Navigator>
     </NavigationContainer>
     </>
