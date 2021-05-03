@@ -10,6 +10,8 @@ const strPlaceholder2 = '--'
 export default function UserDetail () {
 
   const userId = useRoute().params.userId
+  console.log(userId);
+  
   let user = {
     id: 2,
     nickName: 'Pango',  // 姓名

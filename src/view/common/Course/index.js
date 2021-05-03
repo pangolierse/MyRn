@@ -1,10 +1,14 @@
 import React, { Component, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, ScrollView, View } from 'react-native'
+import Color from '~/assets/style/Color'
 import DriverSvg from '~/assets/svg/Driver'
 import CarMarkSvg from '~/assets/svg/CarMark'
 import TimerSvg from '~/assets/svg/Timer'
+import BackSvg from '~/assets/svg/Back'
+import ScanSvg from '~/assets/svg/Scan'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { paddingSize } from '~/util'
+import { useAuth } from '~/context/useAuth'
 import ReadMore from '~/component/ReadMore'
 import Divider from '~/component/Divider'
 import FixTag from '~/component/FixTag'
@@ -12,11 +16,14 @@ import TeacherBox from '~/component/TeacherBox'
 import BetterBanner from '~/component/BetterBanner'
 import AnimateCar from '~/component/AnimateCar'
 import LineText from '~/component/LineText'
-import BottomButton from './BottomButton'
+import HeaderTitle from '~/component/HeaderTitle'
+import BottomButton from './BottomButton/index'
 import Button from './BottomButton/Button'
 import ScoreModal from './ScoreModal'
-export default function  () {
+export default function Course () {
   const handleTextReady = () => {}
+  const { userType } = useAuth()
+  
   const course = {
     name: 'wangda',
     describe: '我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸',
@@ -35,6 +42,23 @@ export default function  () {
     <>
     <ScrollView style={styled.scroll}>
       <View>
+        <HeaderTitle 
+          tinkColor = {'white'}
+          backgroundColor = {Color.header_title_blue}
+          title = '课程详情' 
+          prefix = {(
+            <TouchableOpacity style = {{ marginLeft: setSpText(8) }} onPress = { () => navigator.goBack() }>
+              <BackSvg size = {setSpText(10)} color = 'white'/>
+            </TouchableOpacity>
+          )}
+          suffix = {
+            userType == 2 ? (
+              <TouchableOpacity style = {{ marginRight: setSpText(8) }} onPress = {() => {}}>
+                <ScanSvg size = {setSpText(10)} color = 'white'/>
+              </TouchableOpacity>
+            ) : null
+          }
+        />
         <BetterBanner
           bannerComponents={[
             <View style={{

@@ -7,15 +7,21 @@ import StudentTab from './Student'
 import TeacherTab from './Teacher'
 import ParentTab from './Parent'
 import LoginRouter from './Login'
-// 课程界面
-import StudentCourse from '~/view/Home/Student/Course'
 // 公共界面
+// 用户详情
 import UserDetail from '~/view/common/UserDetail'
+// 创建动态
 import CreateDynamic from '~/view/common/CreateDynamic'
+// 创建标签界面
 import CreateTag from '~/view/common/CreateTag'
+// 暂时loading
 import WaitLogin from '~/view/common/WaitLogin'
+// 学生宿舍界面
 import StudentDormitory from '~/view/common/StudentDormitory'
+// 创建消息界面
 import CreateMessage from '~/view/common/CreateMessage'
+// 课程界面
+import Course from '~/view/common/Course'
 const Stack = createStackNavigator()
 
 const justReturn = {
@@ -27,17 +33,17 @@ const justReturn = {
     },
     headerTintColor: '#fff',
   },
-  'StudentCourse': { 
-    title: '课程详情',
-    headerShown: true,
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-    headerStyle: {
-      backgroundColor: '#108ee9',
-    },
-    headerTintColor: '#fff',
-  }
+  // 'Course': { 
+  //   title: '课程详情',
+  //   headerShown: true,
+  //   headerTitleStyle: {
+  //     fontWeight: 'bold',
+  //   },
+  //   headerStyle: {
+  //     backgroundColor: '#108ee9',
+  //   },
+  //   headerTintColor: '#fff',
+  // }
 }
 export default function () {
   const {
@@ -60,10 +66,10 @@ export default function () {
     CreateTag: CreateTag,
     StudentDormitory: StudentDormitory,
     CreateMessage: CreateMessage,
+    Course: Course
   }
   const studentRouter = {
     StudentTab: StudentTab,
-    StudentCourse: StudentCourse, 
   }
   const teacherRouter = {
     TeacherTab: TeacherTab,
@@ -83,10 +89,10 @@ export default function () {
   }
   return ( 
     <>
-    {/* <View>
+    <View>
       <Text>userType: {userType}</Text>
       <Text>{token}</Text>
-    </View> */}
+    </View>
     <NavigationContainer>
       <Stack.Navigator>
         {
@@ -95,7 +101,7 @@ export default function () {
             ...(token === null ? loginRouter : null),
             ...(userType === '0' ? studentRouter : null),
             ...(userType === '1' ? studentRouter : null),
-            ...(userType === '2' ? teacherRouter : null),
+            ...(userType >= '2' ? teacherRouter : null),
             ...commonRouter,
           }).map( ([ name, component ]) => {
             return (

@@ -23,12 +23,16 @@ const teacherType = [[
   },{
     label: '营地管理员',
     value: 4,
+  },{
+    label: '领队教师',
+    value: 5,
   }
 ]]
 const teacherTypeMap = {
   '2': '课程教师',
   '3': '宿舍教师',
   '4': '营地管理员',
+  '5': '领队教师',
 }
 export default function LoginBtn () {
   const { login } = useAuth()
@@ -106,8 +110,20 @@ export default function LoginBtn () {
                 data={teacherType}
                 cols={1}
                 value={activeType}
-                onChange={setActiveType}
-                onOk={setActiveType}
+                onChange={(v) => {
+                  setParams({
+                    ...params,
+                    userType: v,
+                  })
+                  setActiveType(v)
+                }}
+                onOk={(v) => {
+                  setParams({
+                    ...params,
+                    userType: v,
+                  })
+                  setActiveType(v)
+                }}
               >
                 <CustomType value = {teacherTypeMap[activeType]}>教师身份</CustomType>
               </Picker>

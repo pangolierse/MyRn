@@ -5,7 +5,7 @@ export const useToRegister = (navigator) => {
 }
 // 学生界面  路由跳转 课程详情
 export const useToCourseDetail = (navigator, id) => {
-  navigator.navigate('StudentCourse',{
+  navigator.navigate('Course',{
     courseId: id,
   })
 }

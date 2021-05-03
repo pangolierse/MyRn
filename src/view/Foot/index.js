@@ -9,29 +9,26 @@ import { useToCreateDynamic } from '~/router/utils'
 import HeaderTitle from '~/component/HeaderTitle'
 import PreView from './Comps/PreView'
 const fakeInfo = [{
-  id: 123,
-  nickName: 'Pango',
-  courseName: '赛龙舟赛龙舟赛龙舟赛龙舟赛龙舟赛龙舟',
-  time: '2012-02-12 16:03:55',
-  content: '我是动态',
-  latitude: 39.91095,
-  longitude: 115.37296
+  id: 123, // 学生Id
+  nickName: 'Pango', // 学生姓名
+  courseName: '赛龙舟赛龙舟赛龙舟赛龙舟赛龙舟赛龙舟', // 课程名称
+  time: '2012-02-12 16:03:55', // 签到时间
+  latitude: 39.91095, // x坐标
+  longitude: 115.37296, // y坐标
 },{
   id: 1234,
   nickName: 'Pango',
   courseName: '赛龙舟赛龙舟赛龙舟赛龙舟赛龙舟赛龙舟',
   time: '2012-02-12 16:03:55',
-  content: '我是动态',
   latitude: 39.91095,
-  longitude: 116.37296
+  longitude: 116.37296,
 },{
   id: 12345,
   nickName: 'Pango',
   courseName: '赛龙舟赛龙舟赛龙舟赛龙舟赛龙舟赛龙舟',
   time: '2012-02-12 16:03:55',
-  content: '我是动态',
   latitude: 38.91095,
-  longitude: 116.37296
+  longitude: 116.37296,
 }]
 export default function StudentDynamic () {
   const navigator = useNavigation()

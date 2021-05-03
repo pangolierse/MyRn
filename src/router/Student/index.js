@@ -54,7 +54,7 @@ export default function () {
         <Tab.Screen name="home" component={HomeScreen} />
         <Tab.Screen name="dynamic" component={DynamicScreen}/>
         <Tab.Screen name="foot" component={FootScreen}/>
-        <Tab.Screen name="message" component={MessageScreen}/>
+        {/* <Tab.Screen name="message" component={MessageScreen}/> */}
         <Tab.Screen name="personal" component={PersonalScreen}/>
       </Tab.Navigator>
   );

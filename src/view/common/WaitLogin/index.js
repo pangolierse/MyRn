@@ -7,7 +7,7 @@ import FixTag from '~/component/FixTag'
 
 const strPlaceholder1 = '未知'
 const strPlaceholder2 = '--'
-export default function UserDetail () {
+export default function WaitLogin () {
 
   return ( 
     <>

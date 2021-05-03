@@ -28,3 +28,16 @@ export const marginSize = (
     marginRight: right,
   }
 }
+export const isVoid = (val) => {
+  return (
+    val === undefined ||
+    val === null ||
+    val === "" ||
+    (val instanceof Array && cleanArray(val).length === 0)
+  )
+}
+function cleanArray (arr) {
+  return arr.filter( item => {
+    if(item) return item
+  })
+}

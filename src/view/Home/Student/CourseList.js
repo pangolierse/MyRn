@@ -10,24 +10,99 @@ export default function  () {
     <View style = {styled.container}>
       <FlatList 
         data = {[
-          {key: 'hah1'},
-          {key: 'hah2'},
-          {key: 'hah3'},
-          {key: 'hah4'},
-          {key: 'hah5'},
-          {key: 'hah6'},
-          {key: 'hah7'},
-          {key: 'hah8'},
-          {key: 'hah9'},
-          {key: 'hah0'},
-          {key: 'hah-'},
-          {key: 'hah='},
-          {key: 'hah121323'},
-          {key: 'hah123'},
+          {
+            key: 'hah1',
+            courseName: '课程名称',
+            timeRange : '8:00 ~ 9:00',
+            introduction : '我是介绍课程的内容',
+            imgSrc: '',
+          },{
+            key: 'hah2',
+            courseName: '课程名称',
+            timeRange : '8:00 ~ 9:00',
+            introduction : '我是介绍课程的内容',
+            imgSrc: '',
+          },{
+            key: 'hah3',
+            courseName: '课程名称',
+            timeRange : '8:00 ~ 9:00',
+            introduction : '我是介绍课程的内容',
+            imgSrc: '',
+          },{
+            key: 'hah4',
+            courseName: '课程名称',
+            timeRange : '8:00 ~ 9:00',
+            introduction : '我是介绍课程的内容',
+            imgSrc: '',
+          },{
+            key: 'hah5',
+            courseName: '课程名称',
+            timeRange : '8:00 ~ 9:00',
+            introduction : '我是介绍课程的内容',
+            imgSrc: '',
+          },{
+            key: 'hah6',
+            courseName: '课程名称',
+            timeRange : '8:00 ~ 9:00',
+            introduction : '我是介绍课程的内容',
+            imgSrc: '',
+          },{
+            key: 'hah7',
+            courseName: '课程名称',
+            timeRange : '8:00 ~ 9:00',
+            introduction : '我是介绍课程的内容',
+            imgSrc: '',
+          },{
+            key: 'hah8',
+            courseName: '课程名称',
+            timeRange : '8:00 ~ 9:00',
+            introduction : '我是介绍课程的内容',
+            imgSrc: '',
+          },{
+            key: 'hah9',
+            courseName: '课程名称',
+            timeRange : '8:00 ~ 9:00',
+            introduction : '我是介绍课程的内容',
+            imgSrc: '',
+          },{
+            key: 'hah0',
+            courseName: '课程名称',
+            timeRange : '8:00 ~ 9:00',
+            introduction : '我是介绍课程的内容',
+            imgSrc: '',
+          },{
+            key: 'hah-',
+            courseName: '课程名称',
+            timeRange : '8:00 ~ 9:00',
+            introduction : '我是介绍课程的内容',
+            imgSrc: '',
+          },{
+            key: 'hah=',
+            courseName: '课程名称',
+            timeRange : '8:00 ~ 9:00',
+            introduction : '我是介绍课程的内容',
+            imgSrc: '',
+          },{
+            key: 'hah121323',
+            courseName: '课程名称',
+            timeRange : '8:00 ~ 9:00',
+            introduction : '我是介绍课程的内容',
+            imgSrc: '',
+          },{
+            key: 'hah123',
+            courseName: '课程名称',
+            timeRange : '8:00 ~ 9:00',
+            introduction : '我是介绍课程的内容',
+            imgSrc: '',
+          }
         ]}
-        renderItem = { item => {
+        renderItem = { ({item}) => {
           return (
             <CourseRender 
+              src = {item.imgSrc}
+              title = { item.courseName }
+              timeRange = { item.timeRange }
+              introduction = { item.introduction }
               onPress = { () => useToCourseDetail(navigator, 12) }
             />
           )

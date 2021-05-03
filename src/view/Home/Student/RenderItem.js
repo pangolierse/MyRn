@@ -14,7 +14,7 @@ export default function ({
       <View style = {styled.container}>
         <Image 
           style = { styled.img }
-          source = {src}
+          source = {src || defaultImg}
         />
         <View style = {styled.leftWrapper}>
           <View style = { styled.titleWrapper }>

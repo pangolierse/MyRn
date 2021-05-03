@@ -49,7 +49,7 @@ export default function StudentDormitory () {
         backgroundColor = {Color.header_title_blue}
         title = '宿舍' 
         prefix = {(
-          <TouchableOpacity style = { styled.cancel } onPress = { () => navigator.goBack() }>
+          <TouchableOpacity style = { styled.back } onPress = { () => navigator.goBack() }>
             <BackSvg size = {setSpText(10)} color = 'white'/>
           </TouchableOpacity>
         )}
@@ -143,6 +143,9 @@ const styled = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: 'white',
+  },
+  back: {
+    marginLeft: setSpText(8)
   },
   begWrapper: {
     flexDirection: 'row',
