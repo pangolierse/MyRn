@@ -41,7 +41,7 @@ export default function LoginBtn () {
   const [ ateacherType, setTeacherType ] = useState([0])
   const [ eyeOpen, setEveOpen ] = useState(false)
   const [ params, setParams ] = useState({
-    userType: 1,
+    userType: 0,
     username: '',
     password: '',
   })

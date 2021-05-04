@@ -1,5 +1,6 @@
 import React, { Component, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, ScrollView, View } from 'react-native'
+import { useNavigation } from '@react-navigation/core'
 import Color from '~/assets/style/Color'
 import DriverSvg from '~/assets/svg/Driver'
 import CarMarkSvg from '~/assets/svg/CarMark'
@@ -9,6 +10,7 @@ import ScanSvg from '~/assets/svg/Scan'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { paddingSize } from '~/util'
 import { useAuth } from '~/context/useAuth'
+import { useToScanQR } from '~/router/utils'
 import ReadMore from '~/component/ReadMore'
 import Divider from '~/component/Divider'
 import FixTag from '~/component/FixTag'
@@ -23,6 +25,7 @@ import ScoreModal from './ScoreModal'
 export default function Course () {
   const handleTextReady = () => {}
   const { userType } = useAuth()
+  const navigator = useNavigation()
   
   const course = {
     name: 'wangda',
@@ -40,7 +43,7 @@ export default function Course () {
   const [ scoreVisible, setScoreVisible ] = useState(false)
   return ( 
     <>
-    <ScrollView style={styled.scroll}>
+      <ScrollView style={styled.scroll}>
       <View>
         <HeaderTitle 
           tinkColor = {'white'}
@@ -53,7 +56,7 @@ export default function Course () {
           )}
           suffix = {
             userType == 2 ? (
-              <TouchableOpacity style = {{ marginRight: setSpText(8) }} onPress = {() => {}}>
+              <TouchableOpacity style = {{ marginRight: setSpText(8) }} onPress = {() => useToScanQR(navigator, 12)}>
                 <ScanSvg size = {setSpText(10)} color = 'white'/>
               </TouchableOpacity>
             ) : null
@@ -184,13 +187,13 @@ export default function Course () {
           </ReadMore>
         </View>
       </View>
-    </ScrollView>
-    <ScoreModal visible = { scoreVisible } setVisible = { setScoreVisible }/>
-    <BottomButton>
+      </ScrollView>
+      <ScoreModal visible = { scoreVisible } setVisible = { setScoreVisible }/>
+      <BottomButton>
       <Button label = '查看成绩' onPress = {() => {
         setScoreVisible(true)
       }}/>
-    </BottomButton>
+      </BottomButton>
     </>
   )
 }

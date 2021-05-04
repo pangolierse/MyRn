@@ -3,20 +3,19 @@ import { StyleSheet, Text, TouchableOpacity, ScrollView, View, Alert } from 'rea
 import { setSpText, scaleSize} from '~/util/adapt'
 import { useNavigationState } from '@react-navigation/core'
 import { useAuth } from '~/context/useAuth'
-import Color from '~/assets/style/Color'
 import PhoneSvg from '~/assets/svg/Phone'
 import ExitSvg from '~/assets/svg/Exit'
 import UserSvg from '~/assets/svg/User'
 import HeaderTitle from '~/component/HeaderTitle'
-import AnimateAvatar from '~/component/AnimateAvatar'
 import CreateTag from '~/component/CreateTag'
 import LineText from '~/component/LineText'
 import FixTag from '~/component/FixTag'
-import { StudentBottom } from './Student/index'
+import { StudentBottom, StudentHeader } from './Student/index'
+import { ParentHeader } from './Parent'
 const strPlaceholder1 = '未知'
 const strPlaceholder2 = '--'
 export default function UserDetail () {
-  const { logout } = useAuth()
+  const { logout, userType } = useAuth()
   let user = {
     id: 2,
     nickName: 'Pango',  // 昵称
@@ -27,7 +26,6 @@ export default function UserDetail () {
     tags: ['帅气','高','帅','大','awef','aweasdf','awefassss','afff'],
     introduce: '用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍'
   }
-  const gender = ['男', '女']
   const handleExit = () => {
     logout()
   }
@@ -43,14 +41,16 @@ export default function UserDetail () {
             </TouchableOpacity>
           )}
         />
-        <View style = { styled.header }>
-          <AnimateAvatar/>
-          <Text style = { styled.nickName }>{user.nickName}</Text>
-          <View style = { styled.detail}>
-            <Text style = { styled.gender }>{gender[user.gender] || strPlaceholder1}</Text>
-            <Text style = { styled.age }>{(user.age || strPlaceholder1)+'岁'}</Text>
-          </View>
-        </View>
+        { userType === '0' ? (
+            <ParentHeader />
+          ) : (
+            <StudentHeader 
+              nickName = { user.nickName }
+              gender = { user.gender }
+              age = { user.age }
+            />
+          )
+        }
         <View style = { styled.UserDetailInfo }>
           <View style = { styled.userInfoItem}>
             <LineText 
@@ -101,25 +101,6 @@ const styled = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'center',
   },  
-  nickName: {
-    fontWeight: 'bold',
-    marginTop: setSpText(10),
-    fontSize: scaleSize(50),
-  },
-  detail: {
-    flexDirection: 'row',
-  },  
-  gender: {
-    marginRight: setSpText(8),
-    fontSize: scaleSize(30),
-  },
-  age: {
-    fontSize: scaleSize(30),
-  },
-  header: {
-    height: setSpText(90),
-    marginTop: setSpText(10),
-  },
   UserDetailInfo: {
     flex: 1,
     width: '100%',

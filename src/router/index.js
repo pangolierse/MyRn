@@ -22,17 +22,18 @@ import StudentDormitory from '~/view/common/StudentDormitory'
 import CreateMessage from '~/view/common/CreateMessage'
 // 课程界面
 import Course from '~/view/common/Course'
+import ScanView from '~/view/common/ScanView'
 const Stack = createStackNavigator()
 
 const justReturn = {
-  'UserDetail': {
-    headerShown: true,
-    title: '',
-    headerStyle: {
-      backgroundColor: '#108ee9',
-    },
-    headerTintColor: '#fff',
-  },
+  // 'UserDetail': {
+  //   headerShown: true,
+  //   title: '',
+  //   headerStyle: {
+  //     backgroundColor: '#108ee9',
+  //   },
+  //   headerTintColor: '#fff',
+  // },
   // 'Course': { 
   //   title: '课程详情',
   //   headerShown: true,
@@ -66,7 +67,8 @@ export default function () {
     CreateTag: CreateTag,
     StudentDormitory: StudentDormitory,
     CreateMessage: CreateMessage,
-    Course: Course
+    Course: Course,
+    ScanView: ScanView
   }
   const studentRouter = {
     StudentTab: StudentTab,

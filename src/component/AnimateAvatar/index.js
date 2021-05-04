@@ -3,8 +3,9 @@ import { setSpText, scaleSize} from '~/util/adapt'
 import { StyleSheet, Text, Image, View } from 'react-native'
 import * as Animatable from 'react-native-animatable';
 import defaultImg from '~/assets/img/default.jpg'
+import { isVoid } from '~/util'
 
-export default function AnimateAvatar ({ imgSrc = defaultImg }) {
+export default function AnimateAvatar ({ imgSrc }) {
   const duration = 1000
   const animate1 = {
     0: {
@@ -53,7 +54,7 @@ export default function AnimateAvatar ({ imgSrc = defaultImg }) {
       />
       <Image 
         style = { styled.img } 
-        source = {imgSrc} 
+        source = {isVoid(imgSrc) && defaultImg} 
       />
   </View>
   )

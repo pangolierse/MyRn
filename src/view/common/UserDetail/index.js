@@ -1,22 +1,28 @@
 import React, { Component, useEffect, useRef, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, ScrollView, View, Alert } from 'react-native'
+import { useNavigation } from '@react-navigation/core'
 import { setSpText, scaleSize} from '~/util/adapt'
-import { useRoute } from '@react-navigation/core'
+import { useAuth } from '~/context/useAuth'
+import Color from '~/assets/style/Color'
+import PhoneSvg from '~/assets/svg/Phone'
+import BackSvg from '~/assets/svg/Back'
+import UserSvg from '~/assets/svg/User'
+import HeaderTitle from '~/component/HeaderTitle'
 import AnimateAvatar from '~/component/AnimateAvatar'
+import CreateTag from '~/component/CreateTag'
+import LineText from '~/component/LineText'
 import FixTag from '~/component/FixTag'
-
 const strPlaceholder1 = '未知'
 const strPlaceholder2 = '--'
 export default function UserDetail () {
-
-  const userId = useRoute().params.userId
-  console.log(userId);
-  
+  const navigator = useNavigation()
   let user = {
     id: 2,
-    nickName: 'Pango',  // 姓名
+    nickName: 'Pango',  // 昵称
+    name: '王大锤', // 姓名
     gender: 0,  // 性别
     age: 15, // 年龄
+    phone: 17506023989,
     tags: ['帅气','高','帅','大','awef','aweasdf','awefassss','afff'],
     introduce: '用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍'
   }
@@ -24,24 +30,54 @@ export default function UserDetail () {
   return ( 
     <>
       <View style = { styled.container }>
-        <AnimateAvatar/>
-        <Text style = { styled.nickName }>{user.nickName}</Text>
-        <View style = { styled.detail}>
-          <Text style = { styled.gender }>{gender[user.gender] || strPlaceholder1}</Text>
-          <Text style = { styled.age }>{user.age || strPlaceholder1}</Text>
+        <HeaderTitle 
+          tinkColor = {'white'}
+          backgroundColor = {'#108ee9'}
+          title = ' ' 
+          prefix = {(
+            <TouchableOpacity style = {{ marginLeft: setSpText(8) }} onPress = { () => navigator.goBack() }>
+              <BackSvg size = {setSpText(10)} color = 'white'/>
+            </TouchableOpacity>
+          )}
+        />
+        <View style = { styled.header }>
+          <AnimateAvatar/>
+          <Text style = { styled.nickName }>{user.nickName}</Text>
+          <View style = { styled.detail}>
+            <Text style = { styled.gender }>{gender[user.gender] || strPlaceholder1}</Text>
+            <Text style = { styled.age }>{(user.age || strPlaceholder1)+'岁'}</Text>
+          </View>
         </View>
-        <Text 
-          style = { styled.introduce }
-          numberOfLines = {3}
-          ellipsizeMode = 'tail'
-        >
-          <Text style = {{ fontSize: scaleSize(33), fontWeight: 'bold'}}>个性签名：</Text>
-          {user.introduce || strPlaceholder2}
-        </Text>
-        <Text style = { styled.tagWrapper } textBreakStrategy = 'simple'>
-          <Text style = {{ fontSize: scaleSize(33), fontWeight: 'bold'}}>个性标签：</Text>
-          {user?.tags.join(',') || strPlaceholder2}
-        </Text>
+        <View style = { styled.UserDetailInfo }>
+          <View style = { styled.userInfoItem}>
+            <LineText 
+              prefix = {(
+                <UserSvg size = {setSpText(16)}/>
+              )}
+              label = {user.name || strPlaceholder2}
+            />
+          </View>
+          <View style = {[ 
+            styled.userInfoItem,
+            { marginTop: setSpText(4)}
+          ]}>
+            <LineText 
+              prefix = {(
+                <PhoneSvg size = {setSpText(16)}/>
+              )}
+              label = {user.phone || strPlaceholder2}
+            />
+          </View>
+          <View style = { styled.userInfoItem}>
+            <View style = { styled.tagWrapper }>
+              <Text style = {{ fontSize: scaleSize(33), fontWeight: 'bold'}}>个性标签：</Text>
+              {user?.tags.map( tag => {
+                return <FixTag space = {2} text = {tag} key = {tag + 'tags'}/>
+              })}
+              <CreateTag tags = {user?.tags || []}/>
+            </View>
+          </View>
+        </View>
       </View>
     </>
   )
@@ -49,21 +85,18 @@ export default function UserDetail () {
 const styled = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#108ee9',
-    justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: setSpText(100),
+    backgroundColor: '#108ee9',
   }, 
+  exitBtn: {
+    marginRight: setSpText(6),
+  },
   tagWrapper: {
-    width: '60%',
     flexDirection: 'row',
     marginTop: setSpText(6),
+    flexWrap: 'wrap',
+    alignItems: 'center',
   },  
-  introduce: {
-    width: '60%',
-    marginTop: setSpText(6),
-    color: '#4b1e0e',
-  },
   nickName: {
     fontWeight: 'bold',
     marginTop: setSpText(10),
@@ -78,5 +111,25 @@ const styled = StyleSheet.create({
   },
   age: {
     fontSize: scaleSize(30),
+  },
+  header: {
+    height: setSpText(90),
+    marginTop: setSpText(20),
+  },
+  UserDetailInfo: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    paddingTop: setSpText(6),
+    paddingLeft: setSpText(6),
+    paddingRight: setSpText(6),
+  },
+  userInfoItem: {
+    width: '100%',
+    borderBottomWidth: setSpText(0.1),
+    borderBottomColor: '#afafaf',
+    paddingBottom: setSpText(4),
   }
 })

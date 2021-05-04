@@ -33,3 +33,9 @@ export const useToCreateMessage = (navigator) => {
 export const useToStudentDormitory = (navigator) => {
   navigator.navigate('StudentDormitory')
 }
+// 扫码
+export const useToScanQR = (navigator, courseId) => {
+  navigator.navigate('ScanView',{
+    courseId,
+  })
+}
