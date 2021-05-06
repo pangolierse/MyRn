@@ -54,7 +54,7 @@ export default function AnimateAvatar ({ imgSrc }) {
       />
       <Image 
         style = { styled.img } 
-        source = {isVoid(imgSrc) && defaultImg} 
+        source = {isVoid(imgSrc) ? defaultImg : { uri: imgSrc}} 
       />
   </View>
   )

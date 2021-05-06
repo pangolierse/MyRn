@@ -1,10 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Alert } from "react-native";
-const user = {
-  id: 123,
-  username: '123456',
-  password: '123456',
-}
+import { DevSettings } from 'react-native'
+import { apiUrl } from '~/util/http'
 const TOKEN_KEY = '@storage_token_key'
 const USERTYPE_KEY = '@storage_usertype_key'
 export const getToken = async () => {
@@ -22,41 +18,58 @@ const setUserType = async (value) => {
 export const logout = async () => {
   await AsyncStorage.removeItem(TOKEN_KEY)
   await AsyncStorage.removeItem(USERTYPE_KEY)
+  DevSettings.reload()
 }
-const handleUserInfo = (token, userType) => {
-  setToken(token)
+export const getUserInfo = (token) => {
+  return fetch(apiUrl + '/api/research/person/findLoginPersonMsg',{
+    headers: {
+      Authorization: token ? token : ''
+    }
+  }).then(res => res.json())
+  .then(res => {
+    return res.data
+  })
+}
+const handleUserInfo = (userInfo, userType ) => {
+  setToken(userInfo.token)
   setUserType(userType)
-  return {
-    test:1,
-  }
+  return [userInfo.token, userType]
 }
 /**
  * form : {
  *   username, password, userType,
  * }
  */
-export const login = (form) => {
-  return new Promise( resolve => {
-    if( form.username === user.username){
-      Alert.alert('登录成功')
-      resolve(handleUserInfo('token', String(form.userType)))
-    }else{
-      Alert.alert('登录失败')
-    }
+export const login = ({ 
+  username,
+  password,
+  userType,
+  uuid,
+  code,
+}) => {
+  // console.log({ 
+  //   username: username,
+  //   password: password,
+  //   personRole: userType,
+  //   uuid: uuid,
+  //   code: code,
+  // });
+  
+  return fetch(apiUrl + '/api/research/authPerson/app/login',{
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      username: username,
+      password: password,
+      personRole: userType,
+      uuid: uuid,
+      code: code,
+    })
+  }).then( async res => {
+    let data = await res.json()
+    return handleUserInfo(data, String(userType))
   })
-  // fetch('xxx',{
-  //   method: 'POST',
-  //   headers: {
-  //     Accept: 'application/json',
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify({
-  //     ...form,
-  //   })
-  // }).then( res => {
-  //   return handleUserInfo({
-  //     userType: 1,
-  //     token: 'token',
-  //   })
-  // })
 }

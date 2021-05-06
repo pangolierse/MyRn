@@ -6,11 +6,15 @@ export const AuthContext = React.createContext(undefined)
 export default function AuthProvider ({children}) {
   // app 初始加载占用界面
   const [ isLoading, setIsLoading ] = useState(true)
-  const [ userType, setUserType ] = useState(0)
+  const [ userType, setUserType ] = useState(null)
   const [ token, setToken ] = useState(null)
-  const [ user, setUser ] = useState({})
+  const [ user, setUser ] = useState(null)
   const login = (form) => {
-    Auth.login(form).then(setUser)
+    Auth.login(form).then(([token, type]) => {
+      setUserType(type)
+      setToken(token)
+      return Auth.getUserInfo(token) 
+    }).then(setUser)
   }
   const logout = () => {
     Auth.logout().then(() => {
@@ -27,9 +31,9 @@ export default function AuthProvider ({children}) {
       .then((token) => {
         setToken(token)
         setIsLoading(false)
+        Auth.getUserInfo(token).then(setUser)
       })
-    
-  },[user])
+  },[])
   return ( 
     <AuthContext.Provider value = {{
       user,

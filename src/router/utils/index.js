@@ -39,3 +39,7 @@ export const useToScanQR = (navigator, courseId) => {
     courseId,
   })
 }
+// 编辑个人信息
+export const useToEditUserInfo = ( navigator ) => {
+  navigator.navigate('EditUserInfo')
+}

@@ -10,6 +10,8 @@ import LoginRouter from './Login'
 // 公共界面
 // 用户详情
 import UserDetail from '~/view/common/UserDetail'
+// 用户编辑个人资料
+import EditUserInfo from '~/view/common/EditUserInfo'
 // 创建动态
 import CreateDynamic from '~/view/common/CreateDynamic'
 // 创建标签界面
@@ -68,7 +70,8 @@ export default function () {
     StudentDormitory: StudentDormitory,
     CreateMessage: CreateMessage,
     Course: Course,
-    ScanView: ScanView
+    ScanView: ScanView,
+    EditUserInfo: EditUserInfo,
   }
   const studentRouter = {
     StudentTab: StudentTab,
@@ -91,19 +94,19 @@ export default function () {
   }
   return ( 
     <>
-    <View>
+    {/* <View>
       <Text>userType: {userType}</Text>
       <Text>{token}</Text>
-    </View>
+    </View> */}
     <NavigationContainer>
       <Stack.Navigator>
         {
           Object.entries({
             ...(isLoading === true ? loadingRouter : null),
             ...(token === null ? loginRouter : null),
-            ...(userType === '0' ? studentRouter : null),
-            ...(userType === '1' ? studentRouter : null),
-            ...(userType >= '2' ? teacherRouter : null),
+            ...(userType === '5' ? studentRouter : null),
+            ...(userType === '4' ? studentRouter : null),
+            ...(userType <= '3' ? teacherRouter : null),
             ...commonRouter,
           }).map( ([ name, component ]) => {
             return (

@@ -3,14 +3,17 @@ import { setSpText, scaleSize} from '~/util/adapt'
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import { useToUserDetail } from '~/router/utils'
+import { isVoid, marginSize } from '~/util'
 import defaultImg from '~/assets/img/default.jpg'
 
 export default function TeacherBox ({
   id = 1,
   style = {},
-  avatar = defaultImg,
+  avatar,
   name,
-  describe,
+  gender,
+  describe = '简介',
+  phone
 }) {
   const navigator = useNavigation()
   const onPress = () => {
@@ -22,9 +25,40 @@ export default function TeacherBox ({
         styles.teacherWrapper,
         style, 
       ]}>
-        <Image style = { styles.image } source = {avatar}/>
+        <Image style = { styles.image } source = {isVoid(avatar) ? defaultImg : { uri: avatar}}/>
         <View style = { styles.textWrapper }>
-          <Text style = { styles.name }>{name}</Text>
+          <View style = {[ styles.detailRowItem,{
+            justifyContent: 'space-between'
+          }]}>
+            <View style = {{flexDirection: 'row'}}>
+              <Text style = {{
+                  fontSize: scaleSize(36),
+                  fontWeight: 'bold',
+                  marginRight: setSpText(4),
+                }}
+              >名称: </Text>
+              <Text style = { styles.name }>{name}</Text>
+            </View>
+            <View style = {{flexDirection: 'row', marginRight: setSpText(10)}}>
+              <Text style = {{
+                  fontSize: scaleSize(36),
+                  fontWeight: 'bold',
+                  marginRight: setSpText(4),
+                  marginLeft: setSpText(8),
+                }}
+              >性别: </Text>
+              <Text style = { styles.name }>{gender}</Text>
+            </View>
+          </View>
+          <View style = { styles.detailRowItem }>
+          <Text style = {{
+                fontSize: scaleSize(36),
+                fontWeight: 'bold',
+                marginRight: setSpText(4),
+              }}
+            >联系方式: </Text>
+            <Text style = { styles.name }>{phone}</Text>
+          </View>
           <Text style = { styles.describe } numberOfLines = {2} ellipsizeMode = 'tail'>{describe}</Text>
         </View>
       </View>
@@ -49,11 +83,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   name: {
-    fontSize: scaleSize(40),
-    fontWeight: 'bold',
-    marginBottom: setSpText(4),
+    fontSize: scaleSize(32),
   },
   describe: {
     
+  },
+  detailRowItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    ...marginSize(4,4,0,0)
   }
 })

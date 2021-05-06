@@ -4,6 +4,7 @@ import { setSpText, scaleSize} from '~/util/adapt'
 import { useNavigationState } from '@react-navigation/core'
 import { useAuth } from '~/context/useAuth'
 import PhoneSvg from '~/assets/svg/Phone'
+import EmailSvg from '~/assets/svg/Email'
 import ExitSvg from '~/assets/svg/Exit'
 import UserSvg from '~/assets/svg/User'
 import HeaderTitle from '~/component/HeaderTitle'
@@ -15,7 +16,7 @@ import { ParentHeader } from './Parent'
 const strPlaceholder1 = '未知'
 const strPlaceholder2 = '--'
 export default function UserDetail () {
-  const { logout, userType } = useAuth()
+  const { logout, userType, user: userInfo } = useAuth()
   let user = {
     id: 2,
     nickName: 'Pango',  // 昵称
@@ -41,13 +42,13 @@ export default function UserDetail () {
             </TouchableOpacity>
           )}
         />
-        { userType === '0' ? (
+        { userType === '5' ? (
             <ParentHeader />
           ) : (
-            <StudentHeader 
-              nickName = { user.nickName }
-              gender = { user.gender }
-              age = { user.age }
+            <StudentHeader
+              imgSrc = { userInfo?.avatarPath } 
+              gender = { userInfo?.gender }
+              age = { userInfo?.age }
             />
           )
         }
@@ -57,7 +58,7 @@ export default function UserDetail () {
               prefix = {(
                 <UserSvg size = {setSpText(16)}/>
               )}
-              label = {user.name || strPlaceholder2}
+              label = {userInfo?.nickName || strPlaceholder2}
             />
           </View>
           <View style = {[ 
@@ -68,7 +69,18 @@ export default function UserDetail () {
               prefix = {(
                 <PhoneSvg size = {setSpText(16)}/>
               )}
-              label = {user.phone || strPlaceholder2}
+              label = {userInfo?.phone || strPlaceholder2}
+            />
+          </View>
+          <View style = {[ 
+            styled.userInfoItem,
+            { marginTop: setSpText(4)}
+          ]}>
+            <LineText 
+              prefix = {(
+                <EmailSvg size = {setSpText(16)}/>
+              )}
+              label = {userInfo?.email || strPlaceholder2}
             />
           </View>
           <View style = { styled.userInfoItem}>

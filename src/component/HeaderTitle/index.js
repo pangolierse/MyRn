@@ -13,14 +13,20 @@ export default function HeaderTitle ({
     <View style = { [styled.headerWrapper,{
       backgroundColor: backgroundColor
     }]}>
-      <View style = { styled.prefix }>
+      <View style = {[ styled.prefix,{
+        width: prefix ? setSpText(24) : setSpText(24),
+      }]}>
         {prefix}
       </View>      
-      { title && (
-        <Text style = { [styled.title, { color: tinkColor }] }>{ title }</Text>
-      )}
-      { centerRender }
-      <View style = { styled.suffix }>
+      <View style = {{flex:7}}>
+        {centerRender}
+        { title && (
+          <Text style = { [styled.title, { color: tinkColor }] }>{ title }</Text>
+        )} 
+      </View>
+      <View style = {[ styled.suffix,{
+        width: suffix ? setSpText(24) : setSpText(24),
+      }]}>
         {suffix}
       </View>      
     </View>
@@ -29,6 +35,7 @@ export default function HeaderTitle ({
 const styled = StyleSheet.create({
   title: {
     fontSize: scaleSize(40),
+    textAlign: 'center',
     fontWeight: 'bold',
   },
   headerWrapper: {
@@ -39,11 +46,11 @@ const styled = StyleSheet.create({
     backgroundColor: 'white',
   },
   prefix: {
-    flex: 1,
-    alignItems: 'flex-start',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   suffix: {
-    flex: 1,
-    alignItems: 'flex-end',
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 })

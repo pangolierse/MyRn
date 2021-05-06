@@ -6,12 +6,12 @@ import LeaderTeacher from './LeaderTeacher'
 export default function  () {
   const { userType } = useAuth()
   const compMap = {
-    '0': <Student />, // 家长
-    '1': <Student />, // 学生
+    '0': <Student />, // 管理员
+    '1': <LeaderTeacher />, // 领队教师
     '2': <Student />, // 课程教师
     '3': <Student />, // 宿舍教师
-    '4': <Student />, // 管理员
-    '5': <LeaderTeacher />, // 领队教师
+    '4': <Student />, // 学生
+    '5': <Student />, // 家长
   }
   return ( 
     <View style = {{flex:1}}>

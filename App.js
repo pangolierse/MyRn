@@ -12,12 +12,15 @@
  import Login from './src/login';
  import UserInterface from './src/router';
  import AuthProvider from '~/context/AuthContext'
-  const App = () => {
+import { Toast, Provider } from '@ant-design/react-native';
+const App = () => {
     return (
     //  <Login />
+    <Provider>
       <AuthProvider>
         <UserInterface/>
       </AuthProvider>
+    </Provider>
     );
   };
  

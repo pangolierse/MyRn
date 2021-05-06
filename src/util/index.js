@@ -1,3 +1,5 @@
+import { useEffect } from "react"
+
 export const nameFromType = (type) => {
   return {}
 }
@@ -40,4 +42,9 @@ function cleanArray (arr) {
   return arr.filter( item => {
     if(item) return item
   })
+}
+export const useMount = (fn) => {
+  useEffect(
+    fn, []
+  )
 }

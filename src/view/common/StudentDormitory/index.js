@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native'
+import React, { Component, useEffect } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import { paddingSize, marginSize } from '~/util'
 import { setSpText, scaleSize} from '~/util/adapt'
+import { useAuth } from '~/context/useAuth'
+import { dormitoryInfo } from '~/api/dormitoryServer'
 import BackSvg from '~/assets/svg/Back'
 import HeaderTitle from '~/component/HeaderTitle'
 import TeacherBox from '~/component/TeacherBox'
@@ -10,40 +12,21 @@ import Divider from '~/component/Divider'
 import BegBox from '~/component/BegBox'
 import BetterBanner from '~/component/BetterBanner'
 import Color from '~/assets/style/Color'
+
 export default function StudentDormitory () {
   const navigator = useNavigation()
-  const teacher = {
-    id: 12,
-    name: 'Pango',
-    describe: '我是宿舍老师'
-  }
-  const dormitory = {
-    name: '五社区五号楼403',
-    total: 8,
-    people: [
-      {
-        name: '小红',
-        begMark: '1号床',
-      },{
-        name: '小李',
-        begMark: '2号床',
-      },{
-        name: 'Pango',
-        begMark: '3号床',
-      },{
-        name: '李明',
-        begMark: '4号床',
-      },{
-        name: '胡桃',
-        begMark: '5号床',
-      },
-    ]
-  }
+  const { user } = useAuth()
+  const { data: {dormitoryMsg, dormitoryLifetutors, dormitoryStudents} } = dormitoryInfo(user.id)
+  useEffect(() => {
+    console.log(dormitoryMsg);
+    console.log(dormitoryLifetutors);
+    console.log(dormitoryStudents);
+  }, [dormitoryMsg])
   const commit = () => {
 
   }
   return ( 
-    <View style = {{ flex: 1 }}>
+    <ScrollView style = {{ flex: 1 }}>
       <HeaderTitle 
         tinkColor = {'white'}
         backgroundColor = {Color.header_title_blue}
@@ -55,94 +38,65 @@ export default function StudentDormitory () {
         )}
       />
       <View style = {[ styled.wrapper ]}>
-        <BetterBanner
-          bannerHeight = { setSpText(100) }
-          bannerComponents={[
-            <View style={{
-              width: '100%',
-              height: '100%',
-              backgroundColor: '#1997fc',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Text style={{fontSize: 35, color: '#fff', marginBottom: 10}}>Page 01</Text>
-            </View>,
-            <View style={{
-              width: '100%',
-              height: '100%',
-              backgroundColor: '#da578f',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Text style={{fontSize: 35, color: '#fff', marginBottom: 10}}>Page 02</Text>
-            </View>,
-            <View style={{
-              width: '100%',
-              height: '100%',
-              backgroundColor: '#7c3fe4',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Text style={{fontSize: 35, color: '#fff', marginBottom: 10}}>Page 03</Text>
-            </View>,
-          ]}
-          isSeamlessScroll={true}
-        />
         <Divider text = '宿舍详情' width = '95%' margin = {10} color = {Color.header_title_blue}/>
         <View style = { styled.dormitoryDetail }>
           <View style = { styled.dormitoryDetailWrapper }>
             <View style = { styled.detailRowItem }>
-              <Text style = {{
-                fontSize: scaleSize(36),
-                fontWeight: 'bold',
-                marginRight: setSpText(4),
-              }}>宿舍名称: </Text>
-              <Text>{ dormitory.name }</Text>
+              <Text style = { styled.detailTitle }>宿舍名称: </Text>
+              <Text>{ dormitoryMsg?.dormitoryname || '--' }</Text>
             </View>
             <View style = { styled.detailRowItem }>
-              <Text style = {{
-                fontSize: scaleSize(36),
-                fontWeight: 'bold',
-                marginRight: setSpText(4),
-              }}>宿舍人数: </Text>
-              <Text>{ dormitory.total }人</Text>
+              <Text style = { styled.detailTitle }>宿舍人数: </Text>
+              <Text>{ dormitoryMsg?.dormitorynumber || '--' }人</Text>
+            </View>
+            <View style = { styled.detailRowItem }>
+              <Text style = { styled.detailTitle }>宿舍类型: </Text>
+              <Text>{ dormitoryMsg?.dormitorytype || '--' }</Text>
             </View>
           </View>
         </View>
         <Divider text = '负责人' width = '95%' color = {Color.header_title_blue}/>
-        <TeacherBox 
-          style = {{
-            ...paddingSize(0,0,10,10)
-          }}
-          id = { teacher.id }
-          name = { teacher.name }
-          describe = { teacher.describe }
-        />
+        { dormitoryLifetutors?.map( (teacher, index) => {
+          return (
+            <TeacherBox 
+              key = { 'teacher' + teacher?.user_id + index}
+              style = {{
+                ...paddingSize(0,0,10,10)
+              }}
+              id = { teacher?.user_id }
+              name = { teacher?.nick_name }
+              phone = { teacher?.phone }
+              avatar = { teacher?.avatar_path}
+              gender = { teacher?.gender }
+            />
+          )
+        })}
         <Divider text = '宿舍成员' width = '95%' color = {Color.header_title_blue}/>
         <View style = {[
           styled.begWrapper,{
             ...paddingSize(0,0,10,10)
           }
         ]}>
-          {dormitory?.people.map( people => {
+          { dormitoryStudents?.map( (people, index) => {
             return (
               <BegBox 
-                key = { people.name + 'beg'}
-                name = { people.name }
-                locate = { people.begMark }
-                active = { people.name === 'Pango' }
+                key = { 'student' + people?.nick_name + index }
+                name = { people?.nick_name }
+                locate = { people?.begMark || 'haha'}
+                active = { people?.nick_name === user.nickName }
               />
             )
           })}
         </View>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 const styled = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: 'white',
+    paddingTop: setSpText(10),
   },
   back: {
     marginLeft: setSpText(8)
@@ -162,5 +116,10 @@ const styled = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     ...marginSize(4,4,0,0)
+  },
+  detailTitle: {
+    fontSize: scaleSize(36),
+    fontWeight: 'bold',
+    marginRight: setSpText(4),
   }
 })

@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from "@react-navigation/core";
-import { useToStudentDormitory } from '~/router/utils'
+import { useToStudentDormitory, useToEditUserInfo } from '~/router/utils'
+import { paddingSize } from '~/util'
 import AnimateAvatar from '~/component/AnimateAvatar'
 import BottomButton from '../Comp/BottomButton'
 import BottomButtonItem from '../Comp/BottomButton/Button'
@@ -18,7 +19,7 @@ export function StudentBottom () {
     },{
       label: '编辑个人信息',
       onPress: () => {
-
+        useToEditUserInfo(navigator)
       }
     },{
       label: '研学项目总评',
@@ -37,26 +38,20 @@ export function StudentBottom () {
   )
 }
 export const StudentHeader = ({
-  nickName,
+  imgSrc,
   gender,
   age
 }) => {
-  const genderMap = ['男', '女']
   const styled = StyleSheet.create({
-    nickName: {
-      fontWeight: 'bold',
-      marginTop: setSpText(10),
-      fontSize: scaleSize(50),
-    },
     detail: {
+      marginTop: setSpText(14),
       flexDirection: 'row',
+      justifyContent: 'space-between',
+      ...paddingSize(0,0,6,6)
     },  
-    gender: {
-      marginRight: setSpText(8),
-      fontSize: scaleSize(30),
-    },
-    age: {
-      fontSize: scaleSize(30),
+    text: {
+      fontWeight: 'bold',
+      fontSize: scaleSize(34),
     },
     header: {
       height: setSpText(90),
@@ -65,11 +60,10 @@ export const StudentHeader = ({
   })
   return(
     <View style = { styled.header }>
-    <AnimateAvatar/>
-      <Text style = { styled.nickName }>{nickName}</Text>
+    <AnimateAvatar imgSrc = { imgSrc }/>
       <View style = { styled.detail}>
-        <Text style = { styled.gender }>{genderMap[gender] || strPlaceholder1}</Text>
-        <Text style = { styled.age }>{(age || strPlaceholder1)+'岁'}</Text>
+        <Text style = { styled.text }>{gender || strPlaceholder1}</Text>
+        <Text style = { styled.text }>{(age || strPlaceholder1)+'岁'}</Text>
       </View>
     </View>
   )
