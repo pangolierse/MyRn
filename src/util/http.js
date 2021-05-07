@@ -38,6 +38,7 @@ export const http = (
       if( res.ok ){
         return data
       } else {
+        Toast.info(data)
         return Promise.reject(data)
       }
     })

@@ -12,7 +12,6 @@ export default function TeacherBox ({
   avatar,
   name,
   gender,
-  describe = '简介',
   phone
 }) {
   const navigator = useNavigation()
@@ -59,7 +58,6 @@ export default function TeacherBox ({
             >联系方式: </Text>
             <Text style = { styles.name }>{phone}</Text>
           </View>
-          <Text style = { styles.describe } numberOfLines = {2} ellipsizeMode = 'tail'>{describe}</Text>
         </View>
       </View>
     </TouchableOpacity>

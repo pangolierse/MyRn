@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Button, TouchableWithoutFeedback, Image} from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import { Picker, Provider } from '@ant-design/react-native';
+import { Picker, Provider, Toast } from '@ant-design/react-native';
 import { setSpText, scaleSize} from '~/util/adapt'
 import { useToRegister } from '~/router/utils'
 import { useHttp } from '~/util/http'
@@ -63,6 +63,9 @@ export default function LoginBtn () {
         ...params,
         uuid: data.uuid,
       })
+    })
+    .catch( err => {
+      Toast.info(err)      
     })
   }
   // tab 切换
