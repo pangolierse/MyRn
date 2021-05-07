@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { setSpText, scaleSize} from '~/util/adapt'
-import { StyleSheet, Text, Image, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, Image, View } from 'react-native'
 import * as Animatable from 'react-native-animatable';
 import defaultImg from '~/assets/img/default.jpg'
 import { isVoid } from '~/util'
+import IImage from '~/component/IImage'
 
-export default function AnimateAvatar ({ imgSrc }) {
+export default function AnimateAvatar ({ imgSrc, onPress }) {
   const duration = 1000
   const animate1 = {
     0: {
@@ -36,7 +37,11 @@ export default function AnimateAvatar ({ imgSrc }) {
     },
   }
   return (
-    <View style = { styled.avatar }>
+    <TouchableOpacity 
+      style = { styled.avatar }
+      activeOpacity = { onPress ? 0.2 : 1}
+      onPress = { onPress }
+    >
       <Animatable.View 
         style = {styled.avatar_bc1} 
         animation={animate1} 
@@ -52,11 +57,12 @@ export default function AnimateAvatar ({ imgSrc }) {
         iterationCount='infinite' 
         duration = { duration }
       />
-      <Image 
+      <IImage 
         style = { styled.img } 
-        source = {isVoid(imgSrc) ? defaultImg : { uri: imgSrc}} 
+        src = {imgSrc} 
+        onClick = { onPress }
       />
-  </View>
+    </TouchableOpacity>
   )
 }
 
@@ -82,7 +88,6 @@ const styled = StyleSheet.create({
   img: {
     width: setSpText(40),
     height: setSpText(40),
-    position: 'absolute',
     borderRadius: setSpText(40),
   }
 })

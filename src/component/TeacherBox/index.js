@@ -3,7 +3,7 @@ import { setSpText, scaleSize} from '~/util/adapt'
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import { useToUserDetail } from '~/router/utils'
-import { isVoid, marginSize } from '~/util'
+import { isVoid, marginSize, avatarUrl } from '~/util'
 import defaultImg from '~/assets/img/default.jpg'
 
 export default function TeacherBox ({
@@ -24,7 +24,7 @@ export default function TeacherBox ({
         styles.teacherWrapper,
         style, 
       ]}>
-        <Image style = { styles.image } source = {isVoid(avatar) ? defaultImg : { uri: avatar}}/>
+        <Image style = { styles.image } source = {isVoid(avatar) ? defaultImg : { uri: avatarUrl(avatar)}}/>
         <View style = { styles.textWrapper }>
           <View style = {[ styles.detailRowItem,{
             justifyContent: 'space-between'

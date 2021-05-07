@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Toast } from '@ant-design/react-native';
 import { DevSettings } from 'react-native'
 import { apiUrl } from '~/util/http'
 const TOKEN_KEY = '@storage_token_key'
@@ -35,11 +36,6 @@ const handleUserInfo = (userInfo, userType ) => {
   setUserType(userType)
   return [userInfo.token, userType]
 }
-/**
- * form : {
- *   username, password, userType,
- * }
- */
 export const login = ({ 
   username,
   password,
@@ -70,6 +66,14 @@ export const login = ({
     })
   }).then( async res => {
     let data = await res.json()
-    return handleUserInfo(data, String(userType))
+    if( data.status === 400 ){
+      Toast.info(data.message,1)
+    } else {
+      console.log(data);
+      return handleUserInfo(data, String(userType))
+    }
+    return null
+  }).catch( err => {
+    console.log(err);
   })
 }

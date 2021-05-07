@@ -48,3 +48,7 @@ export const useMount = (fn) => {
     fn, []
   )
 }
+export const avatarUrl = (name) => {
+  const path = 'http://3q8891y512.zicp.vip/avatar/'
+  return path + name
+}

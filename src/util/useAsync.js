@@ -7,11 +7,10 @@ export const useAsync = (initState, dataPath ) => {
   const run = ( promise ) => {
     setIsLoading(true)
     return promise.then( res => {
-      let resourceData = null
-      dataPathArray.map( path => {
-        resourceData = res[path]
+      let resourceData = res
+      dataPathArray?.map( path => {
+        resourceData = resourceData[path]
       })
-      
       setData(resourceData)
       setIsLoading(false)
     })

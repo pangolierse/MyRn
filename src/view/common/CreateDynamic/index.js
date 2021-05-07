@@ -1,12 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import { setSpText, scaleSize} from '~/util/adapt'
+import Color from '~/assets/style/Color'
 import HeaderTitle from '~/component/HeaderTitle'
 import UserBox from '~/component/UserBox'
-import Color from '~/assets/style/Color'
+import ImagePicker from '~/component/ImagePicker'
 export default function CreateDynamic () {
   const navigator = useNavigation()
+  const [ images, setImages ] = useState([])
   const user = {
     id: 12,
     name: 'Pango',
@@ -44,6 +46,10 @@ export default function CreateDynamic () {
           placeholder = '分享新鲜事...' 
           multiline = { true } 
         />
+        <ImagePicker 
+          images = { images }
+          setImages = { setImages }
+        />
       </View>
     </View>
   )
@@ -69,7 +75,6 @@ const styled = StyleSheet.create({
     fontWeight: 'bold',
   },
   createButton: {
-    paddingLeft: setSpText(6),
     paddingRight: setSpText(6),
   },
   textInput: {

@@ -102,6 +102,7 @@ export default function LoginBtn () {
     setEveOpen(!eyeOpen)
   }
   const handleLogin = () => {
+    RobotCheckCode()
     login(params)
   }
   return (

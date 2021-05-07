@@ -23,8 +23,7 @@ export default function AuthProvider ({children}) {
       setUserType(null)
     })
   }
-  useEffect(()=>{
-    setIsLoading(true)
+  const refreshInfo = () => {
     Auth.getUserType()
       .then(setUserType)
       .then(() => Auth.getToken())
@@ -33,10 +32,15 @@ export default function AuthProvider ({children}) {
         setIsLoading(false)
         Auth.getUserInfo(token).then(setUser)
       })
+  }
+  useEffect(()=>{
+    setIsLoading(true)
+    refreshInfo()
   },[])
   return ( 
     <AuthContext.Provider value = {{
       user,
+      refreshInfo,
       token,
       userType,
       isLoading,

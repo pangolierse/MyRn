@@ -1,17 +1,29 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { StyleSheet, Image, TouchableOpacity, View } from 'react-native'
+import { isVoid } from '~/util'
 import Loading from '~/component/Loading'
-import defaultImg from '~/assets/img/default.jpg'
+import defaultImg from '~/assets/img/default1.jpg'
 export default function IImage ({
   src,
   style = {},
-  onClick = () => {}
+  onClick,
 }) {
-  
+  const [ loading, setLoading ] = useState(true)
+  useEffect(() => {
+    setLoading(true)
+  }, [src])
+  const handleLoad = () => {
+    setLoading(false)
+  }
   return ( 
-    <TouchableOpacity onPress = {onClick}>
-      <Image style = { styled.image } source = { src || defaultImg} onLoad = {() => {}}/>
+    <TouchableOpacity onPress = {onClick} activeOpacity = { onClick ? 0.2 : 1}>
+      <Image 
+        style = {[ styled.image, style]} 
+        source = { isVoid(src) ? defaultImg : {uri: src}} 
+        onLoad = {handleLoad}
+      />
+      {loading && <Image style = {[ styled.image,styled.imageMask, style ]} source = {defaultImg}/>}
     </TouchableOpacity>
   )
 }
@@ -19,6 +31,9 @@ const styled = StyleSheet.create({
   image: {
     width: setSpText(56),
     height: setSpText(56),
-    margin: setSpText(2),
+  },
+  imageMask: {
+    position: 'absolute',
+    zIndex: 1,
   }
 })

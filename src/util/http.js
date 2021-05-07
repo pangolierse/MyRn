@@ -10,6 +10,8 @@ export const http = (
   {
     data,
     token,
+    headers,
+    skipData,
     ...customConfig
   }
 ) => {
@@ -18,15 +20,17 @@ export const http = (
     headers: {
       Authorization: token ? token : "",
       "Content-Type": data ? "application/json" : "",
+      ...headers,
     },
     ...customConfig
   }
   if( config.method.toUpperCase() === 'GET') {
     requestUrl += `?${qs.stringify(data, { arrayFormat: "indices" })}` 
-  } else {
+  } else if( !skipData ){
     config.body = JSON.stringify(data)
+  } else {
+    config.body = data
   }
-  console.log(config.body);
   return fetch(`${apiUrla}${requestUrl}`,config)
     .then( async res => {
       if( res.status === 401){
@@ -38,7 +42,8 @@ export const http = (
       if( res.ok ){
         return data
       } else {
-        Toast.info(data)
+        console.log(data);
+        // Toast.info(data)
         return Promise.reject(data)
       }
     })

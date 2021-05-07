@@ -30,6 +30,10 @@ export default function UserDetail () {
   const handleExit = () => {
     logout()
   }
+  console.log(userInfo);
+  useEffect(()=>{
+    console.log('个人中心' + userInfo.avatarName);
+  },[userInfo])
   return ( 
     <>
       <View style = { styled.container }>
@@ -46,7 +50,7 @@ export default function UserDetail () {
             <ParentHeader />
           ) : (
             <StudentHeader
-              imgSrc = { userInfo?.avatarPath } 
+              imgSrc = { userInfo?.avatarName } 
               gender = { userInfo?.gender }
               age = { userInfo?.age }
             />

@@ -1,6 +1,7 @@
-import React, { Component, useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, TextInput, View, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
+import { Toast } from '@ant-design/react-native';
 import { setSpText, scaleSize} from '~/util/adapt'
 import { useAuth } from '~/context/useAuth'
 import { updateUserInfo } from '~/api/personServer'
@@ -10,7 +11,7 @@ import SimpleForm from '~/component/SimpleForm'
 const strPlaceholder1 = '未知'
 const strPlaceholder2 = '--'
 export default function EditUserInfo () {
-  const { user: userInfo } = useAuth()
+  const { user: userInfo, refreshInfo } = useAuth()
   const navigator = useNavigation()
   const [ params, setParams ] = useState({
     nickName: userInfo.nickName || '',
@@ -61,7 +62,15 @@ export default function EditUserInfo () {
     },
   ]
   const handleSubmit = () => {
-    updateInfo()
+    updateInfo().then( res => {
+      if(res){
+        navigator.goBack()
+        refreshInfo()
+        Toast.info('修改成功')
+      }
+    }).catch( err => {
+      Toast.info(err, 2)
+    })
   }
   return ( 
     <>
@@ -76,7 +85,7 @@ export default function EditUserInfo () {
             </TouchableOpacity>
           )}
           suffix = {(
-            <TouchableOpacity style = {{ marginRight: setSpText(8) }} onPress = { handleSubmit }>
+            <TouchableOpacity onPress = { handleSubmit }>
               <Text style = { styled.submit }>保存</Text>
             </TouchableOpacity>
           )}

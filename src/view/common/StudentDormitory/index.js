@@ -10,13 +10,13 @@ import HeaderTitle from '~/component/HeaderTitle'
 import TeacherBox from '~/component/TeacherBox'
 import Divider from '~/component/Divider'
 import BegBox from '~/component/BegBox'
-import BetterBanner from '~/component/BetterBanner'
+import EmptyView from '~/component/EmptyView'
 import Color from '~/assets/style/Color'
 
 export default function StudentDormitory () {
   const navigator = useNavigation()
   const { user } = useAuth()
-  const { data: {dormitoryMsg, dormitoryLifetutors, dormitoryStudents} } = dormitoryInfo(user.id)
+  const { data: {dormitoryMsg, dormitoryLifetutors, dormitoryStudents}, isLoading } = dormitoryInfo(user.id)
   useEffect(() => {
     console.log(dormitoryMsg);
     console.log(dormitoryLifetutors);
@@ -25,7 +25,10 @@ export default function StudentDormitory () {
   const commit = () => {
 
   }
-  return ( 
+  return isLoading ? 
+    (
+      <EmptyView color = 'black'/>
+    ) : (
     <ScrollView style = {{ flex: 1 }}>
       <HeaderTitle 
         tinkColor = {'white'}
@@ -66,7 +69,7 @@ export default function StudentDormitory () {
               id = { teacher?.user_id }
               name = { teacher?.nick_name }
               phone = { teacher?.phone }
-              avatar = { teacher?.avatar_path}
+              avatar = { teacher?.avatar_name}
               gender = { teacher?.gender }
             />
           )
@@ -90,7 +93,7 @@ export default function StudentDormitory () {
         </View>
       </View>
     </ScrollView>
-  )
+    )
 }
 const styled = StyleSheet.create({
   wrapper: {
