@@ -24,7 +24,10 @@ import StudentDormitory from '~/view/common/StudentDormitory'
 import CreateMessage from '~/view/common/CreateMessage'
 // 课程界面
 import Course from '~/view/common/Course'
+// 扫码界面
 import ScanView from '~/view/common/ScanView'
+// 二维码界面
+import QRView from '~/view/common/QRView'
 const Stack = createStackNavigator()
 
 const justReturn = {
@@ -72,6 +75,7 @@ export default function () {
     Course: Course,
     ScanView: ScanView,
     EditUserInfo: EditUserInfo,
+    QRView: QRView,
   }
   const studentRouter = {
     StudentTab: StudentTab,

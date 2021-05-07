@@ -43,3 +43,7 @@ export const useToScanQR = (navigator, courseId) => {
 export const useToEditUserInfo = ( navigator ) => {
   navigator.navigate('EditUserInfo')
 }
+// 编辑个人信息
+export const useToQR = ( navigator ) => {
+  navigator.navigate('QRView')
+}

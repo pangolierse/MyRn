@@ -31,6 +31,7 @@ export const http = (
   } else {
     config.body = data
   }
+  console.log(config);
   return fetch(`${apiUrla}${requestUrl}`,config)
     .then( async res => {
       if( res.status === 401){
@@ -55,4 +56,33 @@ export const useHttp = () => {
     http(requestUrl, { token, ...config }), 
     [token]
   )
+}
+
+export function uploadImage (images,token) {
+  const promiseArr = []
+  for( let i = 0; i < images.length; i++){
+    let bean = new FormData()
+    bean.append('file ', {
+      uri: images[i].uri,
+      type: 'multipart/form-data',
+      name: images[i].fileName,
+    })
+    promiseArr.push(
+      fetch(apiUrla + '/api/localStorage/pictures',{
+        method: 'POST',
+        headers: {
+          Authorization: token,
+          "Content-Type": "multipart/form-data; boundary=------WebKitFormBoundaryuFZ1FayMmuDgKcFz",
+        },
+        body:bean
+      })
+    )
+  }
+  return Promise.all(promiseArr)
+    .then( res => {
+      return Promise.all(res.map(item => item.json()))
+    })
+    .catch( err => {
+      console.log(err);
+    })
 }

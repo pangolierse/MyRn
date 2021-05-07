@@ -14,6 +14,7 @@ import { scaleSize, setSpText } from '~/util/adapt';
 // 56
 export default function ImagePicker ({
   width = 56,
+  style = {},
   images,
   setImages,
 }) {
@@ -26,14 +27,14 @@ export default function ImagePicker ({
   // 选择图片库中得图片
   const choosePic = () => {
     launchImageLibrary(options, (response) => {
-      console.log('Response = ', response);
+      // console.log('Response = ', response);
       if (response.didCancel) {
         console.log('用户取消了选择！');
       }
       else if (response.error) {
         Alert.alert("ImagePicker发生错误：" + response.error);
       } else {
-        let source = { uri: response.uri };
+        let source = { uri: response.uri, fileName: response.fileName, };
         setImages([...images, source])
       }
     });
@@ -41,14 +42,14 @@ export default function ImagePicker ({
   // 拍摄照片
   const ShootPic = () => {
     launchCamera(options, (response) => {
-      console.log('Response = ', response);
+      // console.log('Response = ', response);
       if (response.didCancel) {
         console.log('用户取消了选择！');
       }
       else if (response.error) {
         Alert.alert("ImagePicker发生错误：" + response.error);
       } else {
-        let source = { uri: response.uri };
+        let source = { uri: response.uri, fileName: response.fileName };
         setImages([...images, source])
       }
     });
@@ -78,7 +79,7 @@ export default function ImagePicker ({
    }
  };
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,style]}>
       { images.map( img => {
         return (
           <Image key={img.uri + 'image'} source={img} style={[ styles.image, {

@@ -1,9 +1,11 @@
 import React, { Component, useEffect, useRef, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, ScrollView, View, Alert } from 'react-native'
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation, useRoute } from '@react-navigation/core'
 import { setSpText, scaleSize} from '~/util/adapt'
-import { useAuth } from '~/context/useAuth'
+import { avatarUrl, paddingSize } from '~/util'
+import { useUserDetail } from '~/api/personServer'
 import Color from '~/assets/style/Color'
+import EmailSvg from '~/assets/svg/Email'
 import PhoneSvg from '~/assets/svg/Phone'
 import BackSvg from '~/assets/svg/Back'
 import UserSvg from '~/assets/svg/User'
@@ -16,6 +18,7 @@ const strPlaceholder1 = '未知'
 const strPlaceholder2 = '--'
 export default function UserDetail () {
   const navigator = useNavigation()
+
   let user = {
     id: 2,
     nickName: 'Pango',  // 昵称
@@ -26,7 +29,8 @@ export default function UserDetail () {
     tags: ['帅气','高','帅','大','awef','aweasdf','awefassss','afff'],
     introduce: '用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍'
   }
-  const gender = ['男', '女']
+  const userId = useRoute().params?.userId
+  const { userInfo } = useUserDetail(userId)
   return ( 
     <>
       <View style = { styled.container }>
@@ -41,11 +45,10 @@ export default function UserDetail () {
           )}
         />
         <View style = { styled.header }>
-          <AnimateAvatar/>
-          <Text style = { styled.nickName }>{user.nickName}</Text>
+          <AnimateAvatar imgSrc = { avatarUrl(userInfo?.avatarName) }/>
           <View style = { styled.detail}>
-            <Text style = { styled.gender }>{gender[user.gender] || strPlaceholder1}</Text>
-            <Text style = { styled.age }>{(user.age || strPlaceholder1)+'岁'}</Text>
+            <Text style = { styled.text }>{userInfo?.gender || strPlaceholder1}</Text>
+            <Text style = { styled.text }>{(userInfo?.age || strPlaceholder1)+'岁'}</Text>
           </View>
         </View>
         <View style = { styled.UserDetailInfo }>
@@ -54,7 +57,7 @@ export default function UserDetail () {
               prefix = {(
                 <UserSvg size = {setSpText(16)}/>
               )}
-              label = {user.name || strPlaceholder2}
+              label = {userInfo?.nickName || strPlaceholder2}
             />
           </View>
           <View style = {[ 
@@ -65,7 +68,18 @@ export default function UserDetail () {
               prefix = {(
                 <PhoneSvg size = {setSpText(16)}/>
               )}
-              label = {user.phone || strPlaceholder2}
+              label = {userInfo?.phone || strPlaceholder2}
+            />
+          </View>
+          <View style = {[ 
+            styled.userInfoItem,
+            { marginTop: setSpText(4)}
+          ]}>
+            <LineText 
+              prefix = {(
+                <EmailSvg size = {setSpText(16)}/>
+              )}
+              label = {userInfo?.email || strPlaceholder2}
             />
           </View>
           <View style = { styled.userInfoItem}>
@@ -103,14 +117,14 @@ const styled = StyleSheet.create({
     fontSize: scaleSize(50),
   },
   detail: {
+    marginTop: setSpText(14),
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    ...paddingSize(0,0,6,6)
   },  
-  gender: {
-    marginRight: setSpText(8),
-    fontSize: scaleSize(30),
-  },
-  age: {
-    fontSize: scaleSize(30),
+  text: {
+    fontWeight: 'bold',
+    fontSize: scaleSize(34),
   },
   header: {
     height: setSpText(90),

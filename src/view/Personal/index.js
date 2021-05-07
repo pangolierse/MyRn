@@ -16,7 +16,7 @@ import { ParentHeader } from './Parent'
 const strPlaceholder1 = '未知'
 const strPlaceholder2 = '--'
 export default function UserDetail () {
-  const { logout, userType, user: userInfo } = useAuth()
+  const { logout, userType, user: userInfo, token } = useAuth()
   let user = {
     id: 2,
     nickName: 'Pango',  // 昵称
@@ -32,7 +32,7 @@ export default function UserDetail () {
   }
   console.log(userInfo);
   useEffect(()=>{
-    console.log('个人中心' + userInfo.avatarName);
+    console.log('个人中心' + token);
   },[userInfo])
   return ( 
     <>

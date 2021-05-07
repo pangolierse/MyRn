@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View,  } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { useToUserDetail } from '~/router/utils'
+import IImage from '~/component/IImage'
 import defaultImg from '~/assets/img/default.jpg'
 export default function UserBox ({
   id,
   style = {},
   name,
-  avatar = defaultImg,
+  avatar,
   time,
   cancelClick = false,   
 }) {
@@ -19,7 +20,7 @@ export default function UserBox ({
   return ( 
     <View style = { [styled.userWrapper, style] }>
       <TouchableOpacity onPress = {() => !cancelClick && goToUser(id)}>
-        <Image style = { styled.userImage } source = { avatar || defaultImg }/>
+        <IImage style = { styled.userImage } src = { avatar } />
       </TouchableOpacity>
       <View style = { [styled.userInfo,{ justifyContent: time ? 'space-between' : 'center' }] }>
         <TouchableOpacity onPress = {() => !cancelClick && goToUser(id)}>

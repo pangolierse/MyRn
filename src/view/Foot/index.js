@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/core'
 import { MapView, Marker, Polyline, Polygon } from 'react-native-amap3d';
 import Color from '~/assets/style/Color'
 import QrSvg from '~/assets/svg/Qr'
-import { useToCreateDynamic } from '~/router/utils'
+import { useToQR } from '~/router/utils'
 import HeaderTitle from '~/component/HeaderTitle'
 import PreView from './Comps/PreView'
 const fakeInfo = [{
@@ -32,8 +32,8 @@ const fakeInfo = [{
 }]
 export default function StudentDynamic () {
   const navigator = useNavigation()
-  const createDynamic = () => {
-    useToCreateDynamic(navigator)
+  const showQR = () => {
+    useToQR(navigator)
   }
   const polyLines = useCallback(() => {
     return fakeInfo.map(item => {
@@ -54,7 +54,7 @@ export default function StudentDynamic () {
         backgroundColor = {Color.header_title_blue}
         title = '足迹' 
         suffix = {(
-          <TouchableOpacity style = { styled.createButton } onPress = { createDynamic }>
+          <TouchableOpacity style = { styled.createButton } onPress = { showQR }>
             <QrSvg size = { setSpText(12) } color = '#dbdbdb'/>
           </TouchableOpacity>
         )}

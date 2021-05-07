@@ -6,13 +6,14 @@ export default function HeaderTitle ({
   title,
   suffix,
   centerRender,
+  style={},
   tinkColor = 'black',
   backgroundColor = 'white',
 }) {
   return ( 
     <View style = { [styled.headerWrapper,{
       backgroundColor: backgroundColor
-    }]}>
+    },style]}>
       <View style = {[ styled.prefix,{
         width: prefix ? setSpText(24) : setSpText(24),
       }]}>

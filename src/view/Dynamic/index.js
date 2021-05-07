@@ -1,11 +1,10 @@
 import React, { Component, useEffect, useState } from 'react'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { StyleSheet, Text, TouchableOpacity, View, FlatList, ActivityIndicator } from 'react-native'
+import Color from '~/assets/style/Color'
 import { useNavigation } from '@react-navigation/core'
 import { useToCreateDynamic } from '~/router/utils'
-import Color from '~/assets/style/Color'
 import RefreshListView, { RefreshState } from 'react-native-refresh-list-view'
-import { ImagePicker } from '@ant-design/react-native'
 import { avatarUrl } from '~/util'
 import { dynamicInfo } from '~/api/dynamicServer'
 import HeaderTitle from '~/component/HeaderTitle'
@@ -43,7 +42,6 @@ export default function Dynamic () {
   const [ limit, setLimit ] = useState(10)
   const { isLoading, content, empty, updateInfo } = dynamicInfo(page,limit)
   const [ dynamics, setDynamics] = useState([])
-  
   const navigator = useNavigation()
   useEffect(() => {
     setDynamics(filterDynamic(content))
@@ -53,6 +51,7 @@ export default function Dynamic () {
   }, [ page ])
   const filterDynamic = (data) => {
     data?.map( item => {
+      console.log(item.researchactionPhotos);
       if(dynamics.findIndex(dynamic => {
         return dynamic.pkRaid === item.pkRaid
       }) < 0){
@@ -70,6 +69,7 @@ export default function Dynamic () {
   }
   const onHeaderRefresh = () => {
     setPage(1)
+    setDynamics([])
   }
   const loadMoreData = () => {
     !empty && setPage(page + 1)
@@ -91,7 +91,6 @@ export default function Dynamic () {
           </TouchableOpacity>
         )}
       />
-      <ImagePicker />
       <RefreshListView 
         data = { dynamics }
         keyExtractor = {(item, index) => index.toString()}
@@ -110,6 +109,7 @@ export default function Dynamic () {
               id = { personMsg.id }
               name = { personMsg.nickName }
               time = { prop.createTime }
+              avatar = { avatarUrl(personMsg.avatarName)}
             />
             <View style = { styled.contentWrapper }>
               <Text 
@@ -134,48 +134,6 @@ export default function Dynamic () {
           </>
         )}
       />
-      {/* <FlatList
-        // 下拉刷新
-        refreshing = { isLoading }
-        onRefresh = { onRefresh }
-        // 上拉加载
-        ListFooterComponent={(
-          <View style={styled.loadMore}>
-            <Text>正在加载更多</Text>
-          </View>
-        )}
-        onEndReached={() => loadMoreData()}
-        ItemSeparatorComponent={() => <Divider color = 'transparent' margin = {setSpText(1.5)}/>}
-        keyExtractor={(item) => item.id}
-        data={dynamics || []}
-        renderItem={({ item: {personMsg, ...prop}, index, separators }) => (
-          <View style = { styled.dynamicWrapper} key = {prop.createTime + 'dynamic'}>
-            <UserBox 
-              id = { personMsg.id }
-              name = { personMsg.nickName }
-              time = { prop.createTime }
-            />
-            <View style = { styled.contentWrapper }>
-              <Text 
-                ellipsizeMode = 'tail'
-                numberOfLines = {Number.MAX_SAFE_INTEGER}
-              > { prop.racontent } </Text>
-            </View>
-            <View style = {styled.imgWrapper}>
-              {prop?.researchactionPhotos.map( (img, index, array) => {
-                return (
-                  <IImage 
-                    key = {img.photoPath + index}
-                    style = {{margin: setSpText(2)}}
-                    src = {img.photoPath} 
-                    onClick = {() => showImage(array)}
-                  />
-                )
-              })}
-            </View>
-          </View>
-        )}
-      /> */}
     </View>
   )
 }
