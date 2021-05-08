@@ -38,6 +38,7 @@ const tabRoutes = {
 export default function ParentTab () {
   return (
       <Tab.Navigator  
+        backBehavior = 'none'
         screenOptions=  {({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             // You can return any component that you like here!

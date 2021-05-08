@@ -6,18 +6,34 @@ import SearchSvg from '~/assets/svg/Search'
 import DateSvg from '~/assets/svg/Date'
 import HeaderTitle from '~/component/HeaderTitle'
 export default function Header ({
+  week,
   day,
   setDay,
   setDrawerOpen,
 }) {
   const days = [
-    '星期一',
-    '星期二',
-    '星期三',
-    '星期四',
-    '星期五',
-    '星期六',
-    '星期七',
+    {
+      label: '星期一',
+      value: 1
+    },{
+      label: '星期二',
+      value: 2
+    },{
+      label: '星期三',
+      value: 3
+    },{
+      label: '星期四',
+      value: 4
+    },{
+      label: '星期五',
+      value: 5
+    },{
+      label: '星期六',
+      value: 6
+    },{
+      label: '星期七',
+      value: 7
+    },
   ] 
   const showDrawer = () => {
     setDrawerOpen(true)
@@ -41,15 +57,21 @@ export default function Header ({
           >
             { days.map( (item, index) => 
               <ScrollBtn 
-                key = {index + item}
+                key = {item.value}
                 active = { day }
                 setActive = { handleChange }
-                value = { index }
-                label = { item }
+                value = { item.value }
+                label = { item.label }
               />
               )
             }
           </ScrollView>
+        )}
+        suffix = {(
+          <Text style = {{
+            fontSize: scaleSize(34),
+            fontWeight: 'bold'
+          }}>周{ week }</Text>
         )}
       />
       {/* <HeaderTitle 

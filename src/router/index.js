@@ -108,9 +108,9 @@ export default function () {
           Object.entries({
             ...(isLoading === true ? loadingRouter : null),
             ...(token === null ? loginRouter : null),
-            ...(userType === '5' ? studentRouter : null),
-            ...(userType === '4' ? studentRouter : null),
-            ...(userType <= '3' ? teacherRouter : null),
+            ...((userType === '5' && token !== null) ? studentRouter : null),
+            ...((userType === '4' && token !== null) ? studentRouter : null),
+            ...((userType <= '3' && token !== null) ? teacherRouter : null),
             ...commonRouter,
           }).map( ([ name, component ]) => {
             return (

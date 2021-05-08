@@ -34,6 +34,7 @@ const tabRoutes = {
 export default function TeacherTab () {
   return (
       <Tab.Navigator  
+        backBehavior = 'none'
         screenOptions=  {({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             // You can return any component that you like here!

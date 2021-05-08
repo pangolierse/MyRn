@@ -2,19 +2,19 @@ import { useEffect } from 'react'
 import { useHttp, uploadImage, apiUrl } from '~/util/http'
 import { useAsync } from '~/util/useAsync'
 
-export const dynamicInfo = (page, limit) => {
+export const useDynamicInfo = () => {
   const client = useHttp()
   const { run, data, isLoading } = useAsync(null,'data')
   useEffect(() => {
-    updateInfo()
+    updateInfo(0, 10)
   }, [])
-  const updateInfo = (hPage, hLimit) => {
+  const updateInfo = (Page, Limit) => {
     run(
       client('/api/research/researchaction/findAllByLoginRp',{
         data: {
-          page: hPage || page,
-          size: hLimit || limit,
-          sort: ['desc']
+          page: Page ,
+          size: Limit ,
+          sort: ["createTime,desc"]
         }
       })
     )

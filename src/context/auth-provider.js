@@ -19,7 +19,7 @@ const setUserType = async (value) => {
 export const logout = async () => {
   await AsyncStorage.removeItem(TOKEN_KEY)
   await AsyncStorage.removeItem(USERTYPE_KEY)
-  DevSettings.reload()
+  // RNRestart.Restart()
 }
 export const getUserInfo = (token) => {
   return fetch(apiUrl + '/api/research/person/findLoginPersonMsg',{
@@ -43,13 +43,13 @@ export const login = ({
   uuid,
   code,
 }) => {
-  // console.log({ 
-  //   username: username,
-  //   password: password,
-  //   personRole: userType,
-  //   uuid: uuid,
-  //   code: code,
-  // });
+  console.log({ 
+    username: username,
+    password: password,
+    personRole: userType,
+    uuid: uuid,
+    code: code,
+  });
   
   return fetch(apiUrl + '/api/research/authPerson/app/login',{
     method: 'POST',
@@ -69,7 +69,7 @@ export const login = ({
     if( data.status === 400 ){
       Toast.info(data.message,1)
     } else {
-      console.log(data);
+      Toast.info('登录成功',2)
       return handleUserInfo(data, String(userType))
     }
     return null

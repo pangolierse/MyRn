@@ -1,16 +1,18 @@
 import React, { Component, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, ScrollView, View } from 'react-native'
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation, useRoute } from '@react-navigation/core'
 import Color from '~/assets/style/Color'
 import DriverSvg from '~/assets/svg/Driver'
 import CarMarkSvg from '~/assets/svg/CarMark'
 import TimerSvg from '~/assets/svg/Timer'
 import BackSvg from '~/assets/svg/Back'
 import ScanSvg from '~/assets/svg/Scan'
+import PhoneColorSvg from '~/assets/svg/PhoneColor'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { paddingSize } from '~/util'
 import { useAuth } from '~/context/useAuth'
 import { useToScanQR } from '~/router/utils'
+import { useCourseDetail } from '~/api/courseServer'
 import ReadMore from '~/component/ReadMore'
 import Divider from '~/component/Divider'
 import FixTag from '~/component/FixTag'
@@ -22,11 +24,13 @@ import HeaderTitle from '~/component/HeaderTitle'
 import BottomButton from './BottomButton/index'
 import Button from './BottomButton/Button'
 import ScoreModal from './ScoreModal'
+import { avatarUrl, isVoid } from '../../../util'
 export default function Course () {
   const handleTextReady = () => {}
   const { userType } = useAuth()
   const navigator = useNavigation()
-  
+  const courseId = useRoute().params?.courseId
+  const { courseInfo, carInfo } = useCourseDetail(courseId)
   const course = {
     name: 'wangda',
     describe: '我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸',
@@ -62,7 +66,7 @@ export default function Course () {
             ) : null
           }
         />
-        <BetterBanner
+        {/* <BetterBanner
           bannerComponents={[
             <View style={{
               width: '100%',
@@ -98,30 +102,32 @@ export default function Course () {
           onPress={(index) => alert('you pressed index is : ' + index)}
           indicatorContainerBackgroundColor={'rgba(0,0,0,0.3)'}
           isSeamlessScroll={true}
-        />
+        /> */}
       </View>
-      <Divider margin = { setSpText(1) } color = 'transparent'/>
       <View style = {styled.container}>
+        <Divider text='课程教师'/>
         <TeacherBox 
           style = {{marginTop: setSpText(8)}}
-          name = {course.name }
-          describe = {course.describe }
+          name = { courseInfo?.nick_name }
+          phone = { courseInfo?.phone }
+          avatar = { courseInfo?.avatar_name}
+          gender = { courseInfo?.gender }
         />
         <Divider/>
         <View style = {[ 
           styled.rowLineLayout,
         ]}>
           <Text style = {[ styled.title, {marginRight: setSpText(8)}]}>课程名称:</Text>
-          <Text style = { styled.courseName }>{course.courseName}</Text>
+          <Text style = { styled.courseName }>{courseInfo?.coursename}</Text>
         </View>
         
         <View style = {[ 
           styled.rowLineLayout,
         ]}>
           <Text style = {[ styled.title, {marginRight: setSpText(8)}]}>地点:</Text>
-          <Text style = { styled.courseName }>{course.courseAddress}</Text>
+          <Text style = { styled.courseName }>{courseInfo?.classroomaddress}</Text>
         </View>
-        <View style={[
+        {/* <View style={[
           styled.rowLineLayout,
           styled.tagWrapper,
         ]}>
@@ -129,7 +135,7 @@ export default function Course () {
           {course?.tag.map(tag => {
             return <FixTag text = {tag} key = {tag} space = {2}/>
           })}
-        </View>
+        </View> */}
         <Divider/>
         {/* 出行安排 */}
         <View style = {[ 
@@ -139,19 +145,19 @@ export default function Course () {
         ]}>
           <AnimateCar />
           <View style = {carStyle.rightContent}>
-            { course.carPlan ? (
+            { isVoid(carInfo) ? (
               <>
               <View style = { carStyle.rowItem }>
                 <LineText 
                   label = {'司机:'} 
                   prefix = {<DriverSvg />} 
-                  suffix = {<Text style = {{color: '#333'}}>{course.carPlan.driverName}</Text>}
+                  suffix = {<Text style = {{color: '#333'}}>{carInfo?.drivername}</Text>}
                   margin = {2}
                 />
                 <LineText 
                   label = {'车牌号:'} 
                   prefix = {<CarMarkSvg color = '#3366CC' size = {16}/>} 
-                  suffix = {<Text style = {{color: '#333'}}>{course.carPlan.carMark}</Text>}
+                  suffix = {<Text style = {{color: '#333'}}>{carInfo?.carname}</Text>}
                   margin = {2}
                 />
               </View>
@@ -159,40 +165,37 @@ export default function Course () {
                 paddingLeft: setSpText(4),
               }]}>
                 <LineText 
-                  label = {'时间:'} 
-                  prefix = {<TimerSvg color = '#3366CC' size = {16}/>} 
-                  suffix = {<Text style = {{color: '#333'}}>{course.carPlan.time}</Text>}
+                  label = {'联系方式:'} 
+                  prefix = {<PhoneColorSvg color = '#3366CC' size = {16}/>} 
+                  suffix = {<Text style = {{color: '#333'}}>{carInfo?.driverphone}</Text>}
                   margin = {7}
                 />
               </View>
               </>
             ) : (
-              <Text>暂无出行安排</Text>
+              <Text style = {{
+                fontWeight: 'bold',
+                fontSize: scaleSize(32),
+              }}>无出行安排</Text>
             )}
           </View>
         </View>
-        <Divider/>
         {/* 课程简介 */}
         <View style = {[
           styled.rowLayout,
         ]}>
-          <Text style = { [styled.title, {marginBottom: setSpText(4)}] }>课程简介</Text>
-          <ReadMore 
-            numberOfLines={3}
-            onReady={handleTextReady}
-          >
-            <Text style={styled.courseDetail}>
-              {course.courseDetail}
-            </Text>
-          </ReadMore>
+          <Divider text = '课程简介' margin = {setSpText(10)}/>
+          <Text style={styled.courseDetail}>
+            {courseInfo?.coursecontent || '暂无'}
+          </Text>
         </View>
       </View>
       </ScrollView>
       <ScoreModal visible = { scoreVisible } setVisible = { setScoreVisible }/>
       <BottomButton>
-      <Button label = '查看成绩' onPress = {() => {
-        setScoreVisible(true)
-      }}/>
+        <Button label = '查看成绩' onPress = {() => {
+          setScoreVisible(true)
+        }}/>
       </BottomButton>
     </>
   )
@@ -200,8 +203,10 @@ export default function Course () {
 const styled = StyleSheet.create({
   scroll: {
     flex: 1,
+    backgroundColor: 'white',
   },
   container: {
+    flex:1,
     paddingLeft: setSpText(6),
     paddingRight: setSpText(6),
     backgroundColor: 'white',

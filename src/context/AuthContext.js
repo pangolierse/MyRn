@@ -18,9 +18,9 @@ export default function AuthProvider ({children}) {
   }
   const logout = () => {
     Auth.logout().then(() => {
-      setUser(null)
       setToken(null)
       setUserType(null)
+      setUser(null)
     })
   }
   const refreshInfo = () => {

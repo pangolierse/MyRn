@@ -69,7 +69,7 @@ export default function EditUserInfo () {
         Toast.info('修改成功')
       }
     }).catch( err => {
-      Toast.info(err, 2)
+      Toast.info(err, 1)
     })
   }
   return ( 

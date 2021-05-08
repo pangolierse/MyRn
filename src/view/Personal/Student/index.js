@@ -40,12 +40,8 @@ export function StudentBottom () {
     </BottomButton>
   )
 }
-export const StudentHeader = ({
-  imgSrc,
-  gender,
-  age
-}) => {
-  const { refreshInfo } = useAuth()
+export const StudentHeader = () => {
+  const { refreshInfo, user } = useAuth()
   const { uploadAvatar } = uploadUserAvatar()
   const { showAction } = useActionImage((image)=>{
     uploadAvatar(image).then(res => {
@@ -57,10 +53,10 @@ export const StudentHeader = ({
   }
   return(
     <View style = { styled.header }>
-    <AnimateAvatar imgSrc = { avatarUrl(imgSrc) } onPress = {handlePress}/>
+    <AnimateAvatar imgSrc = { avatarUrl(user?.avatarName) } onPress = {handlePress}/>
       <View style = { styled.detail}>
-        <Text style = { styled.text }>{gender || strPlaceholder1}</Text>
-        <Text style = { styled.text }>{(age || strPlaceholder1)+'岁'}</Text>
+        <Text style = { styled.text }>{user?.gender || strPlaceholder1}</Text>
+        <Text style = { styled.text }>{(user?.age || strPlaceholder1)+'岁'}</Text>
       </View>
     </View>
   )

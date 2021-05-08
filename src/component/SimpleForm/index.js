@@ -6,6 +6,7 @@ export default function SimpleForm ({
   params,
   setParams,
   formItems,
+  radioColor = '#52ceeb',
 }) {
   const TypeMap = {
     'text': TextInputLabel,
@@ -17,6 +18,7 @@ export default function SimpleForm ({
       return (
         <ReactElement
           {...formItem}
+          radioColor = {radioColor}
           params = { params }
           setParams = { setParams }
           key = {index + 'element'}
@@ -31,6 +33,7 @@ function RadioWrapper ({
   params,
   setParams,
   value,
+  radioColor,
 }) {
   
   const styles = StyleSheet.create({
@@ -78,7 +81,7 @@ function RadioWrapper ({
               style = {[ 
                 styles.radioItem,
                 {
-                  backgroundColor: params[dataIndex] == i ? '#52ceeb' : 'transparent',
+                  backgroundColor: params[dataIndex] == i ? radioColor : 'transparent',
                   borderColor: params[dataIndex] == i ? 'transparent' : 'rgba(0,0,0,0.3)',
                 } 
               ]} onPress = {() => handlePress(i)}

@@ -40,13 +40,12 @@ const teacherTypeMap = {
 export default function LoginBtn () {
   const { login } = useAuth()
   const navigator = useNavigation()
-  const [ activeType, setActiveType ] = useState(4)
-  const [ ateacherType, setTeacherType ] = useState([0])
+  const [ activeType, setActiveType ] = useState(2)
   const [ code, setCode ] = useState('')
   const [ eyeOpen, setEveOpen ] = useState(false)
   const [ params, setParams ] = useState({
-    userType: 4,
-    username: 'baiqi',
+    userType: 2,
+    username: 'wls',
     password: '123',
     uuid: '',
     code: '',
@@ -58,10 +57,10 @@ export default function LoginBtn () {
   const RobotCheckCode = () => {
     client('/api/research/authPerson/code')
     .then( async (data) => {
-      setCode(data.img)
+      setCode(data?.img || '')
       setParams({
         ...params,
-        uuid: data.uuid,
+        uuid: data?.uuid || '',
       })
     })
     .catch( err => {
@@ -140,14 +139,14 @@ export default function LoginBtn () {
                 data={teacherType}
                 cols={1}
                 value={activeType}
-                onChange={(v) => {
+                onChange={([v]) => {
                   setParams({
                     ...params,
                     userType: v,
                   })
                   setActiveType(v)
                 }}
-                onOk={(v) => {
+                onOk={([v]) => {
                   setParams({
                     ...params,
                     userType: v,

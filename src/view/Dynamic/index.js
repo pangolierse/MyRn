@@ -2,56 +2,30 @@ import React, { Component, useEffect, useState } from 'react'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { StyleSheet, Text, TouchableOpacity, View, FlatList, ActivityIndicator } from 'react-native'
 import Color from '~/assets/style/Color'
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation, useFocusEffect } from '@react-navigation/core'
 import { useToCreateDynamic } from '~/router/utils'
 import RefreshListView, { RefreshState } from 'react-native-refresh-list-view'
 import { avatarUrl } from '~/util'
-import { dynamicInfo } from '~/api/dynamicServer'
+import { useDynamicInfo } from '~/api/dynamicServer'
 import HeaderTitle from '~/component/HeaderTitle'
 import Divider from '~/component/Divider'
 import IImage from '~/component/IImage'
 import ImageViewer from '~/component/ImageViewer'
 import UserBox from '~/component/UserBox'
-const fakeInfo = [{
-  id: 123,
-  nickName: 'Pango',
-  time: '2012-02-12',
-  content: '我是动态',
-  avatar: '',
-  imgs: ['','','','','','',''],
-},{
-  id: 1234,
-  nickName: 'Pango',
-  time: '2012-02-12',
-  content: '我是动态',
-  avatar: '',
-  imgs: ['','',''],
-},{
-  id: 12345,
-  nickName: 'Pango',
-  time: '2012-02-12',
-  content: '我是动态',
-  avatar: '',
-  imgs: ['','',''],
-}]
 export default function Dynamic () {
   const [ activeImgs, setActiveImgs ] = useState([])
   const [ imgsModal, setImgsModal ] = useState(false)
   // 数据获取控件
   const [ page, setPage ] = useState(1)
   const [ limit, setLimit ] = useState(10)
-  const { isLoading, content, empty, updateInfo } = dynamicInfo(page,limit)
+  const { isLoading, content, empty, updateInfo } = useDynamicInfo()
   const [ dynamics, setDynamics] = useState([])
   const navigator = useNavigation()
   useEffect(() => {
     setDynamics(filterDynamic(content))
   }, [content])
-  useEffect(() => {
-    updateInfo()
-  }, [ page ])
   const filterDynamic = (data) => {
     data?.map( item => {
-      console.log(item.researchactionPhotos);
       if(dynamics.findIndex(dynamic => {
         return dynamic.pkRaid === item.pkRaid
       }) < 0){
@@ -68,11 +42,13 @@ export default function Dynamic () {
     setImgsModal(true)
   }
   const onHeaderRefresh = () => {
-    setPage(1)
+    setPage(0)
+    updateInfo(0, limit)
     setDynamics([])
   }
   const loadMoreData = () => {
     !empty && setPage(page + 1)
+    !empty && updateInfo(page + 1, limit)
   }
   return ( 
     <View style = { styled.container }>
@@ -112,6 +88,15 @@ export default function Dynamic () {
               avatar = { avatarUrl(personMsg.avatarName)}
             />
             <View style = { styled.contentWrapper }>
+              <Text 
+                style = {{
+                  fontSize: scaleSize(32),
+                  fontWeight: 'bold',
+                  marginBottom: setSpText(4),
+                }}
+                ellipsizeMode = 'tail'
+                numberOfLines = {1}
+              > { prop.ratitle } </Text>
               <Text 
                 ellipsizeMode = 'tail'
                 numberOfLines = {Number.MAX_SAFE_INTEGER}

@@ -15,9 +15,6 @@ export default function CreateDynamic () {
   // 发表动态
   const { token,user } = useAuth()
   const { QrSrc } = useUserQR(user.id)
-  useEffect(() => {
-    console.log(QrSrc);
-  }, [QrSrc])
   return ( 
     <View style = {{ flex: 1}}>
       <HeaderTitle

@@ -25,13 +25,14 @@ export const http = (
     ...customConfig
   }
   if( config.method.toUpperCase() === 'GET') {
-    requestUrl += `?${qs.stringify(data, { arrayFormat: "indices" })}` 
+    requestUrl += data ? `?${qs.stringify(data, { arrayFormat: 'repeat' })}` : ''
   } else if( !skipData ){
     config.body = JSON.stringify(data)
   } else {
     config.body = data
   }
   console.log(config);
+  console.log(requestUrl);
   return fetch(`${apiUrla}${requestUrl}`,config)
     .then( async res => {
       if( res.status === 401){
@@ -44,8 +45,8 @@ export const http = (
         return data
       } else {
         console.log(data);
-        // Toast.info(data)
-        return Promise.reject(data)
+        
+        return Promise.reject(data?.message)
       }
     })
 }

@@ -11,7 +11,7 @@ export default function PreView ({
 }) {
   const navigator = useNavigation()
   const onPress = () => {
-    useToCourseDetail(navigator, viewProp.id)
+    useToCourseDetail(navigator, viewProp?.pk_courseid)
   }
   return ( 
     <View style = { styled.positionWrapper }>
@@ -53,11 +53,11 @@ export default function PreView ({
         <View style = { styled.courseInfo }>
           <View style = { styled.infoItem }>
             <Text style = { styled.title }>课程名称:</Text>
-            <Text style = { styled.label } ellipsizeMode = 'tail' numberOfLines = {1}>{viewProp.courseName}</Text>
+            <Text style = { styled.label } ellipsizeMode = 'tail' numberOfLines = {1}>{viewProp?.coursename}</Text>
           </View>
           <View style = { styled.infoItem }>
             <Text style = { styled.title }>时间:</Text>
-            <Text style = { styled.label } ellipsizeMode = 'tail' numberOfLines = {1}>{viewProp.time}</Text>
+            <Text style = { styled.label } ellipsizeMode = 'tail' numberOfLines = {1}>{viewProp?.signindate}</Text>
           </View>
         </View>
         <TouchableOpacity onPress = { onPress }>

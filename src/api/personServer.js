@@ -78,3 +78,46 @@ export const uploadUserAvatar = () => {
     uploadAvatar,
   }
 }
+export const useChangePlan = () => {
+  const client = useHttp()
+  const { run, data, isLoading } = useAsync(null,'data.content')
+  const { run: init, data: planInitInfo } = useAsync(null,'data')
+  const [ planList, setPlanList ] = useState([])
+  useEffect(() => {
+    getPlanList()
+    initPlanInfo()
+  },[])
+  useEffect(() => {
+    setPlanList(data?.map( plan => {
+      return {
+        label: plan.rpname,
+        value: plan.pkRpid,
+      }
+    }))
+  },[data])
+  const initPlanInfo = () => {
+    init(
+      client('/api/research/researchplan/findLoginResearchplan')
+    )
+  }
+  const getPlanList = () => {
+    run(
+      client('/api/research/researchplan/findAll')
+    )
+  }
+  const updatePlan = (id) => {
+    client(`/api/research/person/updateRpid?rpid=${id}`,{
+      method: 'POST',
+    }).then( res => {
+      if( res.status === 0){
+        initPlanInfo() 
+      }
+    })
+  }
+  return {
+    planList,
+    isLoading,
+    planInitInfo,
+    updatePlan,
+  }
+}

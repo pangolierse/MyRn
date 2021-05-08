@@ -7,7 +7,7 @@ import { isVoid, marginSize, avatarUrl } from '~/util'
 import defaultImg from '~/assets/img/default.jpg'
 
 export default function TeacherBox ({
-  id = 1,
+  id,
   style = {},
   avatar,
   name,
@@ -16,7 +16,7 @@ export default function TeacherBox ({
 }) {
   const navigator = useNavigation()
   const onPress = () => {
-    useToUserDetail(navigator, id)
+    id && useToUserDetail(navigator, id)
   }
   return (
     <TouchableOpacity onPress={onPress}>

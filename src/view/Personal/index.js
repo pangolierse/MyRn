@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useRef, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, ScrollView, View, Alert } from 'react-native'
 import { setSpText, scaleSize} from '~/util/adapt'
-import { useNavigationState } from '@react-navigation/core'
+import { paddingSize, avatarUrl } from '~/util'
 import { useAuth } from '~/context/useAuth'
 import PhoneSvg from '~/assets/svg/Phone'
 import EmailSvg from '~/assets/svg/Email'
@@ -12,9 +12,13 @@ import CreateTag from '~/component/CreateTag'
 import LineText from '~/component/LineText'
 import FixTag from '~/component/FixTag'
 import { StudentBottom, StudentHeader } from './Student/index'
-import { ParentHeader } from './Parent'
+import { ParentBottom,ParentHeader } from './Parent'
+import { ChoosePlan, } from './Teacher'
 const strPlaceholder1 = '未知'
 const strPlaceholder2 = '--'
+const StudentType = '4'
+const ParentType = '5'
+const TeacherType = '3'
 export default function UserDetail () {
   const { logout, userType, user: userInfo, token } = useAuth()
   let user = {
@@ -30,9 +34,10 @@ export default function UserDetail () {
   const handleExit = () => {
     logout()
   }
-  console.log(userInfo);
   useEffect(()=>{
     console.log('个人中心' + token);
+    console.log('个人中心' + userInfo?.id);
+    console.log(userInfo);
   },[userInfo])
   return ( 
     <>
@@ -46,14 +51,10 @@ export default function UserDetail () {
             </TouchableOpacity>
           )}
         />
-        { userType === '5' ? (
+        { userType === ParentType ? (
             <ParentHeader />
           ) : (
-            <StudentHeader
-              imgSrc = { userInfo?.avatarName } 
-              gender = { userInfo?.gender }
-              age = { userInfo?.age }
-            />
+            <StudentHeader />
           )
         }
         <View style = { styled.UserDetailInfo }>
@@ -96,8 +97,17 @@ export default function UserDetail () {
               <CreateTag tags = {user?.tags || []}/>
             </View>
           </View>
+          { userType && userType <= TeacherType && (
+            <View style = { styled.userInfoItem}>
+              <ChoosePlan />
+            </View>
+          )}
         </View>
-        <StudentBottom />
+        {
+          userType === StudentType 
+          ? <StudentBottom />
+          : <ParentBottom />
+        }
       </View>
     </>
   )

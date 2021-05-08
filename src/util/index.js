@@ -52,3 +52,24 @@ export const avatarUrl = (name) => {
   const path = 'http://3q8891y512.zicp.vip/avatar/'
   return path + name
 }
+export const dynamicUrl = (name) => {
+  const path = 'http://3q8891y512.zicp.vip/avatar/'
+  return path + name
+}
+export const isEmptyObject = (obj) => {
+  for( let key in obj){
+    if( staticIsVoid(obj[key]) ){
+      return true
+    }
+  }
+  return false
+}
+
+function staticIsVoid (val) {
+  return (
+    val === undefined ||
+    val === null ||
+    val === "" ||
+    (val instanceof Array && cleanArray(val).length === 0)
+  )
+}

@@ -12,7 +12,7 @@ import UserBox from '~/component/UserBox'
 import ImagePicker from '~/component/ImagePicker'
 export default function CreateDynamic () {
   const navigator = useNavigation()
-  const [ images, setImages ] = useState([{fileName: "rn_image_picker_lib_temp_301fd801-2d8f-4dbf-ac13-05fd3522f51e.jpg", uri: "file:///data/user/0/com.rntemp/cache/rn_image_picker_lib_temp_301fd801-2d8f-4dbf-ac13-05fd3522f51e.jpg"}, {fileName: "rn_image_picker_lib_temp_4e44a2f8-5c37-4a50-a28b-d4d4ececb58e.jpg", uri: "file:///data/user/0/com.rntemp/cache/rn_image_picker_lib_temp_4e44a2f8-5c37-4a50-a28b-d4d4ececb58e.jpg"}])
+  const [ images, setImages ] = useState([])
   // 发表动态
   const { token,user } = useAuth()
   const { publishDynamic } = usePublishDynamic()
@@ -30,7 +30,7 @@ export default function CreateDynamic () {
       Toast.info('标题不能为空', 1)
     } else {
       publishDynamic(params, images, token).then(() => {
-        Toast.info('发表成功', 1)
+        Toast.info('发表成功', 2)
         navigator.goBack()
       })
     }
