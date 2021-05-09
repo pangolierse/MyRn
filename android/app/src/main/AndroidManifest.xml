@@ -2,6 +2,10 @@
   package="com.rntemp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 定位begin -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 定位end -->
     <!-- 相机Begin -->
     <!-- Required -->
     <uses-permission android:name="android.permission.CAMERA" />
