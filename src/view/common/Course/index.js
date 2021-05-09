@@ -11,7 +11,9 @@ import PhoneColorSvg from '~/assets/svg/PhoneColor'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { paddingSize } from '~/util'
 import { useAuth } from '~/context/useAuth'
-import { useToScanQR } from '~/router/utils'
+import { 
+  useToScanQR,
+  useToCourseMemberDetail } from '~/router/utils'
 import { useCourseDetail } from '~/api/courseServer'
 import ReadMore from '~/component/ReadMore'
 import Divider from '~/component/Divider'
@@ -25,26 +27,17 @@ import BottomButton from './BottomButton/index'
 import Button from './BottomButton/Button'
 import ScoreModal from './ScoreModal'
 import { avatarUrl, isVoid } from '../../../util'
+const StudentType = '4'
+const TeacherType = '2'
 export default function Course () {
-  const handleTextReady = () => {}
   const { userType } = useAuth()
   const navigator = useNavigation()
   const courseId = useRoute().params?.courseId
   const { courseInfo, carInfo, isLoading } = useCourseDetail(courseId)
-  const course = {
-    name: 'wangda',
-    describe: '我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸',
-    courseName: '赛龙舟',
-    courseDetail: '我是课程简介哦，这是课程简介，你想知道这堂课上什么内容嘛，看我就对了，那么让我们来看看这堂课到底上的什么内容呢，没错这堂课就是赛龙舟，怎么样很有趣吧',
-    courseAddress: '福建省厦门市湖里区',
-    tag: ['高','大','帅'],
-    carPlan: {
-      driverName: '王大锤',
-      carMark: '闽EAE86',
-      time: '2018-06-12 20:18:59',
-    }
-  }
   const [ scoreVisible, setScoreVisible ] = useState(false)
+  const showCourseMember = () => {
+    useToCourseMemberDetail(navigator, courseId)
+  }
   return ( 
     <>
       <ScrollView style={styled.scroll}>
@@ -59,8 +52,8 @@ export default function Course () {
             </TouchableOpacity>
           )}
           suffix = {
-            userType == 2 ? (
-              <TouchableOpacity style = {{ marginRight: setSpText(8) }} onPress = {() => useToScanQR(navigator, 12)}>
+            userType == TeacherType ? (
+              <TouchableOpacity style = {{ marginRight: setSpText(8) }} onPress = {() => useToScanQR(navigator, courseId)}>
                 <ScanSvg size = {setSpText(10)} color = 'white'/>
               </TouchableOpacity>
             ) : null
@@ -196,14 +189,14 @@ export default function Course () {
         </View>
       </View>
       </ScrollView>
-      <ScoreModal 
+      {/* <ScoreModal 
         visible = { scoreVisible } 
         setVisible = { setScoreVisible }
-      />
+      /> */}
       <BottomButton>
-        <Button label = '查看成绩' onPress = {() => {
-          setScoreVisible(true)
-        }}/>
+        { userType == TeacherType ? (
+          <Button label = '查看班级成员' onPress = {showCourseMember}/>
+        ) : null}
       </BottomButton>
     </>
   )

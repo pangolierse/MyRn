@@ -40,12 +40,12 @@ const teacherTypeMap = {
 export default function LoginBtn () {
   const { login } = useAuth()
   const navigator = useNavigation()
-  const [ activeType, setActiveType ] = useState(2)
+  const [ activeType, setActiveType ] = useState(4)
   const [ code, setCode ] = useState('')
   const [ eyeOpen, setEveOpen ] = useState(false)
   const [ params, setParams ] = useState({
-    userType: 2,
-    username: 'wls',
+    userType: 4,
+    username: 'baiqi',
     password: '123',
     uuid: '',
     code: '',

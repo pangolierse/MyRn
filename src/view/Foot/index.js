@@ -4,6 +4,7 @@ import { StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native
 import { useNavigation } from '@react-navigation/core'
 import { MapView, Marker, Polyline, Polygon } from 'react-native-amap3d';
 import { useAuth } from '~/context/useAuth'
+import { isVoid } from '~/util'
 import { useFootInfo } from '~/api/footServer'
 import Color from '~/assets/style/Color'
 import QrSvg from '~/assets/svg/Qr'
@@ -14,9 +15,17 @@ import PreView from './Comps/PreView'
 export default function StudentDynamic () {
   const navigator = useNavigation()
   const { footRecord } = useFootInfo()
+  const [ center, setCenter ] = useState({
+    latitude: 39.91095,
+    longitude: 116.37296
+  })
   useEffect(() => {
     console.log('足迹界面');
     console.log(footRecord);
+    !isVoid(footRecord) && setCenter({
+      latitude: footRecord[0].latitude,
+      longitude: footRecord[0].longitude
+    })
   },[footRecord])
   const showQR = () => {
     useToQR(navigator)
@@ -42,6 +51,7 @@ export default function StudentDynamic () {
         )}
       />
       <MapView
+        center={center}
         style = { styled.mapView }
       >
         {footRecord?.map( item => {

@@ -15,10 +15,14 @@ export default function FootResult () {
   const courseId = useRoute()?.params?.courseId
   const success = useRoute()?.params?.success
   const error = useRoute()?.params?.error
+  const longitude = useRoute()?.params.longitude
+  const latitude = useRoute()?.params.latitude
   const handleContinue = () => {
     navigator.dispatch(
       StackActions.replace('ScanView', {
         courseId: courseId,
+        latitude: latitude,
+        longitude: longitude,
       })
     );
   }
@@ -45,7 +49,7 @@ export default function FootResult () {
           <>
           <ErrorSvg size = {setSpText(80)}/>
           <Text style = { styled.success }> 签到失败 </Text>
-          <Text style = { styled.reason }> 理由：{error?.message || '未知'} </Text>
+          <Text style = { styled.reason }> 理由：{error || '未知'} </Text>
           </>
         )}
       </View>

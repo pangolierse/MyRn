@@ -32,6 +32,7 @@ export const http = (
   } else {
     config.body = data
   }
+  console.log(config.body);
   console.log(config);
   console.log(requestUrl);
   return fetch(`${apiUrla}${requestUrl}`,config)
@@ -46,7 +47,6 @@ export const http = (
         return data
       } else {
         console.log(data);
-        
         return Promise.reject(data?.message)
       }
     })

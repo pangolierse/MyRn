@@ -1,6 +1,6 @@
 import React, { Component, useEffect } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native'
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation, useRoute } from '@react-navigation/core'
 import { paddingSize, marginSize } from '~/util'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { useAuth } from '~/context/useAuth'
@@ -15,8 +15,9 @@ import Color from '~/assets/style/Color'
 
 export default function StudentDormitory () {
   const navigator = useNavigation()
+  const dormitoryId = useRoute()?.params?.dormitoryId
   const { user } = useAuth()
-  const { data: {dormitoryMsg, dormitoryLifetutors, dormitoryStudents}, isLoading } = dormitoryInfo()
+  const { data: {dormitoryMsg, dormitoryLifetutors, dormitoryStudents}, isLoading } = dormitoryInfo(dormitoryId)
   useEffect(() => {
     console.log(dormitoryMsg);
     console.log(dormitoryLifetutors);

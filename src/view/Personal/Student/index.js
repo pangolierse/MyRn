@@ -5,48 +5,29 @@ import { useNavigation } from "@react-navigation/core";
 import { 
   useToStudentDormitory, 
   useToEditUserInfo,
-  useToStudentGroup, } from '~/router/utils'
+  useToStudentGroup,
+  useToStudentScore, } from '~/router/utils'
 import { paddingSize, avatarUrl } from '~/util'
 import { useActionImage } from '~/hook'
 import { uploadUserAvatar } from '~/api/personServer'
 import { useAuth } from '~/context/useAuth'
 import AnimateAvatar from '~/component/AnimateAvatar'
-import BottomButton from '../Comp/BottomButton'
-import BottomButtonItem from '../Comp/BottomButton/Button'
 const strPlaceholder1 = '未知'
-export function StudentBottom () {
-  const navigator = useNavigation()
-  const buttonList = [
-    {
-      label: '查看宿舍',
-      onPress: () => {
-        useToStudentDormitory(navigator)
-      }
-    },{
-      label: '编辑个人信息',
-      onPress: () => {
-        useToEditUserInfo(navigator)
-      }
-    },{
-      label: '查看小组',
-      onPress: () => {
-        useToStudentGroup(navigator)
-      }
-    },{
-      label: '研学项目总评',
-      onPress: () => {
-
-      }
-    },
+export function StudentSetting (navigator) {
+  return [
+    [
+      '查看宿舍',
+      '编辑个人资料',
+      '查看小组',
+      '研学项目总评',
+      '取消'
+    ],[
+      () => useToStudentDormitory(navigator) ,
+      () => useToEditUserInfo(navigator) ,
+      () => useToStudentGroup(navigator) ,
+      () => useToStudentScore(navigator) ,
+    ]
   ]
-  return ( 
-    
-    <BottomButton>
-      { buttonList.map( button => {
-        return <BottomButtonItem key = { button.label + 'button'} label = { button.label } onPress = { button.onPress }/>
-      })}
-    </BottomButton>
-  )
 }
 export const StudentHeader = () => {
   const { refreshInfo, user, reload } = useAuth()

@@ -272,7 +272,7 @@ function UserInfoEdit ({
     if(isEmptyObject(params)){
       Toast.info('有必填项未填',1)
     } else {
-      fetch(apiUrl + `/api/research/person/regist?associatedUsername=${params.associatedUsername}`,{
+      fetch(apiUrl + `/api/research/person/parent/regist?associatedUsername=${params.associatedUsername}`,{
         headers:{
           'Content-Type':'application/json',
         },

@@ -52,41 +52,17 @@ export function ParentHeader () {
   )
 }
 
-export function ParentBottom () {
-  const navigator = useNavigation()
-  const [ visible, setVisible ] = useState(false)
-  const buttonList = [
-    {
-      label: '查看宿舍',
-      onPress: () => {
-        useToStudentDormitory(navigator)
-      }
-    },{
-      label: '编辑个人信息',
-      onPress: () => {
-        useToEditUserInfo(navigator)
-      }
-    },{
-      label: '修改关联账号',
-      onPress: () => {
-        setVisible(true)
-      }
-    },
+export function ParentSetting (navigator, setVisible) {
+  return [
+    [
+      '查看宿舍',
+      '编辑个人信息',
+      '修改绑定学生',
+      '取消'
+    ],[
+      () => useToStudentDormitory(navigator) ,
+      () => useToEditUserInfo(navigator) ,
+      () => setVisible(true) ,
+    ]
   ]
-  return ( 
-    
-    <View style = {{
-      width:'100%',
-      height: setSpText(30),
-      backgroundColor: 'white',
-      ...paddingSize(10,10,10,10),
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    }}>
-      <AssociateModal visible = { visible } setVisible = { setVisible }/>
-      { buttonList.map( button => {
-        return <BottomButtonItem key = { button.label + 'button'} label = { button.label } onPress = { button.onPress }/>
-      })}
-    </View>
-  )
 }

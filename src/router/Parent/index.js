@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useAuth } from '~/context/useAuth'
 import Home from '~/assets/svg/Home'
 import Foot from '~/assets/svg/Foot'
 import Message from '~/assets/svg/Message'

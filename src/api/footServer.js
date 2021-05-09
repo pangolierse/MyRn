@@ -20,7 +20,11 @@ export const useFootInfo = () => {
 }
 export const useCreateFootInfo = () => {
   const client = useHttp()
-  const insertInfo = ( url, courseId ) => {
+  const insertInfo = ( url, {
+    courseId,
+    latitude,
+    longitude,
+  } ) => {
     return fetch(url)
     .then( res => res.json())
     .then( res => res?.data?.id )
@@ -30,8 +34,8 @@ export const useCreateFootInfo = () => {
         data: {
           pkStudentid: id,
           pkArrangeid: Number(courseId),
-          latitude: 39.5111,
-	        longitude: 40.65115,
+          latitude: latitude,
+	        longitude: longitude,
         }
       })
       return data

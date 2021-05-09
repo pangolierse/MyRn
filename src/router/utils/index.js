@@ -9,7 +9,13 @@ export const useToCourseDetail = (navigator, id) => {
     courseId: id,
   })
 }
-// 公共界面  跳转 教师阅览界面
+// 学生界面  路由跳转 课程成员详情
+export const useToCourseMemberDetail = (navigator, id) => {
+  navigator.navigate('CourseMember',{
+    courseId: id,
+  })
+}
+// 公共界面  跳转 用户界面
 export const useToUserDetail = (navigator, id) => {
   navigator.navigate('UserDetail',{
     userId: id,
@@ -30,8 +36,10 @@ export const useToCreateMessage = (navigator) => {
   navigator.navigate('CreateMessage')
 }
 // 跳转 宿舍界面
-export const useToStudentDormitory = (navigator) => {
-  navigator.navigate('StudentDormitory')
+export const useToStudentDormitory = (navigator, dormitoryId) => {
+  navigator.navigate('StudentDormitory', {
+    dormitoryId,
+  })
 }
 // 扫码
 export const useToScanQR = (navigator, courseId) => {
@@ -43,9 +51,13 @@ export const useToScanQR = (navigator, courseId) => {
 export const useToEditUserInfo = ( navigator ) => {
   navigator.navigate('EditUserInfo')
 }
-// 编辑个人信息
+// 显示个人二维码
 export const useToQR = ( navigator ) => {
   navigator.navigate('QRView')
+}
+// 学生研学成绩
+export const useToStudentScore = ( navigator ) => {
+  navigator.navigate('StudentScore')
 }
 // 学生小组界面
 export const useToStudentGroup = ( navigator ) => {

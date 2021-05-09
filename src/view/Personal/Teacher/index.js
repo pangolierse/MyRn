@@ -7,8 +7,6 @@ import { useChangePlan } from '~/api/personServer'
 import { 
   useToEditUserInfo, } from '~/router/utils'
 import { useAuth } from '~/context/useAuth'
-import BottomButton from '../Comp/BottomButton'
-import BottomButtonItem from '../Comp/BottomButton/Button'
 export function ChoosePlan () {
   const { reload } = useAuth()
   const [ value, setValue ] = useState(0)
@@ -60,25 +58,32 @@ function CustomType ({
   )
 }
 
-export function TeacherBottom () {
-  const navigator = useNavigation()
-  const buttonList = [
-    {
-      label: '编辑个人信息',
-      onPress: () => {
+export function TeacherDormitorySetting (navigator) {
+  return [
+    [
+      '编辑个人资料',
+      '取消'
+    ],[
+      () => {
         useToEditUserInfo(navigator)
       }
-    }
+    ]
   ]
-  return ( 
-    
-    <BottomButton>
-      { buttonList.map( button => {
-        return <BottomButtonItem key = { button.label + 'button'} label = { button.label } onPress = { button.onPress }/>
-      })}
-    </BottomButton>
-  )
 }
-const styled = StyleSheet.create({
-  
-})
+export function TeacherCourseSetting (navigator) {
+  return [
+    [
+      '编辑个人资料',
+      '查看开课班级',
+      '取消'
+    ],[
+      () => {
+        useToEditUserInfo(navigator)
+      },
+      () => {
+        useToEditUserInfo(navigator)
+      }
+    ]
+  ]
+
+}

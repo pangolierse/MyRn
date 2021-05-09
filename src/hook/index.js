@@ -68,3 +68,20 @@ export function useActionImage (success) {
     showAction: showActionSheet,
   }
 }
+export function useAction (BUTTONS, handleBtn) {
+  // 活动器的逻辑
+  const showActionSheet = () => {
+    ActionSheet.showActionSheetWithOptions(
+      {
+        options: BUTTONS,
+        cancelButtonIndex: BUTTONS.length - 1,
+      },
+      buttonIndex => {
+        handleBtn[buttonIndex] && handleBtn[buttonIndex]()
+      }
+    );
+  };
+  return {
+    showAction: showActionSheet,
+  }
+}
