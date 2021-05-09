@@ -47,3 +47,7 @@ export const useToEditUserInfo = ( navigator ) => {
 export const useToQR = ( navigator ) => {
   navigator.navigate('QRView')
 }
+// 学生小组界面
+export const useToStudentGroup = ( navigator ) => {
+  navigator.navigate('StudentGroup')
+}

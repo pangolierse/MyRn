@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useAuth } from '~/context/useAuth'
@@ -6,9 +6,13 @@ import { paddingSize,avatarUrl } from '~/util'
 import { useNavigation } from "@react-navigation/core";
 import { useActionImage } from '~/hook'
 import { uploadUserAvatar } from '~/api/personServer'
+import { 
+  useToStudentDormitory, 
+  useToEditUserInfo } from '~/router/utils'
 import AnimateAvatar from '~/component/AnimateAvatar'
 import BottomButton from '../Comp/BottomButton'
 import BottomButtonItem from '../Comp/BottomButton/Button'
+import AssociateModal from './AssociateModal'
 export function ParentHeader () {
   const { refreshInfo,user } = useAuth()
   const { uploadAvatar } = uploadUserAvatar()
@@ -50,6 +54,7 @@ export function ParentHeader () {
 
 export function ParentBottom () {
   const navigator = useNavigation()
+  const [ visible, setVisible ] = useState(false)
   const buttonList = [
     {
       label: '查看宿舍',
@@ -61,6 +66,11 @@ export function ParentBottom () {
       onPress: () => {
         useToEditUserInfo(navigator)
       }
+    },{
+      label: '修改关联账号',
+      onPress: () => {
+        setVisible(true)
+      }
     },
   ]
   return ( 
@@ -69,10 +79,11 @@ export function ParentBottom () {
       width:'100%',
       height: setSpText(30),
       backgroundColor: 'white',
-      ...paddingSize(10,10,30,30),
+      ...paddingSize(10,10,10,10),
       flexDirection: 'row',
       justifyContent: 'space-between',
     }}>
+      <AssociateModal visible = { visible } setVisible = { setVisible }/>
       { buttonList.map( button => {
         return <BottomButtonItem key = { button.label + 'button'} label = { button.label } onPress = { button.onPress }/>
       })}

@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react'
+import React, { Component, useEffect, useState, } from 'react'
 import { StyleSheet, Text, TouchableOpacity, ScrollView, View } from 'react-native'
 import { Button, Drawer } from '@ant-design/react-native';
 import { setSpText, scaleSize} from '~/util/adapt'
@@ -11,13 +11,10 @@ import { isVoid } from '~/util';
 import { useAuth } from '~/context/useAuth';
 export default function Home () {
   const [ drawerOpen, setDrawerOpen ] = useState(false)
+  const { user } = useAuth()
   const { refreshInfo, courseList } = useStudentCourse()
   const [ week, setWeek ] = useState(1)
   const [ day, setDay ] = useState(1)
-  const { user } = useAuth()
-  useEffect(() => {
-    console.log(user);
-  },[user])
   useEffect(() => {
     refreshInfo(week, day)
   },[week, day])

@@ -3,16 +3,14 @@ import { setSpText, scaleSize} from '~/util/adapt'
 import { StyleSheet, Image, TouchableOpacity, View } from 'react-native'
 import { isVoid } from '~/util'
 import Loading from '~/component/Loading'
-import defaultImg from '~/assets/img/default1.jpg'
+import defaultImg from '~/assets/img/default.jpg'
+import defaultImg1 from '~/assets/img/default1.jpg'
 export default function IImage ({
   src,
   style = {},
   onClick,
 }) {
   const [ loading, setLoading ] = useState(true)
-  useEffect(() => {
-    setLoading(true)
-  }, [src])
   const handleLoad = () => {
     setLoading(false)
   }
@@ -23,7 +21,7 @@ export default function IImage ({
         source = { isVoid(src) ? defaultImg : {uri: src}} 
         onLoad = {handleLoad}
       />
-      {loading && <Image style = {[ styled.image,styled.imageMask, style ]} source = {defaultImg}/>}
+      {(!isVoid(src) && loading) && <Image style = {[ styled.image,styled.imageMask, style ]} source = {defaultImg1}/>}
     </TouchableOpacity>
   )
 }

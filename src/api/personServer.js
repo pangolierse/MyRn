@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useHttp,apiUrl } from '~/util/http'
 import { useAsync } from '~/util/useAsync'
+import { useAuth } from '~/context/useAuth'
 export const useUserDetail = (id) => {
   const client = useHttp()
   const { run, isLoading, data: userInfo } = useAsync(null, 'data')
@@ -78,7 +79,7 @@ export const uploadUserAvatar = () => {
     uploadAvatar,
   }
 }
-export const useChangePlan = () => {
+export const useChangePlan = (reload) => {
   const client = useHttp()
   const { run, data, isLoading } = useAsync(null,'data.content')
   const { run: init, data: planInitInfo } = useAsync(null,'data')
@@ -110,6 +111,7 @@ export const useChangePlan = () => {
       method: 'POST',
     }).then( res => {
       if( res.status === 0){
+        reload && reload()
         initPlanInfo() 
       }
     })
@@ -119,5 +121,37 @@ export const useChangePlan = () => {
     isLoading,
     planInitInfo,
     updatePlan,
+  }
+}
+export const useGroup = () => {
+  const client = useHttp() 
+  const { run, data, isLoading } = useAsync({}, 'data')
+  useEffect(() => {
+    initInfo()
+  }, [])
+  const initInfo = () => {
+    run(
+      client('/api/research/group/findByStudentId')
+    )
+  }
+  return {
+    data,
+    isLoading,
+  }
+}
+export const useChangeAssociate = () => {
+  const client = useHttp()
+  const changeAssociate = async (username) => {
+    let data = await client(`/api/research/person/updateAssociatedUserid?associatedUsername=${username}`,{
+      method: 'POST',
+    })
+    if( data.status == 0 ){
+      return true
+    } else {
+      Promise.reject(data)
+    }
+  }
+  return {
+    changeAssociate,
   }
 }

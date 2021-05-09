@@ -32,6 +32,7 @@ export const marginSize = (
 }
 export const isVoid = (val) => {
   return (
+    JSON.stringify(val) === "{}" ||
     val === undefined ||
     val === null ||
     val === "" ||

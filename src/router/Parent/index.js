@@ -35,10 +35,14 @@ const tabRoutes = {
     title: '个人中心',
   },
 }
-export default function ParentTab () {
+export default function () {
+  const { mount } = useAuth()
   return (
       <Tab.Navigator  
         backBehavior = 'none'
+        options = {{
+          unmountOnBlur: true,
+        }}
         screenOptions=  {({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             // You can return any component that you like here!
@@ -52,9 +56,9 @@ export default function ParentTab () {
           inactiveTintColor: 'gray',
         }}
       >
-        <Tab.Screen name="home" component={HomeScreen} />
-        <Tab.Screen name="dynamic" component={DynamicScreen}/>
-        <Tab.Screen name="foot" component={FootScreen}/>
+        <Tab.Screen name="home" component={HomeScreen} options = {{ unmountOnBlur: mount }}/>
+        <Tab.Screen name="dynamic" component={DynamicScreen} options = {{ unmountOnBlur: mount }}/>
+        <Tab.Screen name="foot" component={FootScreen} options = {{ unmountOnBlur: mount }}/>
         {/* <Tab.Screen name="message" component={MessageScreen}/> */}
         <Tab.Screen name="personal" component={PersonalScreen}/>
       </Tab.Navigator>

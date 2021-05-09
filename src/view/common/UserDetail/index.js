@@ -45,7 +45,7 @@ export default function UserDetail () {
           )}
         />
         <View style = { styled.header }>
-          <AnimateAvatar imgSrc = { avatarUrl(userInfo?.avatarName) }/>
+          <AnimateAvatar imgSrc = { userInfo?.avatarName ? avatarUrl(userInfo?.avatarName) : ''}/>
           <View style = { styled.detail}>
             <Text style = { styled.text }>{userInfo?.gender || strPlaceholder1}</Text>
             <Text style = { styled.text }>{(userInfo?.age || strPlaceholder1)+'岁'}</Text>

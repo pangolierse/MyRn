@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import { StyleSheet, Text, Button, TouchableOpacity, View } from 'react-native'
 import { useAuth } from '~/context/useAuth'
 import Student from './Student'

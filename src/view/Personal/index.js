@@ -11,8 +11,9 @@ import HeaderTitle from '~/component/HeaderTitle'
 import CreateTag from '~/component/CreateTag'
 import LineText from '~/component/LineText'
 import FixTag from '~/component/FixTag'
-import { StudentBottom, StudentHeader } from './Student/index'
-import { ParentBottom,ParentHeader } from './Parent'
+import { StudentBottom, StudentHeader } from './Student'
+import { ParentBottom, ParentHeader } from './Parent'
+import { TeacherBottom } from './Teacher'
 import { ChoosePlan, } from './Teacher'
 const strPlaceholder1 = '未知'
 const strPlaceholder2 = '--'
@@ -104,9 +105,11 @@ export default function UserDetail () {
           )}
         </View>
         {
-          userType === StudentType 
+          userType === ParentType 
+          ? <ParentBottom />
+          : userType === StudentType 
           ? <StudentBottom />
-          : <ParentBottom />
+          : <TeacherBottom />
         }
       </View>
     </>

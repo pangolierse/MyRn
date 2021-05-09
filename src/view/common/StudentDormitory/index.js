@@ -16,20 +16,17 @@ import Color from '~/assets/style/Color'
 export default function StudentDormitory () {
   const navigator = useNavigation()
   const { user } = useAuth()
-  const { data: {dormitoryMsg, dormitoryLifetutors, dormitoryStudents}, isLoading } = dormitoryInfo(user.id)
+  const { data: {dormitoryMsg, dormitoryLifetutors, dormitoryStudents}, isLoading } = dormitoryInfo()
   useEffect(() => {
     console.log(dormitoryMsg);
     console.log(dormitoryLifetutors);
     console.log(dormitoryStudents);
   }, [dormitoryMsg])
-  const commit = () => {
-
-  }
   return isLoading ? 
     (
       <EmptyView color = 'black'/>
     ) : (
-    <ScrollView style = {{ flex: 1 }}>
+    <ScrollView style = {{ flex: 1, backgroundColor: 'white' }}>
       <HeaderTitle 
         tinkColor = {'white'}
         backgroundColor = {Color.header_title_blue}
@@ -74,7 +71,7 @@ export default function StudentDormitory () {
             />
           )
         })}
-        <Divider text = '宿舍成员' width = '95%' color = {Color.header_title_blue}/>
+        <Divider text = '宿舍成员' width = '95%' color = {Color.header_title_blue} margin = {setSpText(8)}/>
         <View style = {[
           styled.begWrapper,{
             ...paddingSize(0,0,10,10)
@@ -98,7 +95,6 @@ export default function StudentDormitory () {
 const styled = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: 'white',
     paddingTop: setSpText(10),
   },
   back: {

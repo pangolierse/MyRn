@@ -4,7 +4,8 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
 import Modal from '~/component/Modal'
 import defaultImg from '~/assets/img/default.jpg'
 export default function ScoreModal ({
-  ...prop
+  visible,
+  setVisible
 }) {
   const score = {
     teacherName: '黄老师',
@@ -31,7 +32,7 @@ export default function ScoreModal ({
     }
   }
   return ( 
-    <Modal {...prop}>
+    <Modal visible = {visible} setVisible = { setVisible } onPress = {() => setVisible(false)}>
       <View style = { styled.teacherBox}>
         <Image source = { score.avatar || defaultImg } style = { styled.img } />
         <Text style = { styled.teacherBoxText }>{score.teacherName}</Text>

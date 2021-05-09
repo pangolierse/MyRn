@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from "@react-navigation/core";
-import { useToStudentDormitory, useToEditUserInfo } from '~/router/utils'
+import { 
+  useToStudentDormitory, 
+  useToEditUserInfo,
+  useToStudentGroup, } from '~/router/utils'
 import { paddingSize, avatarUrl } from '~/util'
 import { useActionImage } from '~/hook'
 import { uploadUserAvatar } from '~/api/personServer'
@@ -25,6 +28,11 @@ export function StudentBottom () {
         useToEditUserInfo(navigator)
       }
     },{
+      label: '查看小组',
+      onPress: () => {
+        useToStudentGroup(navigator)
+      }
+    },{
       label: '研学项目总评',
       onPress: () => {
 
@@ -41,11 +49,12 @@ export function StudentBottom () {
   )
 }
 export const StudentHeader = () => {
-  const { refreshInfo, user } = useAuth()
+  const { refreshInfo, user, reload } = useAuth()
   const { uploadAvatar } = uploadUserAvatar()
   const { showAction } = useActionImage((image)=>{
     uploadAvatar(image).then(res => {
       refreshInfo()
+      reload()
     })
   })
   const handlePress = () => {

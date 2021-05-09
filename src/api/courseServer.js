@@ -7,7 +7,7 @@ export const useStudentCourse = () => {
   const { run, data: courseList, isLoading } = useAsync(null,'data')
   const refreshInfo = (week, day) => {
     run(
-      client('/api/research/arrange/findAllArrangeListMsgByWeekDayStudentId',{
+      client('/api/research/arrange/findAllArrangeListMsgByWeekDayLogin',{
         data:{
           dayid: day,
           weekid: week,
@@ -15,9 +15,6 @@ export const useStudentCourse = () => {
       })
     )
   }
-  useEffect(()=>{
-    console.log(courseList);
-  },[courseList])
   useEffect(() => {
     refreshInfo(1,1)
   },[])
@@ -31,7 +28,7 @@ export const useStudentCourse = () => {
 export const useCourseDetail = (id) => {
   const client = useHttp()
   const { run, data: courseInfo } = useAsync(null,'data')
-  const { run: otherRun, data: carInfo} = useAsync(null,'data')
+  const { run: otherRun, data: carInfo, isLoading} = useAsync(null,'data')
   const refreshInfo = () => {
     run(
       client('/api/research/arrange/findArrangeMsgByArrangeId',{
@@ -49,15 +46,12 @@ export const useCourseDetail = (id) => {
     )
   }
   useEffect(() => {
-    console.log(courseInfo);
-    console.log(carInfo);
-  },[courseInfo, carInfo])
-  useEffect(() => {
     refreshInfo()
   },[])
   return {
     courseInfo,
     carInfo,
+    isLoading,
   }
 }
 

@@ -9,6 +9,14 @@ export default function AuthProvider ({children}) {
   const [ userType, setUserType ] = useState(null)
   const [ token, setToken ] = useState(null)
   const [ user, setUser ] = useState(null)
+  const [ mount, setMount ] = useState(false)
+  const reload = () => {
+    console.log('reload');
+    setMount(true)
+    setTimeout(() => {
+      setMount(false)
+    }, 0);
+  }
   const login = (form) => {
     Auth.login(form).then(([token, type]) => {
       setUserType(type)
@@ -46,6 +54,8 @@ export default function AuthProvider ({children}) {
       isLoading,
       login,
       logout,
+      mount, 
+      reload
     }}>
       {children}
     </AuthContext.Provider>

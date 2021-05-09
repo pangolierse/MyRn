@@ -68,7 +68,7 @@ export default function Dynamic () {
         )}
       />
       <RefreshListView 
-        data = { dynamics }
+        data = { dynamics || [] }
         keyExtractor = {(item, index) => index.toString()}
         refreshState = { 
           empty 

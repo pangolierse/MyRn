@@ -70,7 +70,6 @@ const styled = StyleSheet.create({
   avatar: {
     width: setSpText(40),
     height: setSpText(40),
-    backgroundColor: 'white',
     borderRadius: setSpText(40),
   },
   avatar_bc1: {

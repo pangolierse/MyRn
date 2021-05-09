@@ -1,7 +1,8 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useAuth } from '~/context/useAuth'
 import Home from '~/assets/svg/Home'
 import Foot from '~/assets/svg/Foot'
 import Message from '~/assets/svg/Message'
@@ -32,6 +33,7 @@ const tabRoutes = {
   },
 }
 export default function TeacherTab () {
+  const { mount } = useAuth()
   return (
       <Tab.Navigator  
         backBehavior = 'none'
@@ -48,10 +50,10 @@ export default function TeacherTab () {
           inactiveTintColor: 'gray',
         }}
       >
-        <Tab.Screen name="home" component={HomeScreen} />
-        <Tab.Screen name="dynamic" component={DynamicScreen}/>
+        <Tab.Screen name="home" component={HomeScreen} options = {{ unmountOnBlur: mount }}/>
+        <Tab.Screen name="dynamic" component={DynamicScreen} options = {{ unmountOnBlur: mount }}/>
         {/* <Tab.Screen name="message" component={MessageScreen}/> */}
-        <Tab.Screen name="personal" component={PersonalScreen}/>
+        <Tab.Screen name="personal" component={PersonalScreen} options = {{ unmountOnBlur: mount }}/>
       </Tab.Navigator>
   );
 }

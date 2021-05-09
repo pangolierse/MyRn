@@ -24,8 +24,12 @@ import StudentDormitory from '~/view/common/StudentDormitory'
 import CreateMessage from '~/view/common/CreateMessage'
 // 课程界面
 import Course from '~/view/common/Course'
+// 小组界面
+import StudentGroup from '~/view/common/StudentGroup'
 // 扫码界面
 import ScanView from '~/view/common/ScanView'
+// 扫码界面
+import FootResult from '~/view/common/FootResult'
 // 二维码界面
 import QRView from '~/view/common/QRView'
 const Stack = createStackNavigator()
@@ -76,6 +80,8 @@ export default function () {
     ScanView: ScanView,
     EditUserInfo: EditUserInfo,
     QRView: QRView,
+    StudentGroup: StudentGroup,
+    FootResult: FootResult,
   }
   const studentRouter = {
     StudentTab: StudentTab,
@@ -108,7 +114,7 @@ export default function () {
           Object.entries({
             ...(isLoading === true ? loadingRouter : null),
             ...(token === null ? loginRouter : null),
-            ...((userType === '5' && token !== null) ? studentRouter : null),
+            ...((userType === '5' && token !== null) ? parentRouter : null),
             ...((userType === '4' && token !== null) ? studentRouter : null),
             ...((userType <= '3' && token !== null) ? teacherRouter : null),
             ...commonRouter,

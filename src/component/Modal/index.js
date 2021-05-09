@@ -6,15 +6,22 @@ export default function MyModal ({
   visible,
   setVisible,
   children,
+  onPress = () => {},
   footer = true,
 }) {
   return (
-    <Modal isVisible = {visible} style = { styled.modal } backdropOpacity = {0.5}>
+    <Modal 
+      isVisible = {visible} 
+      style = { styled.modal } 
+      backdropOpacity = {0.5}
+      onBackdropPress = {() => setVisible(false)}
+      onBackButtonPress = {() => setVisible(false)}
+    >
       <View style = { styled.container }>
         { children }
         { footer && (
           <View style = { styled.BtnWrapper }>
-            <TouchableOpacity style = { styled.confirm} onPress = { () => setVisible(false)}>
+            <TouchableOpacity style = { styled.confirm} onPress = {onPress}>
               <Text>确定</Text>
             </TouchableOpacity>
           </View>

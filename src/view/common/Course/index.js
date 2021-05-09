@@ -30,7 +30,7 @@ export default function Course () {
   const { userType } = useAuth()
   const navigator = useNavigation()
   const courseId = useRoute().params?.courseId
-  const { courseInfo, carInfo } = useCourseDetail(courseId)
+  const { courseInfo, carInfo, isLoading } = useCourseDetail(courseId)
   const course = {
     name: 'wangda',
     describe: '我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸我是一个老师欸',
@@ -105,7 +105,7 @@ export default function Course () {
         /> */}
       </View>
       <View style = {styled.container}>
-        <Divider text='课程教师'/>
+        <Divider text='课程教师' margin = { setSpText(8) }/>
         <TeacherBox 
           style = {{marginTop: setSpText(8)}}
           name = { courseInfo?.nick_name }
@@ -145,7 +145,12 @@ export default function Course () {
         ]}>
           <AnimateCar />
           <View style = {carStyle.rightContent}>
-            { isVoid(carInfo) ? (
+            { isLoading ? (
+              <Text style = {{
+                fontWeight: 'bold',
+                fontSize: scaleSize(32),
+              }}>加载中...</Text>
+            ) : !isVoid(carInfo) ? (
               <>
               <View style = { carStyle.rowItem }>
                 <LineText 
@@ -191,7 +196,10 @@ export default function Course () {
         </View>
       </View>
       </ScrollView>
-      <ScoreModal visible = { scoreVisible } setVisible = { setScoreVisible }/>
+      <ScoreModal 
+        visible = { scoreVisible } 
+        setVisible = { setScoreVisible }
+      />
       <BottomButton>
         <Button label = '查看成绩' onPress = {() => {
           setScoreVisible(true)

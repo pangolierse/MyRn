@@ -13,7 +13,8 @@ export const http = (
     headers,
     skipData,
     ...customConfig
-  }
+  },
+  logout
 ) => {
   const config = {
     method: 'GET',
@@ -37,7 +38,7 @@ export const http = (
     .then( async res => {
       if( res.status === 401){
         Toast.info('身份已过期，请重新登录')
-        await Auth.logout()
+        await logout()
         return Promise.reject({ message: "请重新登录" });
       }
       let data = await res.json() 
@@ -52,9 +53,9 @@ export const http = (
 }
 
 export const useHttp = () => {
-  const { token } = useAuth()
+  const { token, logout, } = useAuth()
   return useCallback(( requestUrl, config = {}) => 
-    http(requestUrl, { token, ...config }), 
+    http(requestUrl, { token, ...config }, logout), 
     [token]
   )
 }
