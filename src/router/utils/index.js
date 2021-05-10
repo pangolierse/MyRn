@@ -63,3 +63,24 @@ export const useToStudentScore = ( navigator ) => {
 export const useToStudentGroup = ( navigator ) => {
   navigator.navigate('StudentGroup')
 }
+// 教师查看开课班级
+export const useToClassListView = ( navigator ) => {
+  navigator.navigate('ClassListView')
+}
+// 教师开课班级成员
+export const useToClassScore = ( navigator, id ) => {
+  navigator.navigate('ClassScore',{
+    courseId: id,
+  })
+}
+// 学生开课班级成绩
+export const useToClassListScore = ( navigator ) => {
+  navigator.navigate('ClassListScore')
+}
+// 领队教师开课班级成绩
+export const useToTeacherClassListScore = ( navigator, studentId ) => {
+  navigator.navigate('ClassListScore', {
+    studentId: studentId,
+  })
+}
+

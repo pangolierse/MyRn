@@ -28,6 +28,7 @@ const defaultPixel = 2;                           //iphone6的像素密度
 //px转换成dp
 const w2 = 750 / defaultPixel;
 const h2 = 1334 / defaultPixel;
+const _scaleWidth = deviceWidth / 750;
 const scale = Math.min(deviceHeight / h2, deviceWidth / w2);   //获取缩放比例
 /**
 * 设置text为sp
@@ -40,7 +41,7 @@ export function setSpText(size) {
 }
 
 export function scaleSize(size) {
-
-  size = Math.round(size * scale + 0.5);
-  return Math.round(size / defaultPixel);
+  return (size - 2) * _scaleWidth;
+  // size = Math.round(size * scale);
+  // return Math.round(size / defaultPixel);
 }

@@ -18,35 +18,33 @@ import { StudentSetting, StudentHeader } from './Student'
 import { ParentSetting, ParentHeader } from './Parent'
 import { 
   TeacherDormitorySetting,
-  TeacherCourseSetting, } from './Teacher'
+  TeacherCourseSetting,
+  TeacherSchoolSetting } from './Teacher'
 import { ChoosePlan, } from './Teacher'
-import { useAction } from '../../hook';
-import { isVoid } from '../../util';
+import { useAction } from '~/hook';
+import { isVoid } from '~/util';
 
 const strPlaceholder2 = '--'
 const ParentType = '5'
 export default function UserDetail () {
   const { logout, userType, user: userInfo, token } = useAuth()
   const [ visible, setVisible ] = useState(false)
-  // let showAction = null
   const navigator = useNavigation()
-  let user = {
-    tags: ['帅气','高','帅','大','awef','aweasdf','awefassss','afff'],
-  }
   const settingMap = {
     '3': TeacherDormitorySetting,
     '2': TeacherCourseSetting,
+    '1': TeacherSchoolSetting,
     '4': StudentSetting,
     '5': ParentSetting,
   }
+  let btnItems = userType && settingMap[userType](navigator, setVisible)
+  console.log(btnItems);
+  
   const handleExit = () => {
     logout()
   }
-  const showOptions = () => {
-    let [ buttons, btnEvent ] = settingMap[userType](navigator, setVisible)
-    let showAction = useAction(buttons, btnEvent).showAction
-    showAction && showAction()
-  }
+  useEffect(() => {
+  }, [userType])
   useEffect(() => {
     console.log('个人中心' + token);
     console.log('个人中心' + userInfo?.id);
@@ -59,11 +57,6 @@ export default function UserDetail () {
         <HeaderTitle 
           tinkColor = {'#108ee9'}
           backgroundColor = {'#108ee9'}
-          prefix = {(
-            <TouchableOpacity  onPress = {showOptions}>
-              <SettingSvg size = { setSpText(12) } color = '#dbdbdb'/>
-            </TouchableOpacity>
-          )}
           suffix = {(
             <TouchableOpacity onPress = {handleExit}>
               <ExitSvg size = { setSpText(12) } color = '#dbdbdb'/>
@@ -71,7 +64,7 @@ export default function UserDetail () {
           )}
         />
         <StudentHeader />
-        <View style = { styled.UserDetailInfo }>
+        <ScrollView style = { styled.UserDetailInfo }>
           <View style = { styled.userInfoItem}>
             <LineText 
               prefix = {(
@@ -82,7 +75,6 @@ export default function UserDetail () {
           </View>
           <View style = {[ 
             styled.userInfoItem,
-            { marginTop: setSpText(4)}
           ]}>
             <LineText 
               prefix = {(
@@ -93,7 +85,6 @@ export default function UserDetail () {
           </View>
           <View style = {[ 
             styled.userInfoItem,
-            { marginTop: setSpText(4)}
           ]}>
             <LineText 
               prefix = {(
@@ -102,7 +93,7 @@ export default function UserDetail () {
               label = {userInfo?.email || strPlaceholder2}
             />
           </View>
-          <View style = { styled.userInfoItem}>
+          {/* <View style = { styled.userInfoItem}>
             <View style = { styled.tagWrapper }>
               <Text style = {{ fontSize: scaleSize(33), fontWeight: 'bold'}}>个性标签：</Text>
               {user?.tags.map( tag => {
@@ -110,7 +101,7 @@ export default function UserDetail () {
               })}
               <CreateTag tags = {user?.tags || []}/>
             </View>
-          </View>
+          </View> */}
           { userType && userType == ParentType && (
             <View style = { [styled.userInfoItem, {...paddingSize(10,10,10,10)}]}>
               <TouchableOpacity style = {{width: '100%'}} onPress = {() => setVisible(true)}>
@@ -118,12 +109,26 @@ export default function UserDetail () {
               </TouchableOpacity>
             </View>
           )}
-          { userType && userType <= '3' && (
+          { userType && userType <= '3' && userType > '1' && (
             <View style = { styled.userInfoItem}>
               <ChoosePlan />
             </View>
           )}
-        </View>
+          { btnItems && btnItems?.map( (btn, index) => {
+            return (
+              <View key = {btn.label + index} style = {[ 
+                styled.userInfoItem,
+              ]}>
+                <TouchableOpacity onPress = { btn.onPress }>
+                  <LineText 
+                    prefix = {btn.svg}
+                    label = {btn.label || strPlaceholder2}
+                  />
+                </TouchableOpacity>
+              </View>
+            )
+          })}
+        </ScrollView>
       </View>
     </>
   )
@@ -147,9 +152,6 @@ const styled = StyleSheet.create({
     flex: 1,
     width: '100%',
     backgroundColor: 'rgba(255,255,255,0.9)',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    paddingTop: setSpText(6),
     paddingLeft: setSpText(6),
     paddingRight: setSpText(6),
   },
@@ -158,5 +160,6 @@ const styled = StyleSheet.create({
     borderBottomWidth: setSpText(0.1),
     borderBottomColor: '#afafaf',
     paddingBottom: setSpText(4),
+    marginTop: setSpText(4),
   }
 })

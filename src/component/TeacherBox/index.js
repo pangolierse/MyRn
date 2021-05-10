@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/core'
 import { useToUserDetail } from '~/router/utils'
 import { isVoid, marginSize, avatarUrl } from '~/util'
 import defaultImg from '~/assets/img/default.jpg'
+import IImage from '~/component/IImage'
 
 export default function TeacherBox ({
   id,
@@ -24,7 +25,7 @@ export default function TeacherBox ({
         styles.teacherWrapper,
         style, 
       ]}>
-        <Image style = { styles.image } source = {isVoid(avatar) ? defaultImg : { uri: avatarUrl(avatar)}}/>
+        <IImage style = { styles.image } src = {isVoid(avatar) ? '' : avatarUrl(avatar)}/>
         <View style = { styles.textWrapper }>
           <View style = {[ styles.detailRowItem,{
             justifyContent: 'space-between'

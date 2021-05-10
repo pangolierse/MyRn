@@ -1,53 +1,59 @@
-import React, { Component } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import { setSpText, scaleSize} from '~/util/adapt'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native'
 import Search from '~/assets/svg/Search'
+import { useFootCourseScore } from '~/api/courseServer'
 import BetterBanner from '~/component/BetterBanner'
-import { paddingSize } from '~/util'
+import { paddingSize, isVoid } from '~/util'
 import { useToCourseDetail } from '~/router/utils'
 import { useNavigation } from '@react-navigation/core'
+import ErrorSvg from '~/assets/svg/Error'
 export default function PreView ({
   viewProp,
 }) {
   const navigator = useNavigation()
+  const { initGrade } = useFootCourseScore()
+  const [ status, setStatus ] = useState(0)
+  const [ grade, setGrade ] = useState('')
+  const typeMap = [
+    '室内课',
+    '室外课'
+  ]
+  useEffect(() => {
+    
+  },[status])
   const onPress = () => {
-    useToCourseDetail(navigator, viewProp?.pk_courseid)
+    useToCourseDetail(navigator, viewProp?.pk_arrangeid)
   }
+  useEffect(()=>{
+    initGrade(viewProp.pk_courseid, viewProp.pk_studentid).then( res => {
+      if( !isVoid(res.data) ){
+        setStatus(1)
+        setGrade(res.data?.gradenum)
+      } else {
+        setStatus(2)
+      }
+    }).catch( err => {
+      console.log(err);
+      setStatus(3)
+    })
+  },[])
   return ( 
     <View style = { styled.positionWrapper }>
-      <View style = { styled.betterBanner }>
-        <BetterBanner
-          bannerComponents={[
-            <View style={{
-              width: setSpText(30),
-              height: setSpText(30),
-              backgroundColor: '#1997fc',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Text style={{fontSize: 15, color: '#fff', marginBottom: 10}}>Page 01</Text>
-            </View>,
-            <View style={{
-              width: setSpText(30),
-              height: setSpText(30),
-              backgroundColor: '#da578f',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Text style={{fontSize: 15, color: '#fff', marginBottom: 10}}>Page 02</Text>
-            </View>,
-            <View style={{
-              width: setSpText(30),
-              height: setSpText(30),
-              backgroundColor: '#7c3fe4',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Text style={{fontSize: 15, color: '#fff', marginBottom: 10}}>Page 03</Text>
-            </View>,
-          ]}
-          isSeamlessScroll={true}
-        />
+      <View style = {{
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: setSpText(6),
+      }}>
+        <Text style = { styled.scoreStatus}>成绩</Text>
+        {status === 0 
+        ? <ActivityIndicator color="#39c8f6"/>
+        : status === 1
+        ? <Text>{grade}</Text>
+        : status === 2
+        ? <Text>暂无</Text>
+        : <ErrorSvg size = {setSpText(10)}/>
+        }
       </View>
       <View style = { styled.rightContent }>
         <View style = { styled.courseInfo }>
@@ -57,7 +63,7 @@ export default function PreView ({
           </View>
           <View style = { styled.infoItem }>
             <Text style = { styled.title }>时间:</Text>
-            <Text style = { styled.label } ellipsizeMode = 'tail' numberOfLines = {1}>{viewProp?.signindate}</Text>
+            <Text style = { styled.label } ellipsizeMode = 'tail' numberOfLines = {1}>{viewProp?.create_time}</Text>
           </View>
         </View>
         <TouchableOpacity onPress = { onPress }>
@@ -70,25 +76,18 @@ export default function PreView ({
 const viewWidth = 150
 const styled = StyleSheet.create({
   positionWrapper: {
-    height: setSpText(30 + 12),
-    width: setSpText(viewWidth + 12),
+    height: setSpText(40),
+    width: setSpText(viewWidth),
     flexDirection: 'row',
     backgroundColor: 'white',
-    padding: setSpText(6),
     borderRadius: setSpText(8),
+    ...paddingSize(10,10,10,10),
+    justifyContent: 'space-between',
   },
   betterBanner: {
-    width: setSpText(30),
-    height: setSpText(30),
   },
   rightContent: {
     flex: 1,
-    position: 'absolute',
-    height: setSpText(30),
-    width: setSpText(viewWidth - 30),
-    right: setSpText(0),
-    top: setSpText(6),
-    zIndex: 99,
     backgroundColor: 'white',
     flexDirection: 'row',
     alignItems: 'center',
@@ -112,5 +111,9 @@ const styled = StyleSheet.create({
   infoItem: {
     width: setSpText(viewWidth - 80),
     flexDirection: 'row',
+  },
+  scoreStatus: {
+    fontSize: scaleSize(30),
+    fontWeight: 'bold'
   }
 })

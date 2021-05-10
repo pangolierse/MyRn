@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import { setSpText, scaleSize} from '~/util/adapt'
-export default function ({
+export default function Input ({
   Preffix,
   value,
   onChangeText,

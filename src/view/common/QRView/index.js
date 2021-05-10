@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/core'
 import BackSvg from '~/assets/svg/Back'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { useUserQR } from '~/api/personServer'
-import { useAuth } from '~/context/useAuth'
 import { avatarUrl, isVoid } from '~/util'
 import Color from '~/assets/style/Color'
 import HeaderTitle from '~/component/HeaderTitle'
@@ -13,8 +12,7 @@ import IImage from '~/component/IImage'
 export default function CreateDynamic () {
   const navigator = useNavigation()
   // 发表动态
-  const { token,user } = useAuth()
-  const { QrSrc } = useUserQR(user.id)
+  const { QrSrc } = useUserQR()
   return ( 
     <View style = {{ flex: 1}}>
       <HeaderTitle

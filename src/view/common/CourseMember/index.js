@@ -4,17 +4,18 @@ import { Toast } from '@ant-design/react-native'
 import BackSvg from '~/assets/svg/Back'
 import { useNavigation } from '@react-navigation/core'
 import { setSpText, scaleSize} from '~/util/adapt'
-import { usePublishDynamic } from '~/api/dynamicServer'
+import { useClassMemberInfo } from '~/api/courseServer'
 import { useAuth } from '~/context/useAuth'
 import { avatarUrl, isVoid, paddingSize } from '~/util'
 import Color from '~/assets/style/Color'
 import HeaderTitle from '~/component/HeaderTitle'
-import UserBox from '~/component/UserBox'
 import StudentBox from '~/component/TeacherBox'
+import EmptyView from '~/component/EmptyView'
 export default function CourseMember () {
   const navigator = useNavigation()
   // 发表动态
-  const { token,user } = useAuth()
+  const courseId = useRoute()?.params?.courseId
+  const { members } = useClassMemberInfo(courseId)
   return ( 
     <View style = {{ flex: 1 }}>
       <HeaderTitle 
@@ -28,46 +29,30 @@ export default function CourseMember () {
         )}
       />
       <View style = {[ styled.wrapper ]}>
-        <FlatList 
-          showsVerticalScrollIndicator = {false}
-          data = {[
-            {
-              user_id: 55,
-              nick_name: '白起',
-              phone: '12313123',
-              avatar_name:'',
-              gender: '男'
-            },{
-              user_id: 54,
-              nick_name: '白起',
-              phone: '12313123',
-              avatar_name:'',
-              gender: '男'
-            },
-          ]}
-          renderItem = { ({item: student}) => {
-            return (
-              <StudentBox 
-                key = { 'teacher' + student?.user_id}
-                style = {{
-                  borderWidth: setSpText(0.1),
-                  borderRadius: setSpText(12),
-                }}
-                id = { student?.user_id }
-                name = { student?.nick_name }
-                phone = { student?.phone }
-                avatar = { student?.avatar_name}
-                gender = { student?.gender }
-              />
-            )
-          }}
-        />
-        <UserBox 
-          id = { user.id }
-          name = { user.nickName }
-          avatar = { avatarUrl(user.avatarName)}
-          cancelClick = { true }
-        />
+        { isVoid(members) ? (
+          <EmptyView />
+        ) : (
+          <FlatList 
+            showsVerticalScrollIndicator = {false}
+            data = {members || []}
+            renderItem = { ({item: student}) => {
+              return (
+                <StudentBox 
+                  key = { 'teacher' + student?.user_id}
+                  style = {{
+                    borderWidth: setSpText(0.1),
+                    borderRadius: setSpText(12),
+                  }}
+                  id = { student?.user_id }
+                  name = { student?.nick_name }
+                  phone = { student?.phone }
+                  avatar = { student?.avatar_name}
+                  gender = { student?.gender }
+                />
+              )
+            }}
+          />
+        )}
       </View>
     </View>
   )

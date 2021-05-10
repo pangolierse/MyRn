@@ -6,27 +6,42 @@ import {
   useToStudentDormitory, 
   useToEditUserInfo,
   useToStudentGroup,
-  useToStudentScore, } from '~/router/utils'
+  useToStudentScore,
+  useToClassListScore, } from '~/router/utils'
 import { paddingSize, avatarUrl } from '~/util'
 import { useActionImage } from '~/hook'
 import { uploadUserAvatar } from '~/api/personServer'
 import { useAuth } from '~/context/useAuth'
+import HouseSvg from '~/assets/svg/House'
+import InfomationSvg from '~/assets/svg/Infomation'
+import GroupSvg from '~/assets/svg/Group'
+import SearchScoreSvg from '~/assets/svg/SearchScore'
 import AnimateAvatar from '~/component/AnimateAvatar'
+import ListSvg from '~/assets/svg/List'
 const strPlaceholder1 = '未知'
 export function StudentSetting (navigator) {
   return [
-    [
-      '查看宿舍',
-      '编辑个人资料',
-      '查看小组',
-      '研学项目总评',
-      '取消'
-    ],[
-      () => useToStudentDormitory(navigator) ,
-      () => useToEditUserInfo(navigator) ,
-      () => useToStudentGroup(navigator) ,
-      () => useToStudentScore(navigator) ,
-    ]
+    {
+      label: '-----   查看宿舍',
+      svg: <HouseSvg size = {setSpText(16)}/>,
+      onPress: () => useToStudentDormitory(navigator)
+    },{
+      label: '-----   查看小组',
+      svg: <GroupSvg size = {setSpText(16)}/>,
+      onPress: () => useToStudentGroup(navigator)
+    },{
+      label: '-----   编辑个人资料',
+      svg: <InfomationSvg size = {setSpText(16)}/>,
+      onPress: () => useToEditUserInfo(navigator)
+    },{
+      label: '-----   研学项目总评',
+      svg: <SearchScoreSvg size = {setSpText(16)}/>,
+      onPress: () => useToStudentScore(navigator)
+    },{
+      label: '-----   查看开课班级',
+      svg: <ListSvg size = {setSpText(16)}/>,
+      onPress: () => useToClassListScore(navigator)
+    },
   ]
 }
 export const StudentHeader = () => {

@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, ScrollView, View } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/core'
 import Color from '~/assets/style/Color'
@@ -35,9 +35,14 @@ export default function Course () {
   const courseId = useRoute().params?.courseId
   const { courseInfo, carInfo, isLoading } = useCourseDetail(courseId)
   const [ scoreVisible, setScoreVisible ] = useState(false)
+  // #TODO  将courseId 改成 开课班级Id
   const showCourseMember = () => {
     useToCourseMemberDetail(navigator, courseId)
   }
+  useEffect(() => {
+    console.log(courseInfo);
+    
+  }, [courseInfo])
   return ( 
     <>
       <ScrollView style={styled.scroll}>

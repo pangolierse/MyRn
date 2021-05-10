@@ -36,6 +36,12 @@ import FootResult from '~/view/common/FootResult'
 import QRView from '~/view/common/QRView'
 // 学生设置研学成绩
 import StudentScore from '~/view/common/StudentScore'
+// 教师查看班级列表
+import ClassListView from '~/view/common/ClassListView'
+// 教师查看班级成员且设置成绩
+import ClassScore from '~/view/common/ClassScore'
+// 学生查看班级和成绩
+import ClassListScore from '~/view/common/ClassListScore'
 const Stack = createStackNavigator()
 
 const justReturn = {
@@ -66,7 +72,8 @@ export default function () {
     token,
   } = useAuth()
   const defaultOptions = {
-    headerShown: false
+    headerShown: false,
+    unmountOnBlur: true,
   }
   const loginRouter = {
     LoginRouter: LoginRouter,
@@ -83,17 +90,21 @@ export default function () {
     Course: Course,
     ScanView: ScanView,
     EditUserInfo: EditUserInfo,
-    QRView: QRView,
     StudentGroup: StudentGroup,
-    FootResult: FootResult,
-    CourseMember: CourseMember,
-    StudentScore: StudentScore,
   }
   const studentRouter = {
     StudentTab: StudentTab,
+    StudentScore: StudentScore,
+    ClassListScore: ClassListScore,
+    QRView: QRView,
   }
   const teacherRouter = {
     TeacherTab: TeacherTab,
+    CourseMember: CourseMember,
+    FootResult: FootResult,
+    ClassListView: ClassListView,
+    ClassScore: ClassScore,
+    ClassListScore: ClassListScore,
   }
   const parentRouter = {
     ParentTab: ParentTab,
@@ -131,6 +142,7 @@ export default function () {
                 name={name} 
                 component={component} 
                 options={filterOptions}
+
               />
             )
           })

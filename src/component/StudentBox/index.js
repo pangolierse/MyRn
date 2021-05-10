@@ -4,7 +4,9 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
 import { List, SwipeAction } from '@ant-design/react-native';
 import { useNavigation } from '@react-navigation/core';
 import { paddingSize } from '~/util'
-import { useToUserDetail } from '~/router/utils'
+import { 
+  useToUserDetail,
+  useToTeacherClassListScore } from '~/router/utils'
 import defaultImage from '~/assets/img/default.jpg'
 import EnterSvg from '~/assets/svg/Enter'
 export default function StudentBox ({
@@ -26,7 +28,9 @@ export default function StudentBox ({
     },
     {
       text: '学生课程',
-      onPress: () => console.log('reply'),
+      onPress: () => {
+        useToTeacherClassListScore(navigator, id)
+      },
       style: { backgroundColor: '#fc8d0f', color: 'white' },
     },
   ];
@@ -40,7 +44,7 @@ export default function StudentBox ({
         <Image style = { styles.image } source = { defaultImage }/>
         <View style = { styles.userInfoWrapper }>
           <View style = { styles.infoItem }>
-            <Text style = { styles.title }>学生姓名: </Text>
+            <Text style = { styles.title }>姓名: </Text>
             <Text style = { styles.label }>{name || placeholder}</Text>
             
             <Text style = {[ styles.title, { marginLeft: setSpText(5) } ]}>宿舍: </Text>
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
     marginRight: setSpText(4),
   },
   labelellipse: {
-    width: setSpText(50)
+    width: setSpText(70)
   },
   operate: {
     marginTop: setSpText(5),

@@ -10,9 +10,9 @@ import {
   useToStudentDormitory, 
   useToEditUserInfo } from '~/router/utils'
 import AnimateAvatar from '~/component/AnimateAvatar'
-import BottomButton from '../Comp/BottomButton'
-import BottomButtonItem from '../Comp/BottomButton/Button'
-import AssociateModal from './AssociateModal'
+import HouseSvg from '~/assets/svg/House'
+import InfomationSvg from '~/assets/svg/Infomation'
+import BindStudentSvg from '~/assets/svg/BindStudent'
 export function ParentHeader () {
   const { refreshInfo,user } = useAuth()
   const { uploadAvatar } = uploadUserAvatar()
@@ -54,15 +54,18 @@ export function ParentHeader () {
 
 export function ParentSetting (navigator, setVisible) {
   return [
-    [
-      '查看宿舍',
-      '编辑个人信息',
-      '修改绑定学生',
-      '取消'
-    ],[
-      () => useToStudentDormitory(navigator) ,
-      () => useToEditUserInfo(navigator) ,
-      () => setVisible(true) ,
-    ]
+    {
+      label: '-----   查看宿舍',
+      svg: <HouseSvg size = {setSpText(16)}/>,
+      onPress: () => useToStudentDormitory(navigator)
+    },{
+      label: '-----   编辑个人资料',
+      svg: <InfomationSvg size = {setSpText(16)}/>,
+      onPress: () => useToEditUserInfo(navigator)
+    },{
+      label: '-----   修改绑定学生',
+      svg: <BindStudentSvg size = {setSpText(16)}/>,
+      onPress: () => setVisible(true)
+    },
   ]
 }

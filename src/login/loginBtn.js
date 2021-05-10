@@ -18,9 +18,6 @@ import Input from '~/component/Input'
 import { useAuth } from '~/context/useAuth'
 const teacherType = [[
   {
-    label: '营地管理员',
-    value: 0,
-  },{
     label: '领队教师',
     value: 1,
   },{
@@ -32,7 +29,6 @@ const teacherType = [[
   },
 ]]
 const teacherTypeMap = {
-  '0': '营地管理员',
   '1': '领队教师',
   '2': '课程教师',
   '3': '宿舍教师',
@@ -40,12 +36,12 @@ const teacherTypeMap = {
 export default function LoginBtn () {
   const { login } = useAuth()
   const navigator = useNavigation()
-  const [ activeType, setActiveType ] = useState(4)
+  const [ activeType, setActiveType ] = useState(1)
   const [ code, setCode ] = useState('')
   const [ eyeOpen, setEveOpen ] = useState(false)
   const [ params, setParams ] = useState({
-    userType: 4,
-    username: 'baiqi',
+    userType: 1,
+    username: 'xxls', // baiqi
     password: '123',
     uuid: '',
     code: '',

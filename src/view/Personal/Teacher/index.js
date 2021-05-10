@@ -5,8 +5,11 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from "@react-navigation/core";
 import { useChangePlan } from '~/api/personServer'
 import { 
-  useToEditUserInfo, } from '~/router/utils'
+  useToEditUserInfo,
+  useToClassListView, } from '~/router/utils'
 import { useAuth } from '~/context/useAuth'
+import InfomationSvg from '~/assets/svg/Infomation'
+import ListSvg from '~/assets/svg/List'
 export function ChoosePlan () {
   const { reload } = useAuth()
   const [ value, setValue ] = useState(0)
@@ -60,30 +63,32 @@ function CustomType ({
 
 export function TeacherDormitorySetting (navigator) {
   return [
-    [
-      '编辑个人资料',
-      '取消'
-    ],[
-      () => {
-        useToEditUserInfo(navigator)
-      }
-    ]
+    {
+      label: '-----   编辑个人资料',
+      svg: <InfomationSvg size = {setSpText(16)}/>,
+      onPress: () => useToEditUserInfo(navigator)
+    },
+  ]
+}
+export function TeacherSchoolSetting (navigator) {
+  return [
+    {
+      label: '-----   编辑个人资料',
+      svg: <InfomationSvg size = {setSpText(16)}/>,
+      onPress: () => useToEditUserInfo(navigator)
+    },
   ]
 }
 export function TeacherCourseSetting (navigator) {
   return [
-    [
-      '编辑个人资料',
-      '查看开课班级',
-      '取消'
-    ],[
-      () => {
-        useToEditUserInfo(navigator)
-      },
-      () => {
-        useToEditUserInfo(navigator)
-      }
-    ]
+    {
+      label: '-----   编辑个人资料',
+      svg: <InfomationSvg size = {setSpText(16)}/>,
+      onPress: () => useToEditUserInfo(navigator)
+    },{
+      label: '-----   查看开课班级',
+      svg: <ListSvg size = {setSpText(16)}/>,
+      onPress: () => useToClassListView(navigator)
+    },
   ]
-
 }

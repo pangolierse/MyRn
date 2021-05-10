@@ -29,7 +29,6 @@ export default function Divider ({
         position: 'absolute',
         left: position === 'left' ? '20%' : '80%',
         top: 0,
-        backgroundColor: 'white',
         fontWeight: fontWeight,
         transform: [{
           translateY: setSpText(-8),

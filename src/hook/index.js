@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
 } from 'react-native';
@@ -85,3 +85,14 @@ export function useAction (BUTTONS, handleBtn) {
     showAction: showActionSheet,
   }
 }
+
+//搜索debounce
+export const useDebounce = (value, delay) => {
+  const [debounceValue, setDebounceValue] = useState(value);
+  useEffect(() => {
+    const timeout = setTimeout(() => setDebounceValue(value), delay);
+    return () => clearTimeout(timeout);
+  }, [value, delay]);
+
+  return debounceValue;
+};

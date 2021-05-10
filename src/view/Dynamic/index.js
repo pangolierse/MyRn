@@ -16,7 +16,7 @@ export default function Dynamic () {
   const [ activeImgs, setActiveImgs ] = useState([])
   const [ imgsModal, setImgsModal ] = useState(false)
   // 数据获取控件
-  const [ page, setPage ] = useState(1)
+  const [ page, setPage ] = useState(0)
   const [ limit, setLimit ] = useState(10)
   const { isLoading, content, empty, updateInfo } = useDynamicInfo()
   const [ dynamics, setDynamics] = useState([])

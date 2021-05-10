@@ -19,15 +19,13 @@ export const useUserDetail = (id) => {
     userInfo,
   }
 }
-export const useUserQR = (id) => {
+export const useUserQR = () => {
   const api = apiUrl + '/file/二维码/'
   const client = useHttp()
   const [ QrSrc, setQrSrc ] = useState('')
   useEffect(() => {
-    console.log(id);
-    client(`/api/research/tool/qrcode/createQrcode?userid=${id}`,{
-      method: 'POST',
-    }).then(res => {
+    client(`/api/research/person/findLoginPersonQrcode`)
+    .then(res => {
       let source = res.data.split('/')
       setQrSrc(api + source[source.length - 1])
     })
@@ -153,5 +151,20 @@ export const useChangeAssociate = () => {
   }
   return {
     changeAssociate,
+  }
+}
+
+export const useFindStudent = () => {
+  const client = useHttp()
+  const { data, run, isLoading } = useAsync([], 'data')
+  const findStudent = (key) => {
+    run(
+      client(`/api/research/person/findAllStudentMsgByKey?key=${key}`)
+    )
+  }
+  return {
+    findStudent,
+    data,
+    isLoading,
   }
 }
