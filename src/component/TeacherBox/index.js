@@ -13,6 +13,7 @@ export default function TeacherBox ({
   avatar,
   name,
   gender,
+  phoneLabel = '联系方式: ',
   phone
 }) {
   const navigator = useNavigation()
@@ -56,7 +57,7 @@ export default function TeacherBox ({
                 fontWeight: 'bold',
                 marginRight: setSpText(4),
               }}
-            >联系方式: </Text>
+            >{phoneLabel}</Text>
             <Text style = { styles.name }>{phone}</Text>
           </View>
         </View>

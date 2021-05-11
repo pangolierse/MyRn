@@ -111,14 +111,15 @@ export const useFootCourseScore = () => {
   }
 }
 // 教师查询开课班级成员信息
-export const useClassMemberInfo = (courseId) => {
+export const useClassMemberInfo = (ocid) => {
+  console.log(ocid);
   const client = useHttp()
   const { run, data: members, isLoading } = useAsync([],'data')
   const refreshInfo = () => {
     run(
       client('/api/research/openingclass/findStudentsByOcid',{
         data: {
-          ocId: courseId
+          ocId: ocid
         }
       })
     )

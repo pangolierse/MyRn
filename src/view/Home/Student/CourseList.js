@@ -22,7 +22,7 @@ export default function  ({
               courseName = { item.coursename }
               sectionTime = { item.sectionid }
               roomName = { `${item.classroomname}-${item.classroomcode}` }
-              onPress = { () => useToCourseDetail(navigator, item.pk_arrangeid) }
+              onPress = { () => useToCourseDetail(navigator, item.pk_arrangeid, item.pk_ocid) }
             />
           )
         }}

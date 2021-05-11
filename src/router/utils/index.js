@@ -4,15 +4,16 @@ export const useToRegister = (navigator) => {
   navigator.navigate('Register')
 }
 // 学生界面  路由跳转 课程详情
-export const useToCourseDetail = (navigator, id) => {
+export const useToCourseDetail = (navigator, id, ocid) => {
   navigator.navigate('Course',{
     courseId: id,
+    ocid: ocid,
   })
 }
 // 学生界面  路由跳转 课程成员详情
 export const useToCourseMemberDetail = (navigator, id) => {
   navigator.navigate('CourseMember',{
-    courseId: id,
+    ocid: id,
   })
 }
 // 公共界面  跳转 用户界面

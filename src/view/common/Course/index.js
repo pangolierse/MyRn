@@ -33,11 +33,11 @@ export default function Course () {
   const { userType } = useAuth()
   const navigator = useNavigation()
   const courseId = useRoute().params?.courseId
+  const ocid = useRoute().params?.ocid
   const { courseInfo, carInfo, isLoading } = useCourseDetail(courseId)
-  const [ scoreVisible, setScoreVisible ] = useState(false)
   // #TODO  将courseId 改成 开课班级Id
   const showCourseMember = () => {
-    useToCourseMemberDetail(navigator, courseId)
+    useToCourseMemberDetail(navigator, ocid)
   }
   useEffect(() => {
     console.log(courseInfo);

@@ -2,7 +2,7 @@ import React, { Component, useEffect, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native'
 import { Toast } from '@ant-design/react-native'
 import BackSvg from '~/assets/svg/Back'
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation, useRoute } from '@react-navigation/core'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { useClassMemberInfo } from '~/api/courseServer'
 import { useAuth } from '~/context/useAuth'
@@ -14,8 +14,11 @@ import EmptyView from '~/component/EmptyView'
 export default function CourseMember () {
   const navigator = useNavigation()
   // 发表动态
-  const courseId = useRoute()?.params?.courseId
-  const { members } = useClassMemberInfo(courseId)
+  const ocid = useRoute()?.params?.ocid
+  const { members } = useClassMemberInfo(ocid)
+  useEffect(() => {
+    console.log(members);
+  }, [members])
   return ( 
     <View style = {{ flex: 1 }}>
       <HeaderTitle 
@@ -34,6 +37,7 @@ export default function CourseMember () {
         ) : (
           <FlatList 
             showsVerticalScrollIndicator = {false}
+            keyExtractor = { item => item.user_id}
             data = {members || []}
             renderItem = { ({item: student}) => {
               return (
@@ -45,7 +49,8 @@ export default function CourseMember () {
                   }}
                   id = { student?.user_id }
                   name = { student?.nick_name }
-                  phone = { student?.phone }
+                  phoneLabel = '小组名称'
+                  phone = { student?.groupname }
                   avatar = { student?.avatar_name}
                   gender = { student?.gender }
                 />
