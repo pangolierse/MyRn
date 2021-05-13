@@ -26,7 +26,11 @@ export default function TeacherBox ({
         styles.teacherWrapper,
         style, 
       ]}>
-        <IImage style = { styles.image } src = {isVoid(avatar) ? '' : avatarUrl(avatar)}/>
+        <IImage 
+          gender = { gender }
+          style = { styles.image } 
+          src = {isVoid(avatar) ? '' : avatarUrl(avatar)}
+        />
         <View style = { styles.textWrapper }>
           <View style = {[ styles.detailRowItem,{
             justifyContent: 'space-between'

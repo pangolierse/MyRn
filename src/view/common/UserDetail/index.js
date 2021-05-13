@@ -18,17 +18,6 @@ const strPlaceholder1 = '未知'
 const strPlaceholder2 = '--'
 export default function UserDetail () {
   const navigator = useNavigation()
-
-  let user = {
-    id: 2,
-    nickName: 'Pango',  // 昵称
-    name: '王大锤', // 姓名
-    gender: 0,  // 性别
-    age: 15, // 年龄
-    phone: 17506023989,
-    tags: ['帅气','高','帅','大','awef','aweasdf','awefassss','afff'],
-    introduce: '用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍用户自我介绍'
-  }
   const userId = useRoute().params?.userId
   const { userInfo } = useUserDetail(userId)
   return ( 
@@ -82,7 +71,7 @@ export default function UserDetail () {
               label = {userInfo?.email || strPlaceholder2}
             />
           </View>
-          <View style = { styled.userInfoItem}>
+          {/* <View style = { styled.userInfoItem}>
             <View style = { styled.tagWrapper }>
               <Text style = {{ fontSize: scaleSize(33), fontWeight: 'bold'}}>个性标签：</Text>
               {user?.tags.map( tag => {
@@ -90,7 +79,7 @@ export default function UserDetail () {
               })}
               <CreateTag tags = {user?.tags || []}/>
             </View>
-          </View>
+          </View> */}
         </View>
       </View>
     </>

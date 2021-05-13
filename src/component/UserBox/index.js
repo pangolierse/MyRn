@@ -12,6 +12,7 @@ export default function UserBox ({
   avatar,
   time,
   cancelClick = false,   
+  gender,
 }) {
   const navigator = useNavigation()
   const goToUser = (id) => {
@@ -20,7 +21,7 @@ export default function UserBox ({
   return ( 
     <View style = { [styled.userWrapper, style] }>
       <TouchableOpacity onPress = {() => !cancelClick && goToUser(id)}>
-        <IImage style = { styled.userImage } src = { avatar } />
+        <IImage style = { styled.userImage } src = { avatar } gender = {gender}/>
       </TouchableOpacity>
       <View style = { [styled.userInfo,{ justifyContent: time ? 'space-between' : 'center' }] }>
         <TouchableOpacity onPress = {() => !cancelClick && goToUser(id)}>

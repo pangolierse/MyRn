@@ -7,12 +7,14 @@ import { paddingSize } from '~/util'
 import { 
   useToUserDetail,
   useToTeacherClassListScore } from '~/router/utils'
+import IImage from '~/component/IImage'
 import defaultImage from '~/assets/img/default.jpg'
 import EnterSvg from '~/assets/svg/Enter'
 export default function StudentBox ({
   id,
   name,
   phone,
+  gender,
   dormitory,
   onPress = () => {}
 }) {
@@ -41,7 +43,7 @@ export default function StudentBox ({
       right={rightOperate}
     >
       <View style = { styles.userContainer }>
-        <Image style = { styles.image } source = { defaultImage }/>
+        <IImage style = { styles.image } gender = {gender}/>
         <View style = { styles.userInfoWrapper }>
           <View style = { styles.infoItem }>
             <Text style = { styles.title }>姓名: </Text>

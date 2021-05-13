@@ -7,6 +7,7 @@ export default function Divider ({
   text,
   width = '90%',
   position = 'left',
+  fontBcColor = 'white',
   fontWeight = 'bold',
 }) {
   return ( 
@@ -30,6 +31,7 @@ export default function Divider ({
         left: position === 'left' ? '20%' : '80%',
         top: 0,
         fontWeight: fontWeight,
+        backgroundColor: fontBcColor,
         transform: [{
           translateY: setSpText(-8),
         }]

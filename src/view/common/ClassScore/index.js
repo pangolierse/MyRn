@@ -139,7 +139,7 @@ function StudentBox ({
       right={rightOperate}
     >
       <View style = {styled.renderWrapper}>
-        <IImage style = { styled.image } src = {imgSrc}/>
+        <IImage style = { styled.image } src = {imgSrc} gender = { gender }/>
         <View style = { styled.rightWrapper}>
           <View style = { styled.rowItem }>
             <Text style = { styled.title }>姓名：<Text style = { styled.value }>{nickName}</Text></Text>

@@ -6,7 +6,7 @@ import defaultImg from '~/assets/img/default.jpg'
 import { isVoid } from '~/util'
 import IImage from '~/component/IImage'
 
-export default function AnimateAvatar ({ imgSrc, onPress }) {
+export default function AnimateAvatar ({ imgSrc, onPress, gender }) {
   const duration = 1000
   const animate1 = {
     0: {
@@ -60,6 +60,7 @@ export default function AnimateAvatar ({ imgSrc, onPress }) {
       <IImage 
         style = { styled.img } 
         src = {imgSrc} 
+        gender = { gender }
         onClick = { onPress }
       />
     </TouchableOpacity>

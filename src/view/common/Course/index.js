@@ -13,7 +13,8 @@ import { paddingSize } from '~/util'
 import { useAuth } from '~/context/useAuth'
 import { 
   useToScanQR,
-  useToCourseMemberDetail } from '~/router/utils'
+  useToCourseMemberDetail,
+  useToStudentDormitory, } from '~/router/utils'
 import { useCourseDetail } from '~/api/courseServer'
 import ReadMore from '~/component/ReadMore'
 import Divider from '~/component/Divider'
@@ -25,6 +26,7 @@ import LineText from '~/component/LineText'
 import HeaderTitle from '~/component/HeaderTitle'
 import BottomButton from './BottomButton/index'
 import Button from './BottomButton/Button'
+import TeacherCar from './TeacherCar'
 import ScoreModal from './ScoreModal'
 import { avatarUrl, isVoid } from '../../../util'
 const StudentType = '4'
@@ -34,15 +36,16 @@ export default function Course () {
   const navigator = useNavigation()
   const courseId = useRoute().params?.courseId
   const ocid = useRoute().params?.ocid
-  const { courseInfo, carInfo, isLoading } = useCourseDetail(courseId)
-  // #TODO  将courseId 改成 开课班级Id
+  const { courseInfo, carInfo, teacherCarInfo,  isLoading, teacherCarIsLoading } = useCourseDetail(courseId)
   const showCourseMember = () => {
     useToCourseMemberDetail(navigator, ocid)
   }
   useEffect(() => {
     console.log(courseInfo);
+    console.log(carInfo);
+    console.log(teacherCarInfo);
     
-  }, [courseInfo])
+  }, [courseInfo, carInfo, teacherCarInfo])
   return ( 
     <>
       <ScrollView style={styled.scroll}>
@@ -64,43 +67,6 @@ export default function Course () {
             ) : null
           }
         />
-        {/* <BetterBanner
-          bannerComponents={[
-            <View style={{
-              width: '100%',
-              height: '100%',
-              backgroundColor: '#1997fc',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Text style={{fontSize: 35, color: '#fff', marginBottom: 10}}>Page 01</Text>
-              <Text style={{fontSize: 15, color: '#fff'}}>Welcome! have a good time</Text>
-            </View>,
-            <View style={{
-              width: '100%',
-              height: '100%',
-              backgroundColor: '#da578f',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Text style={{fontSize: 35, color: '#fff', marginBottom: 10}}>Page 02</Text>
-              <Text style={{fontSize: 15, color: '#fff'}}>Welcome! have a good time</Text>
-            </View>,
-            <View style={{
-              width: '100%',
-              height: '100%',
-              backgroundColor: '#7c3fe4',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Text style={{fontSize: 35, color: '#fff', marginBottom: 10}}>Page 03</Text>
-              <Text style={{fontSize: 15, color: '#fff'}}>Welcome! have a good time</Text>
-            </View>,
-          ]}
-          onPress={(index) => alert('you pressed index is : ' + index)}
-          indicatorContainerBackgroundColor={'rgba(0,0,0,0.3)'}
-          isSeamlessScroll={true}
-        /> */}
       </View>
       <View style = {styled.container}>
         <Divider text='课程教师' margin = { setSpText(8) }/>
@@ -125,64 +91,63 @@ export default function Course () {
           <Text style = {[ styled.title, {marginRight: setSpText(8)}]}>地点:</Text>
           <Text style = { styled.courseName }>{courseInfo?.classroomaddress}</Text>
         </View>
-        {/* <View style={[
-          styled.rowLineLayout,
-          styled.tagWrapper,
-        ]}>
-          <Text style={[styled.title, {marginRight: setSpText(4)}]}>标签:</Text>
-          {course?.tag.map(tag => {
-            return <FixTag text = {tag} key = {tag} space = {2}/>
-          })}
-        </View> */}
         <Divider/>
         {/* 出行安排 */}
-        <View style = {[ 
-          styled.rowLineLayout,{
-            ...paddingSize(0,0,6,6),
-          }
-        ]}>
-          <AnimateCar />
-          <View style = {carStyle.rightContent}>
-            { isLoading ? (
-              <Text style = {{
-                fontWeight: 'bold',
-                fontSize: scaleSize(32),
-              }}>加载中...</Text>
-            ) : !isVoid(carInfo) ? (
-              <>
-              <View style = { carStyle.rowItem }>
-                <LineText 
-                  label = {'司机:'} 
-                  prefix = {<DriverSvg />} 
-                  suffix = {<Text style = {{color: '#333'}}>{carInfo?.drivername}</Text>}
-                  margin = {2}
-                />
-                <LineText 
-                  label = {'车牌号:'} 
-                  prefix = {<CarMarkSvg color = '#3366CC' size = {16}/>} 
-                  suffix = {<Text style = {{color: '#333'}}>{carInfo?.carname}</Text>}
-                  margin = {2}
-                />
-              </View>
-              <View style = {[ carStyle.rowItem,{
-                paddingLeft: setSpText(4),
-              }]}>
-                <LineText 
-                  label = {'联系方式:'} 
-                  prefix = {<PhoneColorSvg color = '#3366CC' size = {16}/>} 
-                  suffix = {<Text style = {{color: '#333'}}>{carInfo?.driverphone}</Text>}
-                  margin = {7}
-                />
-              </View>
-              </>
-            ) : (
-              <Text style = {{
-                fontWeight: 'bold',
-                fontSize: scaleSize(32),
-              }}>无出行安排</Text>
-            )}
+        { userType == TeacherType ? (
+          <TeacherCar 
+            carStyle = {carStyle}
+            teacherCarInfo = { teacherCarInfo }
+            isloading = { teacherCarIsLoading }
+          />
+        ) : (
+          <View style = {[ 
+            styled.rowLineLayout,{
+              ...paddingSize(0,0,6,6),
+            }
+          ]}>
+            <AnimateCar />
+            <View style = {carStyle.rightContent}>
+              { isLoading ? (
+                <Text style = {{
+                  fontWeight: 'bold',
+                  fontSize: scaleSize(32),
+                }}>加载中...</Text>
+              ) : !isVoid(carInfo) ? (
+                <>
+                <View style = { carStyle.rowItem }>
+                  <LineText 
+                    label = {'司机:'} 
+                    prefix = {<DriverSvg />} 
+                    suffix = {<Text style = {{color: '#333'}}>{carInfo?.drivername}</Text>}
+                    margin = {2}
+                  />
+                  <LineText 
+                    label = {'车牌号:'} 
+                    prefix = {<CarMarkSvg color = '#3366CC' size = {16}/>} 
+                    suffix = {<Text style = {{color: '#333'}}>{carInfo?.carname}</Text>}
+                    margin = {2}
+                  />
+                </View>
+                <View style = {[ carStyle.rowItem,{
+                  paddingLeft: setSpText(4),
+                }]}>
+                  <LineText 
+                    label = {'联系方式:'} 
+                    prefix = {<PhoneColorSvg color = '#3366CC' size = {16}/>} 
+                    suffix = {<Text style = {{color: '#333'}}>{carInfo?.driverphone}</Text>}
+                    margin = {7}
+                  />
+                </View>
+                </>
+              ) : (
+                <Text style = {{
+                  fontWeight: 'bold',
+                  fontSize: scaleSize(32),
+                }}>无出行安排</Text>
+              )}
+            </View>
           </View>
-        </View>
+        )}
         {/* 课程简介 */}
         <View style = {[
           styled.rowLayout,

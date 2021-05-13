@@ -58,7 +58,11 @@ export const StudentHeader = () => {
   }
   return(
     <View style = { styled.header }>
-    <AnimateAvatar imgSrc = { avatarUrl(user?.avatarName) } onPress = {handlePress}/>
+    <AnimateAvatar 
+      gender = { user?.gender }
+      imgSrc = { avatarUrl(user?.avatarName) } 
+      onPress = {handlePress}
+    />
       <View style = { styled.detail}>
         <Text style = { styled.text }>{user?.gender || strPlaceholder1}</Text>
         <Text style = { styled.text }>{(user?.age || strPlaceholder1)+'岁'}</Text>

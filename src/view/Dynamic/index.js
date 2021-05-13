@@ -7,6 +7,7 @@ import { useToCreateDynamic } from '~/router/utils'
 import RefreshListView, { RefreshState } from 'react-native-refresh-list-view'
 import { avatarUrl } from '~/util'
 import { useDynamicInfo } from '~/api/dynamicServer'
+import { useAuth } from '~/context/useAuth'
 import HeaderTitle from '~/component/HeaderTitle'
 import Divider from '~/component/Divider'
 import IImage from '~/component/IImage'
@@ -21,6 +22,7 @@ export default function Dynamic () {
   const { isLoading, content, empty, updateInfo } = useDynamicInfo()
   const [ dynamics, setDynamics] = useState([])
   const navigator = useNavigation()
+  const { userType } = useAuth()
   useEffect(() => {
     setDynamics(filterDynamic(content))
   }, [content])
@@ -47,8 +49,8 @@ export default function Dynamic () {
     setDynamics([])
   }
   const loadMoreData = () => {
-    !empty && setPage(page + 1)
-    !empty && updateInfo(page + 1, limit)
+    !isLoading && !empty && setPage(page + 1)
+    !isLoading && !empty && updateInfo(page + 1, limit)
   }
   return ( 
     <View style = { styled.container }>
@@ -62,9 +64,13 @@ export default function Dynamic () {
         backgroundColor = {Color.header_title_blue}
         title = '动态' 
         suffix = {(
-          <TouchableOpacity style = { styled.createButton } onPress = { createDynamic }>
-            <Text style = {[styled.create, { color: 'white'}]}>+</Text>
-          </TouchableOpacity>
+          userType == '5' ? (
+            null
+          ) : (
+            <TouchableOpacity style = { styled.createButton } onPress = { createDynamic }>
+              <Text style = {[styled.create, { color: 'white'}]}>+</Text>
+            </TouchableOpacity>
+          )
         )}
       />
       <RefreshListView 
@@ -83,6 +89,7 @@ export default function Dynamic () {
           <View style = { styled.dynamicWrapper} key = {prop.pkRaid + 'dynamic'}>
             <UserBox 
               id = { personMsg.id }
+              gender = { personMsg.gender }
               name = { personMsg.nickName }
               time = { prop.createTime }
               avatar = { avatarUrl(personMsg.avatarName)}

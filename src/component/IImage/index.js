@@ -2,14 +2,17 @@ import React, { Component, useEffect, useState } from 'react'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { StyleSheet, Image, TouchableOpacity, View } from 'react-native'
 import { isVoid } from '~/util'
-import Loading from '~/component/Loading'
+import manImage from '~/assets/img/man.png'
+import womanImage from '~/assets/img/woman.png'
 import defaultImg from '~/assets/img/default.jpg'
-import defaultImg1 from '~/assets/img/default1.jpg'
+import loadingJpg from '~/assets/img/loading.jpg'
 export default function IImage ({
   src,
   style = {},
+  gender = '男',
   onClick,
 }) {
+  const defaultImage = gender == '男' ? manImage : womanImage
   const [ loading, setLoading ] = useState(true)
   const handleLoad = () => {
     setLoading(false)
@@ -18,10 +21,10 @@ export default function IImage ({
     <TouchableOpacity onPress = {onClick} activeOpacity = { onClick ? 0.2 : 1}>
       <Image 
         style = {[ styled.image, style]} 
-        source = { isVoid(src) ? defaultImg : {uri: src}} 
+        source = { isVoid(src) ? defaultImage : {uri: src}} 
         onLoad = {handleLoad}
       />
-      {(!isVoid(src) && loading) && <Image style = {[ styled.image,styled.imageMask, style ]} source = {defaultImg1}/>}
+      {(!isVoid(src) && loading) && <Image style = {[ styled.image,styled.imageMask, style ]} source = {loadingJpg}/>}
     </TouchableOpacity>
   )
 }

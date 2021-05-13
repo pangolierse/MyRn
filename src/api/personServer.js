@@ -121,16 +121,26 @@ export const useChangePlan = (reload) => {
     updatePlan,
   }
 }
-export const useGroup = () => {
+export const useGroup = (id) => {
   const client = useHttp() 
   const { run, data, isLoading } = useAsync({}, 'data')
   useEffect(() => {
     initInfo()
   }, [])
   const initInfo = () => {
-    run(
-      client('/api/research/group/findByStudentId')
-    )
+    if( id ){
+      run(
+        client('/api/research/group/findById', {
+          data:{
+            groupid: id,
+          }
+        })
+      )
+    } else {
+      run(
+        client('/api/research/group/findByStudentId')
+      )
+    }
   }
   return {
     data,

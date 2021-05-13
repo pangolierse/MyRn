@@ -132,7 +132,7 @@ const styled = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginRight: setSpText(8),
+    marginRight: setSpText(4),
   },
   rightWrapper: {
     width: setSpText(40),

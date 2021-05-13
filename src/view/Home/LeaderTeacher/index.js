@@ -11,21 +11,6 @@ import StudentBox from '~/component/StudentBox'
 import EmptyView from '~/component/EmptyView'
 import { useDebounce } from '~/hook';
 import Header from './Header'
-const fakeInfo = [
-  {
-    key: 'hah1',
-    id: 123,
-    name: '王大锤',  // 姓名
-    phone: '17756211544',  // 联系方式
-    dormitory: '五社区五号楼403',
-  },{
-    key: 'hah2',
-    id: 1234,
-    name: '王大锤',
-    phone: '17756211544',
-    dormitory: '五社区五号楼403五社区五号楼403',
-  },
-]
 export default function LeaderTeacherHome () {
   const navigator = useNavigation()
   const { findStudent, data: studentList, isLoading } = useFindStudent()
@@ -61,6 +46,7 @@ export default function LeaderTeacherHome () {
         ? (
           <FlatList 
             showsVerticalScrollIndicator = {false}
+            keyExtractor = { item => item.user_id}
             data = {studentList || []}
             renderItem = { ({item}) => {
               return (
@@ -68,6 +54,7 @@ export default function LeaderTeacherHome () {
                 <StudentBox
                   key = { item }
                   id = { item.user_id }
+                  gender = { item.gender }
                   name = { item.nick_name }
                   phone = { item.phone }
                   dormitory = { item.dormitoryname }

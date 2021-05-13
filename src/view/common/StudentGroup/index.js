@@ -1,6 +1,6 @@
 import React, { Component, useEffect } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native'
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation, useRoute } from '@react-navigation/core'
 import { paddingSize, marginSize } from '~/util'
 import { setSpText, scaleSize} from '~/util/adapt'
 import { useAuth } from '~/context/useAuth'
@@ -16,7 +16,8 @@ import { avatarUrl } from '../../../util'
 
 export default function StudentGroup () {
   const navigator = useNavigation()
-  const { data: {groupMsg, groupStudents}, isLoading } = useGroup()
+  const groupId = useRoute()?.params?.groupId
+  const { data: {groupMsg, groupStudents}, isLoading } = useGroup(groupId)
   useEffect(() => {
     console.log(groupMsg);
     console.log(groupStudents);
@@ -50,6 +51,7 @@ export default function StudentGroup () {
             <StudentGroupBox 
               key = { student?.user_id }
               style = {{marginTop: setSpText(6)}}
+              gender = { student?.gender }
               imgSrc = { student?.avatar_name ? avatarUrl(student?.avatar_name) : ''}
               nickName = { student?.nick_name }
               age = { student?.age }

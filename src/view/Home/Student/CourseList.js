@@ -12,7 +12,7 @@ export default function  ({
     <View style = {styled.container}>
       <FlatList 
         keyExtractor = { (item,index) => {
-          return item.pk_arrangeid + index + 'key'
+          return item.pk_arrangeid
         }}
         data = {dataSource || []}
         renderItem = { ({item}) => {

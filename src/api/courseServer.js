@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useHttp,apiUrl } from '~/util/http'
 import { useAsync } from '~/util/useAsync'
+import { useAuth } from '~/context/useAuth'
 // 学生课节列表信息
 export const useStudentCourse = () => {
   const client = useHttp()
@@ -27,8 +28,10 @@ export const useStudentCourse = () => {
 // 学生课程信息查询
 export const useCourseDetail = (id) => {
   const client = useHttp()
+  const { userType } = useAuth()
   const { run, data: courseInfo } = useAsync(null,'data')
   const { run: otherRun, data: carInfo, isLoading} = useAsync(null,'data')
+  const { run: teacherRun, data: teacherCarInfo, teacherCarIsLoading} = useAsync(null,'data.content')
   const refreshInfo = () => {
     run(
       client('/api/research/arrange/findArrangeMsgByArrangeId',{
@@ -37,13 +40,23 @@ export const useCourseDetail = (id) => {
         }
       })
     )
-    otherRun(
-      client('/api/research/car/findTravelMsgByArrangeIdAndStudentId',{
-        data:{
-          arrangeId: id,
-        }
-      })
-    )
+    if( userType === '2'){
+      teacherRun(
+        client('/api/research/cararrange/findAllByArrangeId', {
+          data:{
+            arrangeid: id,
+          }
+        })
+      )
+    } else {
+      otherRun(
+        client('/api/research/car/findTravelMsgByArrangeIdAndStudentId',{
+          data:{
+            arrangeId: id,
+          }
+        })
+      )
+    }
   }
   useEffect(() => {
     refreshInfo()
@@ -51,7 +64,9 @@ export const useCourseDetail = (id) => {
   return {
     courseInfo,
     carInfo,
+    teacherCarInfo,
     isLoading,
+    teacherCarIsLoading,
   }
 }
 // 教师查询开课班级信息

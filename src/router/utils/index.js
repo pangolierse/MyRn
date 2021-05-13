@@ -61,8 +61,10 @@ export const useToStudentScore = ( navigator ) => {
   navigator.navigate('StudentScore')
 }
 // 学生小组界面
-export const useToStudentGroup = ( navigator ) => {
-  navigator.navigate('StudentGroup')
+export const useToStudentGroup = ( navigator, id ) => {
+  navigator.navigate('StudentGroup', {
+    groupId: id,
+  })
 }
 // 教师查看开课班级
 export const useToClassListView = ( navigator ) => {

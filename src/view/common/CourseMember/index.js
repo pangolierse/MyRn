@@ -13,7 +13,6 @@ import StudentBox from '~/component/TeacherBox'
 import EmptyView from '~/component/EmptyView'
 export default function CourseMember () {
   const navigator = useNavigation()
-  // 发表动态
   const ocid = useRoute()?.params?.ocid
   const { members } = useClassMemberInfo(ocid)
   useEffect(() => {

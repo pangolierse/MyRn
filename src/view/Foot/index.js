@@ -51,6 +51,7 @@ export default function StudentDynamic () {
         )}
       />
       <MapView
+        minZoomLevel = { 17 }
         center={center}
         style = { styled.mapView }
       >

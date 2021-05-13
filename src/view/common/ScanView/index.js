@@ -8,6 +8,7 @@ import { StackActions } from '@react-navigation/native';
 import { RNCamera } from 'react-native-camera';
 import { useCreateFootInfo } from '~/api/footServer'
 import { useToQRResult } from '~/router/utils'
+import { MapView, Marker, Polyline, Polygon } from 'react-native-amap3d';
 import { isVoid } from '~/util'
 import { Toast } from '@ant-design/react-native';
 
@@ -21,48 +22,64 @@ export default function ScanView () {
   const [ latitude, setLatitude ] = useState(null)
   const { insertInfo } = useCreateFootInfo()
   let timer = null
-  RNLocation.configure({
-    distanceFilter: 5.0
-  })
-  let locationSubscription = () => {}
-  useEffect(() => {
-    if( isVoid(longitudeProp) && isVoid(latitudeProp) ){
-      console.log('加载中');
-      timer = setTimeout(() => {
-        navigator.goBack()
-        Toast.info('定位超时请检查定位是否开启',2)
-      }, 5000);
-      RNLocation.requestPermission({
-        android: {
-          detail: "coarse",
-          interval: 500,
-          rationale: {
-            title: "We need to access your location",
-            message: "We use your location to show where you are on the map",
-            buttonPositive: "OK",
-            buttonNegative: "Cancel"
-          }
-        }
-      }).then(granted => {
-        if (granted) {
-          locationSubscription = RNLocation.subscribeToLocationUpdates(locations => {
-            setLongitude(locations && locations[0].longitude)
-            setLatitude(locations && locations[0].latitude)
-            console.log('加载完成');
-            clearTimeout(timer)
-            setLocate(true)
-          })
-        }
-      })
+  // RNLocation.configure({
+  //   distanceFilter: 5.0
+  // })
+  // let locationSubscription = () => {}
+  // useEffect(() => {
+  //   if( isVoid(longitudeProp) && isVoid(latitudeProp) ){
+  //     console.log('加载中');
+  //     // timer = setTimeout(() => {
+  //     //   navigator.goBack()
+  //     //   Toast.info('定位超时请检查定位是否开启',2)
+  //     // }, 5000);
+  //     RNLocation.requestPermission({
+  //       ios: 'whenInUse',
+  //       android: {
+  //         detail: "coarse",
+  //         interval: 500,
+  //         rationale: {
+  //           title: "We need to access your location",
+  //           message: "We use your location to show where you are on the map",
+  //           buttonPositive: "OK",
+  //           buttonNegative: "Cancel"
+  //         }
+  //       }
+  //     }).then(granted => {
+  //       locationSubscription = RNLocation.subscribeToLocationUpdates(locations => {
+  //         setLongitude(locations && locations[0].longitude)
+  //         setLatitude(locations && locations[0].latitude)
+  //         console.log('加载完成');
+  //         clearTimeout(timer)
+  //         setLocate(true)
+  //       })
+  //     }).catch( err => {
+  //       Toast.info(err || 'haha')
+  //     })
+  //   } else {
+  //     setLongitude(longitudeProp)
+  //     setLatitude(latitudeProp)
+  //     setLocate(true)
+  //   }
+  //   return () => {
+  //     locationSubscription && locationSubscription()
+  //   }
+  // },[])
+  const handleLocation = ( nativeEvent ) => {
+    if( isVoid(longitudeProp) && isVoid(latitudeProp) && !locate ){
+      if(nativeEvent?.latitude > 0 && nativeEvent?.longitude > 0 ){
+        setLongitude(nativeEvent?.longitude)
+        setLatitude(nativeEvent?.latitude)
+        console.log('加载完成');
+        clearTimeout(timer)
+        setLocate(true)
+      }
     } else {
       setLongitude(longitudeProp)
       setLatitude(latitudeProp)
       setLocate(true)
     }
-    return () => {
-      locationSubscription && locationSubscription()
-    }
-  },[])
+  }
   const onSuccess = e => {
     console.log(e.data);
     if( !isVoid(latitude) && !isVoid(longitude) ){
@@ -108,12 +125,14 @@ export default function ScanView () {
             justifyContent: 'center',
             alignItems: 'center',
           }}> 
+            <MapView 
+              locationEnabled
+              onLocation={handleLocation}
+            />
             <Text style = {{
               fontSize: scaleSize(60),
               fontWeight: 'bold',
             }}>加载定位中....</Text>
-            <Text>latitude: {latitude || '未知'}</Text>
-            <Text>longitude: {longitude || '未知'}</Text>
           </View>
         ) : (
           <QRCodeScanner

@@ -11,6 +11,7 @@ export default function StudentGroupBox ({
   phone,
   age,
   onPress,
+  gender
 }) {
   return ( 
     <TouchableOpacity 
@@ -20,6 +21,7 @@ export default function StudentGroupBox ({
     >
       <IImage 
         src = { imgSrc }
+        gender = { gender }
         style = {{
           width: setSpText(46),
           height: setSpText(46),
